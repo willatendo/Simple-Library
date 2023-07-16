@@ -1,5 +1,8 @@
 package willatendo.simplelibrary.data;
 
+import java.util.Map;
+import java.util.TreeMap;
+
 import net.minecraft.data.PackOutput;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffect;
@@ -7,6 +10,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.data.LanguageProvider;
@@ -14,6 +18,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import willatendo.simplelibrary.server.SimpleUtils;
 
 public abstract class SimpleLanguageProvider extends LanguageProvider {
+	private final Map<String, String> translationData = new TreeMap<>();
 	private final String id;
 	private final String locale;
 
@@ -21,6 +26,34 @@ public abstract class SimpleLanguageProvider extends LanguageProvider {
 		super(packOutput, modid, locale);
 		this.id = modid;
 		this.locale = locale;
+	}
+
+	public Map<String, String> getTranslationData() {
+		return this.translationData;
+	}
+
+	public void add(Block key, String name) {
+		this.addToTranslations(key.getDescriptionId(), name);
+	}
+
+	public void add(Item key, String name) {
+		this.addToTranslations(key.getDescriptionId(), name);
+	}
+
+	public void add(ItemStack key, String name) {
+		this.addToTranslations(key.getDescriptionId(), name);
+	}
+
+	public void add(Enchantment key, String name) {
+		this.addToTranslations(key.getDescriptionId(), name);
+	}
+
+	public void add(MobEffect key, String name) {
+		this.addToTranslations(key.getDescriptionId(), name);
+	}
+
+	public void add(EntityType<?> key, String name) {
+		this.addToTranslations(key.getDescriptionId(), name);
 	}
 
 	public void add(Item item) {
@@ -52,30 +85,35 @@ public abstract class SimpleLanguageProvider extends LanguageProvider {
 	}
 
 	public void add(String category, String advancement, String title, String desc) {
-		this.add("advancements." + this.id + "." + category + "." + advancement + ".title", title);
-		this.add("advancements." + this.id + "." + category + "." + advancement + ".desc", desc);
+		this.addToTranslations("advancements." + this.id + "." + category + "." + advancement + ".title", title);
+		this.addToTranslations("advancements." + this.id + "." + category + "." + advancement + ".desc", desc);
 	}
 
 	public void add(SoundEvent soundEvent, String name) {
-		this.add("sound." + ForgeRegistries.SOUND_EVENTS.getKey(soundEvent).getNamespace() + ForgeRegistries.SOUND_EVENTS.getKey(soundEvent).getPath(), name);
+		this.addToTranslations("sound." + ForgeRegistries.SOUND_EVENTS.getKey(soundEvent).getNamespace() + ForgeRegistries.SOUND_EVENTS.getKey(soundEvent).getPath(), name);
 	}
 
 	public void add(MenuType menuType, String name) {
-		this.add("menu." + ForgeRegistries.MENU_TYPES.getKey(menuType).getNamespace() + ForgeRegistries.MENU_TYPES.getKey(menuType).getPath(), name);
+		this.addToTranslations("menu." + ForgeRegistries.MENU_TYPES.getKey(menuType).getNamespace() + ForgeRegistries.MENU_TYPES.getKey(menuType).getPath(), name);
 	}
 
 	public void add(CreativeModeTab creativeModeTab, String name) {
-		this.add(creativeModeTab.getDisplayName().getString(), name);
+		this.addToTranslations(creativeModeTab.getDisplayName().getString(), name);
 	}
 
 	public void addDesc(Item item, String... descs) {
 		for (int i = 0; i < descs.length; i++) {
-			this.add(item.getDescriptionId() + ".desc" + i, descs[i]);
+			this.addToTranslations(item.getDescriptionId() + ".desc" + i, descs[i]);
 		}
 	}
 
 	public void addDesc(Item item, String desc) {
-		this.add(item.getDescriptionId() + ".desc", desc);
+		this.addToTranslations(item.getDescriptionId() + ".desc", desc);
+	}
+
+	public void addToTranslations(String key, String value) {
+		this.add(key, value);
+		this.translationData.put(key, value);
 	}
 
 	@Override

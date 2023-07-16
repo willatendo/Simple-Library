@@ -1,5 +1,6 @@
 package willatendo.simplelibrary.data;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import net.minecraft.core.HolderLookup;
@@ -84,6 +85,12 @@ public class DataHelper {
 				dataGenerator.addProvider(doServer, genericSupplier.accept(packOutput, id));
 			}
 		}
+	}
+
+	public static void addTranslation(String id, GatherDataEvent event, String local, List<String> translations) {
+		DataGenerator dataGenerator = event.getGenerator();
+		PackOutput packOutput = dataGenerator.getPackOutput();
+		dataGenerator.addProvider(event.includeClient(), new SimpleTranslationProvider(packOutput, id, local, translations));
 	}
 
 	// Client

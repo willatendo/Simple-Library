@@ -14,7 +14,10 @@ import com.google.common.base.Function;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.DyeColor;
@@ -33,13 +36,6 @@ import net.minecraftforge.registries.RegistryObject;
  * @author Willatendo
  */
 public final class SimpleUtils {
-	private SimpleUtils() {
-	}
-
-	public static ModUtils createUtils(String id) {
-		return new ModUtils(id);
-	}
-
 	/*
 	 * Used to create a {@link TagRegister}, which registers {@link TagKey}
 	 * 
@@ -129,6 +125,21 @@ public final class SimpleUtils {
 	}
 
 	/*
+	 * Used to create a simple creative tab
+	 * 
+	 * @param modId Your mod's id
+	 * 
+	 * @param id The tab's id
+	 * 
+	 * @param icon The (@link Item) to be used as the icon
+	 * 
+	 * @param displayItemsGenerator The items to be displayed in the creative mode tab
+	 */
+	public static CreativeModeTab.Builder create(String modId, String id, Supplier<Item> icon, CreativeModeTab.DisplayItemsGenerator displayItemsGenerator) {
+		return CreativeModeTab.builder().title(translation(modId, "itemGroup", id)).icon(() -> icon.get().getDefaultInstance()).displayItems(displayItemsGenerator);
+	}
+
+	/*
 	 * Used to provide a list for a {@link BlockEntity}
 	 * 
 	 * @param blocks The {@link List} of blocks to turn into an array for a {@link BlockEntity}
@@ -159,6 +170,51 @@ public final class SimpleUtils {
 	 */
 	public static final String autoName(String internalName) {
 		return Arrays.stream(internalName.toLowerCase(Locale.ROOT).split("_")).map(StringUtils::capitalize).collect(Collectors.joining(" "));
+	}
+
+	/*
+	 * Used to turn an id to a readable name
+	 * 
+	 * @param modId Your mod's id
+	 * 
+	 * @param path The path
+	 * 
+	 * @return a {@link ResourceLocation} for the mod
+	 */
+	public static ResourceLocation resource(String modId, String path) {
+		return new ResourceLocation(modId, path);
+	}
+
+	/*
+	 * Used to turn an id to a readable name
+	 * 
+	 * @param modId Your mod's id
+	 * 
+	 * @param type The type of the name
+	 * 
+	 * @param name The name
+	 * 
+	 * @return a {@link ResourceLocation} for the mod
+	 */
+	public static MutableComponent translation(String modId, String type, String name) {
+		return Component.translatable(type + "." + modId + "." + name);
+	}
+
+	/*
+	 * Used to turn an id to a readable name
+	 * 
+	 * @param modId Your mod's id
+	 * 
+	 * @param type The type of the name
+	 * 
+	 * @param name The name
+	 * 
+	 * @param args Arguments to add
+	 * 
+	 * @return a {@link ResourceLocation} for the mod
+	 */
+	public static MutableComponent translation(String modId, String type, String name, Object... args) {
+		return Component.translatable(type + "." + modId + "." + name, args);
 	}
 
 	// @Link net.minecraft.world.level.block.Blocks functions at the bottom public
