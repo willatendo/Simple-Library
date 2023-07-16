@@ -15,6 +15,7 @@ base {
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 java.withSourcesJar()
+java.withJavadocJar()
 
 minecraft {
 	mappings channel: "official", version: minecraft_version
