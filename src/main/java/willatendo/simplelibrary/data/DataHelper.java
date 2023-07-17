@@ -87,10 +87,10 @@ public class DataHelper {
 		}
 	}
 
-	public static void addTranslation(String id, GatherDataEvent event, String local, List<String> translations) {
+	public static void addTranslation(String id, GatherDataEvent event, SimpleLanguageProvider simpleLanguageProvider, String local, List<String> translations) {
 		DataGenerator dataGenerator = event.getGenerator();
 		PackOutput packOutput = dataGenerator.getPackOutput();
-		dataGenerator.addProvider(event.includeClient(), new SimpleTranslationProvider(packOutput, id, local, translations));
+		dataGenerator.addProvider(event.includeClient(), new SimpleTranslationProvider(packOutput, id, simpleLanguageProvider, local, translations));
 	}
 
 	// Client
