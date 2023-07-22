@@ -1,16 +1,15 @@
-package willatendo.simplelibrary.server;
+package willatendo.simplelibrary.server.util;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
 import java.util.stream.Collectors;
 
 import org.apache.commons.compress.utils.Lists;
 import org.apache.commons.lang3.StringUtils;
-
-import com.google.common.base.Function;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
@@ -29,6 +28,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
+import willatendo.simplelibrary.server.item.SuppliedBlockItem;
 
 /*
  * Holds all the little utilities a mod needs.
@@ -159,6 +159,17 @@ public final class SimpleUtils {
 			blockArray[i] = block.get();
 		}
 		return blockArray;
+	}
+
+	/*
+	 * Turns arrays into lists
+	 */
+	public static <T> List<T> toList(T[] array) {
+		List<T> stuff = Lists.newArrayList();
+		for (int i = 0; i < array.length; i++) {
+			stuff.add(array[i]);
+		}
+		return stuff;
 	}
 
 	/*

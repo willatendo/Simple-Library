@@ -1,4 +1,4 @@
-package willatendo.simplelibrary.server;
+package willatendo.simplelibrary.server.util;
 
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;

@@ -1,4 +1,4 @@
-package willatendo.simplelibrary.server;
+package willatendo.simplelibrary.server.item;
 
 import java.util.function.Supplier;
 

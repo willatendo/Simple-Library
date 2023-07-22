@@ -1,6 +1,5 @@
 package willatendo.simplelibrary.data;
 
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import net.minecraft.core.HolderLookup;
@@ -43,7 +42,7 @@ public class DataHelper {
 		SimpleLanguageProvider enUS = (SimpleLanguageProvider) languageSupplier.accept(packOutput, id, "en_us");
 		dataGenerator.addProvider(event.includeClient(), enUS);
 
-		return new DataHelperBuilder(id, event, dataGenerator, packOutput, existingFileHelper, provider, enUS);
+		return new DataHelperBuilder(id, event, dataGenerator, packOutput, existingFileHelper, provider);
 	}
 
 	public static final class DataHelperBuilder {
@@ -52,24 +51,17 @@ public class DataHelper {
 		private final PackOutput packOutput;
 		private final ExistingFileHelper existingFileHelper;
 		private final CompletableFuture<HolderLookup.Provider> provider;
-		private final SimpleLanguageProvider enUS;
 		private final boolean doClient;
 		private final boolean doServer;
 
-		private DataHelperBuilder(String id, GatherDataEvent event, DataGenerator dataGenerator, PackOutput packOutput, ExistingFileHelper existingFileHelper, CompletableFuture<HolderLookup.Provider> provider, SimpleLanguageProvider enUS) {
+		private DataHelperBuilder(String id, GatherDataEvent event, DataGenerator dataGenerator, PackOutput packOutput, ExistingFileHelper existingFileHelper, CompletableFuture<HolderLookup.Provider> provider) {
 			this.id = id;
 			this.dataGenerator = dataGenerator;
 			this.packOutput = packOutput;
 			this.existingFileHelper = existingFileHelper;
 			this.provider = provider;
-			this.enUS = enUS;
 			this.doClient = event.includeClient();
 			this.doServer = event.includeServer();
-		}
-
-		public DataHelperBuilder addTranslation(Codes codes, List<String> translations) {
-			this.dataGenerator.addProvider(this.doClient, new SimpleTranslationProvider(this.packOutput, this.id, codes.getCode(), this.enUS, translations));
-			return this;
 		}
 
 		public DataHelperBuilder addBlockStateProvider(BlockStateSupplier blockStateSupplier) {

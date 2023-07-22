@@ -15,7 +15,7 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.data.LanguageProvider;
 import net.minecraftforge.registries.ForgeRegistries;
-import willatendo.simplelibrary.server.SimpleUtils;
+import willatendo.simplelibrary.server.util.SimpleUtils;
 
 public abstract class SimpleLanguageProvider extends LanguageProvider {
 	private final Map<String, String> translationData = new TreeMap<>();
