@@ -17,12 +17,12 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 public abstract class SimpleConfiguredFeatureProvider implements DataProvider {
 	private final PackOutput packOutput;
-	private final String id;
-	public static final Map<String, JsonObject> CONFIGURED_FEATURES = new HashMap<>();
+	private final String modid;
+	private static final Map<String, JsonObject> CONFIGURED_FEATURES = new HashMap<>();
 
-	public SimpleConfiguredFeatureProvider(PackOutput packOutput, String id) {
+	public SimpleConfiguredFeatureProvider(PackOutput packOutput, String modid) {
 		this.packOutput = packOutput;
-		this.id = id;
+		this.modid = modid;
 	}
 
 	@Override
@@ -31,7 +31,7 @@ public abstract class SimpleConfiguredFeatureProvider implements DataProvider {
 		ArrayList<CompletableFuture> completableFutures = Lists.newArrayList();
 		this.allConfiguredFeatures();
 		for (int i = 0; i < CONFIGURED_FEATURES.size(); i++) {
-			completableFutures.add(DataProvider.saveStable(cachedOutput, null, path.resolve("data/" + this.id + "/configured_feature/" + CONFIGURED_FEATURES.keySet().stream().toList().get(i) + ".json")));
+			completableFutures.add(DataProvider.saveStable(cachedOutput, CONFIGURED_FEATURES.values().stream().toList().get(i), path.resolve("data/" + this.modid + "/configured_feature/" + CONFIGURED_FEATURES.keySet().stream().toList().get(i) + ".json")));
 		}
 		return CompletableFuture.allOf(completableFutures.stream().toArray(CompletableFuture[]::new));
 	}
@@ -47,6 +47,6 @@ public abstract class SimpleConfiguredFeatureProvider implements DataProvider {
 
 	@Override
 	public String getName() {
-		return this.id + ": Configured Features";
+		return this.modid + ": Configured Features";
 	}
 }

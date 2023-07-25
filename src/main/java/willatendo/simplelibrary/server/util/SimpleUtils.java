@@ -36,6 +36,8 @@ import willatendo.simplelibrary.server.item.SuppliedBlockItem;
  * @author Willatendo
  */
 public final class SimpleUtils {
+	public static final String ID = "simplelibrary";
+
 	/*
 	 * Used to create a {@link TagRegister}, which registers {@link TagKey}
 	 * 
@@ -166,6 +168,14 @@ public final class SimpleUtils {
 	 */
 	public static <T> List<T> toList(T[] array) {
 		List<T> stuff = Lists.newArrayList();
+		for (int i = 0; i < array.length; i++) {
+			stuff.add(array[i]);
+		}
+		return stuff;
+	}
+
+	public static List<Float> toList(float[] array) {
+		List<Float> stuff = Lists.newArrayList();
 		for (int i = 0; i < array.length; i++) {
 			stuff.add(array[i]);
 		}

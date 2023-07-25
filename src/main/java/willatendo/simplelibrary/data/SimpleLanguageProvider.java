@@ -19,12 +19,12 @@ import willatendo.simplelibrary.server.util.SimpleUtils;
 
 public abstract class SimpleLanguageProvider extends LanguageProvider {
 	private final Map<String, String> translationData = new TreeMap<>();
-	private final String id;
+	private final String modid;
 	private final String locale;
 
 	public SimpleLanguageProvider(PackOutput packOutput, String modid, String locale) {
 		super(packOutput, modid, locale);
-		this.id = modid;
+		this.modid = modid;
 		this.locale = locale;
 	}
 
@@ -85,8 +85,8 @@ public abstract class SimpleLanguageProvider extends LanguageProvider {
 	}
 
 	public void add(String category, String advancement, String title, String desc) {
-		this.addToTranslations("advancements." + this.id + "." + category + "." + advancement + ".title", title);
-		this.addToTranslations("advancements." + this.id + "." + category + "." + advancement + ".desc", desc);
+		this.addToTranslations("advancements." + this.modid + "." + category + "." + advancement + ".title", title);
+		this.addToTranslations("advancements." + this.modid + "." + category + "." + advancement + ".desc", desc);
 	}
 
 	public void add(SoundEvent soundEvent, String name) {
@@ -118,6 +118,6 @@ public abstract class SimpleLanguageProvider extends LanguageProvider {
 
 	@Override
 	public String getName() {
-		return this.id + ": Language Provider (" + this.locale + ")";
+		return this.modid + ": Language Provider (" + this.locale + ")";
 	}
 }

@@ -1,5 +1,6 @@
 package willatendo.simplelibrary.data;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import net.minecraft.core.HolderLookup;
@@ -17,6 +18,8 @@ import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.common.data.ForgeAdvancementProvider;
+import net.minecraftforge.common.data.ForgeAdvancementProvider.AdvancementGenerator;
 import net.minecraftforge.common.data.LanguageProvider;
 import net.minecraftforge.common.data.SoundDefinitionsProvider;
 import net.minecraftforge.data.event.GatherDataEvent;
@@ -106,13 +109,23 @@ public class DataHelper {
 			return this;
 		}
 
-		public DataHelperBuilder addAdvancementProvider(AdvancementSupplier advancementSupplier) {
-			this.dataGenerator.addProvider(this.doServer, advancementSupplier.accept(this.packOutput, this.provider, this.id, this.existingFileHelper));
+		public DataHelperBuilder addAdvancementProvider(List<AdvancementGenerator> advancementGenerators) {
+			this.dataGenerator.addProvider(this.doServer, new ForgeAdvancementProvider(packOutput, provider, existingFileHelper, advancementGenerators));
+			return this;
+		}
+
+		public DataHelperBuilder addDimension(DimensionSupplier genericSuppliers) {
+			this.dataGenerator.addProvider(this.doServer, genericSuppliers.accept(this.packOutput, this.id));
 			return this;
 		}
 
 		public DataHelperBuilder addGeneric(GenericSupplier genericSuppliers) {
 			this.dataGenerator.addProvider(this.doServer, genericSuppliers.accept(this.packOutput, this.id));
+			return this;
+		}
+
+		public DataHelperBuilder addGeneric(GenericForgeSupplier genericForgeSuppliers) {
+			this.dataGenerator.addProvider(this.doServer, genericForgeSuppliers.accept(this.packOutput, this.id, this.existingFileHelper));
 			return this;
 		}
 
@@ -314,12 +327,17 @@ public class DataHelper {
 	}
 
 	@FunctionalInterface
-	public static interface AdvancementSupplier {
-		SimpleAdvancementProvider accept(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> provider, String id, ExistingFileHelper existingFileHelper);
+	public static interface DimensionSupplier {
+		SimpleDimensionProvider accept(PackOutput packOutput, String id);
 	}
 
 	@FunctionalInterface
 	public static interface GenericSupplier {
 		DataProvider accept(PackOutput packOutput, String id);
+	}
+
+	@FunctionalInterface
+	public static interface GenericForgeSupplier {
+		DataProvider accept(PackOutput packOutput, String id, ExistingFileHelper existingFileHelper);
 	}
 }

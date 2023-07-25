@@ -1,11 +1,10 @@
 package willatendo.simplelibrary;
 
 import net.minecraftforge.fml.common.Mod;
+import willatendo.simplelibrary.server.util.SimpleUtils;
 
-@Mod(SimpleLibrary.ID)
+@Mod(SimpleUtils.ID)
 public class SimpleLibrary {
-	public static final String ID = "simplelibrary";
-
 	public SimpleLibrary() {
 	}
 }

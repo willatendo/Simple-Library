@@ -15,12 +15,12 @@ import net.minecraft.data.PackOutput;
 
 public abstract class SimplePlacedFeatureProvider implements DataProvider {
 	private final PackOutput packOutput;
-	private final String id;
+	private final String modid;
 	public static final Map<String, JsonObject> PLACED_FEATURES = new HashMap<>();
 
-	public SimplePlacedFeatureProvider(PackOutput packOutput, String id) {
+	public SimplePlacedFeatureProvider(PackOutput packOutput, String modid) {
 		this.packOutput = packOutput;
-		this.id = id;
+		this.modid = modid;
 	}
 
 	@Override
@@ -29,7 +29,7 @@ public abstract class SimplePlacedFeatureProvider implements DataProvider {
 		ArrayList<CompletableFuture> completableFutures = Lists.newArrayList();
 		this.allConfiguredFeatures();
 		for (int i = 0; i < PLACED_FEATURES.size(); i++) {
-			completableFutures.add(DataProvider.saveStable(cachedOutput, null, path.resolve("data/" + this.id + "/placed_feature/" + PLACED_FEATURES.keySet().stream().toList().get(i) + ".json")));
+			completableFutures.add(DataProvider.saveStable(cachedOutput, PLACED_FEATURES.values().stream().toList().get(i), path.resolve("data/" + this.modid + "/placed_feature/" + PLACED_FEATURES.keySet().stream().toList().get(i) + ".json")));
 		}
 		return CompletableFuture.allOf(completableFutures.stream().toArray(CompletableFuture[]::new));
 	}
@@ -45,6 +45,6 @@ public abstract class SimplePlacedFeatureProvider implements DataProvider {
 
 	@Override
 	public String getName() {
-		return this.id + ": Placed Features";
+		return this.modid + ": Placed Features";
 	}
 }
