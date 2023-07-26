@@ -5,6 +5,11 @@ import java.util.function.Supplier;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
 
+/* 
+ * A {@link BlockItem} that uses a Supplier instead of a Block
+ * 
+ * @author Willatendo
+ */
 public class SuppliedBlockItem extends BlockItem {
 	private final Supplier<Block> block;
 

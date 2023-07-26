@@ -12,11 +12,16 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 
-public class SuppliedTorchItem extends SuppliedBlockItem {
+/* 
+ * A {@link StandingAndWallBlockItem} that uses Suppliers instead of a Blocks
+ * 
+ * @author Willatendo
+ */
+public class SuppliedStandingAndWallBlockItem extends SuppliedBlockItem {
 	protected final Supplier<Block> wallBlock;
 	private final Direction attachmentDirection;
 
-	public SuppliedTorchItem(Supplier<Block> standingBlock, Supplier<Block> wallBlock, Properties properties, Direction direction) {
+	public SuppliedStandingAndWallBlockItem(Supplier<Block> standingBlock, Supplier<Block> wallBlock, Properties properties, Direction direction) {
 		super(standingBlock, properties);
 		this.wallBlock = wallBlock;
 		this.attachmentDirection = direction;

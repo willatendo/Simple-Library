@@ -36,6 +36,7 @@ import willatendo.simplelibrary.server.item.SuppliedBlockItem;
  * @author Willatendo
  */
 public final class SimpleUtils {
+	// The Id of the library
 	public static final String ID = "simplelibrary";
 
 	/*
@@ -165,6 +166,10 @@ public final class SimpleUtils {
 
 	/*
 	 * Turns arrays into lists
+	 * 
+	 * @param array The array of what you want to turn into a {@link List}
+	 * 
+	 * @return a {@link List} filled with everything in the array
 	 */
 	public static <T> List<T> toList(T[] array) {
 		List<T> stuff = Lists.newArrayList();
@@ -174,8 +179,30 @@ public final class SimpleUtils {
 		return stuff;
 	}
 
+	/*
+	 * Turns arrays into lists
+	 * 
+	 * @param array The array of floats you want to turn into a {@link List}
+	 * 
+	 * @return a {@link List} filled with every float in the array
+	 */
 	public static List<Float> toList(float[] array) {
 		List<Float> stuff = Lists.newArrayList();
+		for (int i = 0; i < array.length; i++) {
+			stuff.add(array[i]);
+		}
+		return stuff;
+	}
+
+	/*
+	 * Turns arrays into lists
+	 * 
+	 * @param array The array of integers you want to turn into a {@link List}
+	 * 
+	 * @return a {@link List} filled with every integer in the array
+	 */
+	public static List<Integer> toList(int[] array) {
+		List<Integer> stuff = Lists.newArrayList();
 		for (int i = 0; i < array.length; i++) {
 			stuff.add(array[i]);
 		}

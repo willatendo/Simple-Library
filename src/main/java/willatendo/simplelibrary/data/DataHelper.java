@@ -30,7 +30,6 @@ import net.minecraftforge.data.event.GatherDataEvent;
  * 
  * @author Willatendo
  */
-
 public class DataHelper {
 	/*
 	 * Use in a events class with {@Link Mod.EventBusSubscriber.Bus.MOD} and in a method with {@Link GatherDataEvent}

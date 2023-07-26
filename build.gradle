@@ -48,8 +48,17 @@ sourceSets.main.resources {
 	srcDir 'src/generated/resources' 
 }
 
+repositories {
+	maven {
+		url "https://maven.fabricmc.net/"
+	}
+}
+
 dependencies {
 	minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+	
+	//implementation fg.deobf("net.fabricmc:fabric-loader:${fabric_version}")
+	//implementation fg.deobf("net.fabricmc.fabric-api:fabric-api:${fabric_api_version}")
 }
 
 tasks.named('jar', Jar).configure {

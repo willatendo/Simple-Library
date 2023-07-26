@@ -4,6 +4,9 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.registries.ForgeRegistries;
 
+/* 
+ * @author Willatendo
+ */
 public class SimpleRecipeType<T extends Recipe<?>> implements RecipeType<T> {
 	@Override
 	public String toString() {
