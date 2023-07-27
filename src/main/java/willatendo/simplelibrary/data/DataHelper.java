@@ -109,12 +109,17 @@ public class DataHelper {
 		}
 
 		public DataHelperBuilder addAdvancementProvider(List<AdvancementGenerator> advancementGenerators) {
-			this.dataGenerator.addProvider(this.doServer, new ForgeAdvancementProvider(packOutput, provider, existingFileHelper, advancementGenerators));
+			this.dataGenerator.addProvider(this.doServer, new ForgeAdvancementProvider(this.packOutput, this.provider, this.existingFileHelper, advancementGenerators));
 			return this;
 		}
 
-		public DataHelperBuilder addDimension(DimensionSupplier genericSuppliers) {
-			this.dataGenerator.addProvider(this.doServer, genericSuppliers.accept(this.packOutput, this.id));
+		public DataHelperBuilder addBiome(BiomeSupplier biomeSuppliers) {
+			this.dataGenerator.addProvider(this.doServer, biomeSuppliers.accept(this.packOutput, this.id));
+			return this;
+		}
+
+		public DataHelperBuilder addDimension(DimensionSupplier dimensionSupplier) {
+			this.dataGenerator.addProvider(this.doServer, dimensionSupplier.accept(this.packOutput, this.id));
 			return this;
 		}
 
@@ -323,6 +328,11 @@ public class DataHelper {
 	@FunctionalInterface
 	public static interface LootSupplier {
 		LootTableProvider accept(PackOutput packOutput);
+	}
+
+	@FunctionalInterface
+	public static interface BiomeSupplier {
+		SimpleBiomeProvider accept(PackOutput packOutput, String id);
 	}
 
 	@FunctionalInterface
