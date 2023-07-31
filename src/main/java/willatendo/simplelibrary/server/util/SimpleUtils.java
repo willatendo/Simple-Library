@@ -95,16 +95,8 @@ public final class SimpleUtils {
 	 * @param exceptions The blocks you don't want to register an item for
 	 */
 	public static void registerAllItems(DeferredRegister<Item> deferredRegister, DeferredRegister<Block> blocks, RegistryObject<Block>... exceptions) {
-		for (RegistryObject<Block> block : blocks.getEntries()) {
-			if (exceptions.length > 0) {
-				for (RegistryObject<Block> exception : exceptions) {
-					if (block != exception) {
-						deferredRegister.register(block.getId().getPath(), () -> new SuppliedBlockItem(block, new Item.Properties()));
-					}
-				}
-			} else {
-				deferredRegister.register(block.getId().getPath(), () -> new SuppliedBlockItem(block, new Item.Properties()));
-			}
+		for (RegistryObject<Block> block : blocks.getEntries().stream().filter(block -> !SimpleUtils.toList(exceptions).contains(block)).toList()) {
+			deferredRegister.register(block.getId().getPath(), () -> new SuppliedBlockItem(block, new Item.Properties()));
 		}
 	}
 

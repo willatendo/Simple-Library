@@ -5,6 +5,7 @@ import java.util.Objects;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
@@ -42,6 +43,10 @@ public abstract class SimpleItemModelProvider extends ItemModelProvider {
 
 	public ItemModelBuilder spawnEggItem(ResourceLocation item) {
 		return this.getBuilder(item.toString()).parent(new ModelFile.UncheckedModelFile("item/template_spawn_egg"));
+	}
+
+	public void basicBlock(Block block) {
+		this.getBuilder(ForgeRegistries.BLOCKS.getKey(block).getPath()).parent(new ModelFile.UncheckedModelFile(this.modLoc("block/" + ForgeRegistries.BLOCKS.getKey(block).getPath())));
 	}
 
 	@Override
