@@ -5,7 +5,7 @@ issueTrackerURL="https://github.com/willatendo/Simple-Library/issues"
 
 [[mods]]
 modId="simplelibrary"
-version="0.3.1"
+version="0.3.2"
 displayName="SimpleLibrary"
 authors="Willatendo"
 description='''A SimpleLibrary'''

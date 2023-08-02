@@ -31,7 +31,7 @@ public abstract class SimpleConfiguredFeatureProvider implements DataProvider {
 		ArrayList<CompletableFuture> completableFutures = Lists.newArrayList();
 		this.allConfiguredFeatures();
 		for (int i = 0; i < CONFIGURED_FEATURES.size(); i++) {
-			completableFutures.add(DataProvider.saveStable(cachedOutput, CONFIGURED_FEATURES.values().stream().toList().get(i), path.resolve("data/" + this.modid + "/configured_feature/" + CONFIGURED_FEATURES.keySet().stream().toList().get(i) + ".json")));
+			completableFutures.add(DataProvider.saveStable(cachedOutput, CONFIGURED_FEATURES.values().stream().toList().get(i), path.resolve("data/" + this.modid + "/worldgen/configured_feature/" + CONFIGURED_FEATURES.keySet().stream().toList().get(i) + ".json")));
 		}
 		return CompletableFuture.allOf(completableFutures.stream().toArray(CompletableFuture[]::new));
 	}

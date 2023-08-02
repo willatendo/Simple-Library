@@ -27,16 +27,16 @@ public abstract class SimplePlacedFeatureProvider implements DataProvider {
 	public CompletableFuture<?> run(CachedOutput cachedOutput) {
 		Path path = this.packOutput.getOutputFolder();
 		ArrayList<CompletableFuture> completableFutures = Lists.newArrayList();
-		this.allConfiguredFeatures();
+		this.allPlacedFeatures();
 		for (int i = 0; i < PLACED_FEATURES.size(); i++) {
-			completableFutures.add(DataProvider.saveStable(cachedOutput, PLACED_FEATURES.values().stream().toList().get(i), path.resolve("data/" + this.modid + "/placed_feature/" + PLACED_FEATURES.keySet().stream().toList().get(i) + ".json")));
+			completableFutures.add(DataProvider.saveStable(cachedOutput, PLACED_FEATURES.values().stream().toList().get(i), path.resolve("data/" + this.modid + "/worldgen/placed_feature/" + PLACED_FEATURES.keySet().stream().toList().get(i) + ".json")));
 		}
 		return CompletableFuture.allOf(completableFutures.stream().toArray(CompletableFuture[]::new));
 	}
 
-	public abstract void allConfiguredFeatures();
+	public abstract void allPlacedFeatures();
 
-	public void simpleConfiguredFeature(String configuredFeature, String id, JsonObject placement) {
+	public void simplePlacedFeature(String configuredFeature, String id, JsonObject placement) {
 		JsonObject placedFeature = new JsonObject();
 		placedFeature.addProperty("type", configuredFeature);
 		placedFeature.add("placement", placement);
