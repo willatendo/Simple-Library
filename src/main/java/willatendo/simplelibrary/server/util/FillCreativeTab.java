@@ -8,8 +8,5 @@ import net.minecraft.world.item.CreativeModeTab;
  * @author Willatendo
  */
 public interface FillCreativeTab {
-	/*
-	 * 
-	 */
 	void fillCreativeTab(CreativeModeTab.ItemDisplayParameters itemDisplayParameters, CreativeModeTab.Output output);
 }

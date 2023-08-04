@@ -3,7 +3,6 @@ package willatendo.simplelibrary.server.util;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
 import java.util.stream.Collectors;
@@ -19,16 +18,12 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
-import willatendo.simplelibrary.server.item.SuppliedBlockItem;
 
 /*
  * Holds all the little utilities a mod needs.
@@ -53,54 +48,6 @@ public final class SimpleUtils {
 	}
 
 	/*
-	 * Used to register all of your {@link DeferredRegister} in a simple way.
-	 * 
-	 * @param iEventBus The event bus used by your mod
-	 * 
-	 * @param deferredRegisters All @link DeferredRegister to register
-	 */
-	public static void registerAll(IEventBus iEventBus, DeferredRegister<?>... deferredRegisters) {
-		for (DeferredRegister<?> deferredRegister : deferredRegisters) {
-			deferredRegister.register(iEventBus);
-		}
-	}
-
-	/*
-	 * Used to register all colours of a block, like wools
-	 * 
-	 * @param deferredRegister Your mod's {@link DeferredRegister} for blocks
-	 * 
-	 * @param baseID The block's "base" id, eg wool's is "wool"
-	 * 
-	 * @param baseBlock Your block's supplier, which you can use a {@link DyeColor} to set separate {@link MapColor}
-	 * 
-	 * @return a list of {@link RegistryObject} of 16 blocks
-	 */
-	public static <T extends Block> List<RegistryObject<T>> registerDyedBlocks(DeferredRegister<Block> deferredRegister, String baseID, Function<DyeColor, Supplier<T>> baseBlock) {
-		List<RegistryObject<T>> blocks = Lists.newArrayList();
-		for (DyeColor dyeColor : DyeColor.values()) {
-			RegistryObject<T> block = deferredRegister.register(dyeColor.getName() + "_" + baseID, baseBlock.apply(dyeColor));
-			blocks.add(block);
-		}
-		return blocks;
-	}
-
-	/*
-	 * Used to register all items for all of you blocks blocks, with exceptions
-	 * 
-	 * @param deferredRegister Your mod's {@link DeferredRegister} for items
-	 * 
-	 * @param blocks Your mod's {@link DeferredRegister} for blocks
-	 * 
-	 * @param exceptions The blocks you don't want to register an item for
-	 */
-	public static void registerAllItems(DeferredRegister<Item> deferredRegister, DeferredRegister<Block> blocks, RegistryObject<Block>... exceptions) {
-		for (RegistryObject<Block> block : blocks.getEntries().stream().filter(block -> !SimpleUtils.toList(exceptions).contains(block)).toList()) {
-			deferredRegister.register(block.getId().getPath(), () -> new SuppliedBlockItem(block, new Item.Properties()));
-		}
-	}
-
-	/*
 	 * Used to fill a creative tab with all your mods items
 	 * 
 	 * @param deferredRegister Your mod's {@link DeferredRegister} for items
@@ -109,12 +56,12 @@ public final class SimpleUtils {
 	 * 
 	 * @param output The (@link CreativeModeTab.Output) provided for by the {@link CreativeModeTab.Builder}'s displayItems
 	 */
-	public static void fillCreativeTab(DeferredRegister<Item> items, CreativeModeTab.ItemDisplayParameters itemDisplayParameters, CreativeModeTab.Output output) {
-		for (RegistryObject<Item> item : items.getEntries()) {
-			if (item.get() instanceof FillCreativeTab fillCreativeTab) {
+	public static void fillCreativeTab(List<Item> items, CreativeModeTab.ItemDisplayParameters itemDisplayParameters, CreativeModeTab.Output output) {
+		for (Item item : items) {
+			if (item instanceof FillCreativeTab fillCreativeTab) {
 				fillCreativeTab.fillCreativeTab(itemDisplayParameters, output);
 			} else {
-				output.accept(item.get());
+				output.accept(item);
 			}
 		}
 	}

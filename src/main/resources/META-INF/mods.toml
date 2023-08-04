@@ -5,10 +5,10 @@ issueTrackerURL="https://github.com/willatendo/Simple-Library/issues"
 
 [[mods]]
 modId="simplelibrary"
-version="0.3.2"
+version="0.4.0"
 displayName="SimpleLibrary"
 authors="Willatendo"
-description='''A SimpleLibrary'''
+description='''A SimpleLibrary with Forge/Fabric/Quilt/NeoForge compatibility made easy!'''
 
 [[dependencies.simplelibrary]]
     modId="forge" 
