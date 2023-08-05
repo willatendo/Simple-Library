@@ -118,8 +118,18 @@ public class DataHelper {
 			return this;
 		}
 
+		public DataHelperBuilder addBiomeModifier(BiomeModifierSupplier biomeModifierSuppliers) {
+			this.dataGenerator.addProvider(this.doServer, biomeModifierSuppliers.accept(this.packOutput, this.id));
+			return this;
+		}
+
 		public DataHelperBuilder addDimension(DimensionSupplier dimensionSupplier) {
 			this.dataGenerator.addProvider(this.doServer, dimensionSupplier.accept(this.packOutput, this.id));
+			return this;
+		}
+
+		public DataHelperBuilder addTagGeneric(GenericTagSupplier genericTagSuppliers) {
+			this.dataGenerator.addProvider(this.doServer, genericTagSuppliers.accept(this.packOutput, this.provider, this.id));
 			return this;
 		}
 
@@ -336,8 +346,18 @@ public class DataHelper {
 	}
 
 	@FunctionalInterface
+	public static interface BiomeModifierSupplier {
+		SimpleBiomeModifierProvider accept(PackOutput packOutput, String id);
+	}
+
+	@FunctionalInterface
 	public static interface DimensionSupplier {
 		SimpleDimensionProvider accept(PackOutput packOutput, String id);
+	}
+
+	@FunctionalInterface
+	public static interface GenericTagSupplier {
+		TagsProvider accept(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> provider, String id);
 	}
 
 	@FunctionalInterface

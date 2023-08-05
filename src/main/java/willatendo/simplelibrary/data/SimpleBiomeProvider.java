@@ -29,7 +29,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 public abstract class SimpleBiomeProvider implements DataProvider {
 	private final PackOutput packOutput;
 	private final String modid;
-	private static final Map<String, JsonObject> BIOMES = new HashMap<>();
+	protected static final Map<String, JsonObject> BIOMES = new HashMap<>();
 
 	public SimpleBiomeProvider(PackOutput packOutput, String modid) {
 		this.packOutput = packOutput;

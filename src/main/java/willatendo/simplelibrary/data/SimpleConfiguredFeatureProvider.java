@@ -18,7 +18,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 public abstract class SimpleConfiguredFeatureProvider implements DataProvider {
 	private final PackOutput packOutput;
 	private final String modid;
-	private static final Map<String, JsonObject> CONFIGURED_FEATURES = new HashMap<>();
+	protected static final Map<String, JsonObject> CONFIGURED_FEATURES = new HashMap<>();
 
 	public SimpleConfiguredFeatureProvider(PackOutput packOutput, String modid) {
 		this.packOutput = packOutput;

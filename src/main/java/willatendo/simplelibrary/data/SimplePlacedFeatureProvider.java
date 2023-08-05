@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 import com.google.common.collect.Lists;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import net.minecraft.data.CachedOutput;
@@ -16,7 +17,7 @@ import net.minecraft.data.PackOutput;
 public abstract class SimplePlacedFeatureProvider implements DataProvider {
 	private final PackOutput packOutput;
 	private final String modid;
-	public static final Map<String, JsonObject> PLACED_FEATURES = new HashMap<>();
+	protected static final Map<String, JsonObject> PLACED_FEATURES = new HashMap<>();
 
 	public SimplePlacedFeatureProvider(PackOutput packOutput, String modid) {
 		this.packOutput = packOutput;
@@ -36,9 +37,9 @@ public abstract class SimplePlacedFeatureProvider implements DataProvider {
 
 	public abstract void allPlacedFeatures();
 
-	public void simplePlacedFeature(String configuredFeature, String id, JsonObject placement) {
+	public void simplePlacedFeature(String configuredFeature, String id, JsonArray placement) {
 		JsonObject placedFeature = new JsonObject();
-		placedFeature.addProperty("type", configuredFeature);
+		placedFeature.addProperty("feature", configuredFeature);
 		placedFeature.add("placement", placement);
 		PLACED_FEATURES.put(id, placedFeature);
 	}

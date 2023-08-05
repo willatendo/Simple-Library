@@ -24,8 +24,8 @@ import willatendo.simplelibrary.server.util.SimpleUtils;
 public abstract class SimpleDimensionProvider implements DataProvider {
 	private final PackOutput packOutput;
 	private final String modid;
-	private static final Map<String, JsonObject> DIMENSIONS = new HashMap<>();
-	private static final Map<String, JsonObject> DIMENSIONS_TYPES = new HashMap<>();
+	protected static final Map<String, JsonObject> DIMENSIONS = new HashMap<>();
+	protected static final Map<String, JsonObject> DIMENSIONS_TYPES = new HashMap<>();
 
 	public SimpleDimensionProvider(PackOutput packOutput, String modid) {
 		this.packOutput = packOutput;
