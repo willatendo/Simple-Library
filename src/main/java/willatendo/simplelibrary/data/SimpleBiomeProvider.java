@@ -206,6 +206,8 @@ public abstract class SimpleBiomeProvider implements DataProvider {
 				music.addProperty("replace_current_music", theMusic.replaceCurrentMusic());
 				effects.add("music", music);
 			}
+			JsonObject spawnCosts = new JsonObject();
+			jsonObject.add("spawn_costs", spawnCosts);
 			JsonObject spawners = new JsonObject();
 			spawners.add("ambient", this.ambient);
 			spawners.add("axolotls", this.axolotls);
