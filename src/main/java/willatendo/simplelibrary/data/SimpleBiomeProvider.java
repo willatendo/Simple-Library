@@ -93,6 +93,9 @@ public abstract class SimpleBiomeProvider implements DataProvider {
 			this.temperature = temperature;
 			this.downfall = downfall;
 			this.skyColour = SimpleBiomeProvider.calculateSkyColor(temperature);
+			for (int i = 0; i < this.placedFeatures.length; i++) {
+				this.placedFeatures[i] = new ArrayList<>();
+			}
 		}
 
 		public BiomeBuilder setSkyColour(int skyColour) {
