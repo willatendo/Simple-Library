@@ -75,15 +75,15 @@ public abstract class SimpleBiomeProvider implements DataProvider {
 		private int fogColour = 12638463;
 		private Optional<Integer> grassColour;
 		private Optional<Integer> foliageColour;
-		private JsonObject carvers;
-		private JsonArray ambient;
-		private JsonArray axolotls;
-		private JsonArray creature;
-		private JsonArray misc;
-		private JsonArray monster;
-		private JsonArray undergroundWaterCreature;
-		private JsonArray waterAmbient;
-		private JsonArray waterCreature;
+		private JsonObject carvers = new JsonObject();
+		private JsonArray ambient = new JsonArray();
+		private JsonArray axolotls = new JsonArray();
+		private JsonArray creature = new JsonArray();
+		private JsonArray misc = new JsonArray();
+		private JsonArray monster = new JsonArray();
+		private JsonArray undergroundWaterCreature = new JsonArray();
+		private JsonArray waterAmbient = new JsonArray();
+		private JsonArray waterCreature = new JsonArray();
 		private Optional<Music> music;
 		private final List<ResourceKey<PlacedFeature>>[] placedFeatures = new List[GenerationStep.Decoration.values().length];
 
