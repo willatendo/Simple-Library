@@ -66,15 +66,15 @@ public abstract class SimpleBiomeProvider implements DataProvider {
 
 	public static final class BiomeBuilder {
 		private final String id;
-		private boolean hasPrecipitation;
-		private float temperature;
-		private float downfall;
+		private final boolean hasPrecipitation;
+		private final float temperature;
+		private final float downfall;
 		private int skyColour;
 		private int waterColour = 4159204;
 		private int waterFogColour = 329011;
 		private int fogColour = 12638463;
-		private Optional<Integer> grassColour;
-		private Optional<Integer> foliageColour;
+		private Optional<Integer> grassColour = Optional.absent();
+		private Optional<Integer> foliageColour = Optional.absent();
 		private JsonObject carvers = new JsonObject();
 		private JsonArray ambient = new JsonArray();
 		private JsonArray axolotls = new JsonArray();
@@ -84,7 +84,7 @@ public abstract class SimpleBiomeProvider implements DataProvider {
 		private JsonArray undergroundWaterCreature = new JsonArray();
 		private JsonArray waterAmbient = new JsonArray();
 		private JsonArray waterCreature = new JsonArray();
-		private Optional<Music> music;
+		private Optional<Music> music = Optional.absent();
 		private final List<ResourceKey<PlacedFeature>>[] placedFeatures = new List[GenerationStep.Decoration.values().length];
 
 		private BiomeBuilder(ResourceKey<Biome> biome, boolean hasPrecipitation, float temperature, float downfall) {
