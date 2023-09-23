@@ -3,6 +3,7 @@ package willatendo.simplelibrary.data;
 import java.util.Map;
 import java.util.TreeMap;
 
+import net.minecraft.client.KeyMapping;
 import net.minecraft.data.PackOutput;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffect;
@@ -101,6 +102,10 @@ public abstract class SimpleLanguageProvider extends LanguageProvider {
 		this.addToTranslations(creativeModeTab.getDisplayName().getString(), name);
 	}
 
+	public void add(KeyMapping keyMapping, String name) {
+		this.addToTranslations(keyMapping.getName(), name);
+	}
+
 	public void addDesc(Item item, String... descs) {
 		for (int i = 0; i < descs.length; i++) {
 			this.addToTranslations(item.getDescriptionId() + ".desc" + i, descs[i]);
@@ -109,6 +114,16 @@ public abstract class SimpleLanguageProvider extends LanguageProvider {
 
 	public void addDesc(Item item, String desc) {
 		this.addToTranslations(item.getDescriptionId() + ".desc", desc);
+	}
+
+	public void addDesc(Block block, String... descs) {
+		for (int i = 0; i < descs.length; i++) {
+			this.addToTranslations(block.getDescriptionId() + ".desc" + i, descs[i]);
+		}
+	}
+
+	public void addDesc(Block block, String name) {
+		this.addToTranslations(block.getDescriptionId() + ".desc", name);
 	}
 
 	public void addToTranslations(String key, String value) {

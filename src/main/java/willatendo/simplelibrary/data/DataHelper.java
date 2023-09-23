@@ -8,12 +8,14 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.LootTableProvider;
+import net.minecraft.data.loot.LootTableProvider.SubProviderEntry;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.tags.BiomeTagsProvider;
 import net.minecraft.data.tags.FluidTagsProvider;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.BlockTagsProvider;
@@ -105,6 +107,11 @@ public class DataHelper {
 
 		public DataHelperBuilder addLootProvider(LootSupplier lootSupplier) {
 			this.dataGenerator.addProvider(this.doServer, lootSupplier.accept(this.packOutput));
+			return this;
+		}
+
+		public DataHelperBuilder addLootProviders(List<SubProviderEntry> lootProviders) {
+			this.dataGenerator.addProvider(this.doServer, new LootTableProvider(this.packOutput, BuiltInLootTables.all(), lootProviders));
 			return this;
 		}
 
