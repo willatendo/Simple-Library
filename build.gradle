@@ -49,3 +49,20 @@ jar {
 		rename { "${it}_${project.base.archivesName.get()}"}
 	}
 }
+
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+			artifact jar
+			groupId project.group
+			artifactId project.archivesBaseName
+			version project.version
+
+			pom {
+				name = 'Simple-Library'
+				description = "Willatendo's library."
+				url = 'https://github.com/willatendo/Simple-Library'
+			}
+		}
+	}
+}
