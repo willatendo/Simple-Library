@@ -3,7 +3,7 @@
 ## Overview:
 SimpleLibrary is a small library to make modding a little easier and reduce the amount of step. Small little things found in SimpleUtils are ment to reduce hastle across multiple projects.
 
-SimpleLibrary suports Fabric
+SimpleLibrary suports FML 1.20.1 and lower and Fabric 1.20.4+
 
 ## Installation:
 First add the maven. Just use JitPack with a gradle release.
