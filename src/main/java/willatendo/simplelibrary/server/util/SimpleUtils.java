@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.compress.utils.Lists;
 import org.apache.commons.lang3.StringUtils;
 
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
@@ -25,44 +26,19 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.RegistryObject;
 import willatendo.simplelibrary.server.item.SuppliedBlockItem;
+import willatendo.simplelibrary.server.registry.RegistryHolder;
+import willatendo.simplelibrary.server.registry.SimpleRegistry;
 
-/*
- * Holds all the little utilities a mod needs.
- * 
- * @author Willatendo
- */
 public final class SimpleUtils {
-	// The Id of the library
 	public static final String ID = "simplelibrary";
 
-	/*
-	 * Used to create a {@link TagRegister}, which registers {@link TagKey}
-	 * 
-	 * @param resourceKey The {@link ResourceKey} you wish to make tags for
-	 * 
-	 * @param modId Your mod's id
-	 * 
-	 * @return a new {@link TagRegister}
-	 */
 	public static <T> TagRegister<T> create(ResourceKey<? extends Registry<T>> resourceKey, String modId) {
 		return new TagRegister<>(resourceKey, modId);
 	}
 
-	/*
-	 * Used to fill a creative tab with all your mods items
-	 * 
-	 * @param deferredRegister Your mod's {@link DeferredRegister} for items
-	 * 
-	 * @param itemDisplayParameters The (@link CreativeModeTab.ItemDisplayParameters) provided for by the {@link CreativeModeTab.Builder}'s displayItems
-	 * 
-	 * @param output The (@link CreativeModeTab.Output) provided for by the {@link CreativeModeTab.Builder}'s displayItems
-	 */
-	public static void fillCreativeTab(DeferredRegister<Item> deferredRegister, CreativeModeTab.ItemDisplayParameters itemDisplayParameters, CreativeModeTab.Output output) {
-		for (RegistryObject<Item> item : deferredRegister.getEntries()) {
+	public static void fillCreativeTab(SimpleRegistry<Item> simpleRegister, CreativeModeTab.ItemDisplayParameters itemDisplayParameters, CreativeModeTab.Output output) {
+		for (Supplier<Item> item : simpleRegister.getEntries()) {
 			if (item.get() instanceof FillCreativeTab fillCreativeTab) {
 				fillCreativeTab.fillCreativeTab(itemDisplayParameters, output);
 			} else {
@@ -71,98 +47,38 @@ public final class SimpleUtils {
 		}
 	}
 
-	/*
-	 * Used to register all of your {@link DeferredRegister} in a simple way.
-	 * 
-	 * @param iEventBus The event bus used by your mod
-	 * 
-	 * @param deferredRegisters All @link DeferredRegister to register
-	 */
-	public static void registerAll(IEventBus iEventBus, DeferredRegister<?>... deferredRegisters) {
-		for (DeferredRegister<?> deferredRegister : deferredRegisters) {
-			deferredRegister.register(iEventBus);
-		}
-	}
-
-	/*
-	 * Used to register all colours of a block, like wools
-	 * 
-	 * @param deferredRegister Your mod's {@link DeferredRegister} for blocks
-	 * 
-	 * @param baseID The block's "base" id, eg wool's is "wool"
-	 * 
-	 * @param baseBlock Your block's supplier, which you can use a {@link DyeColor} to set separate {@link MapColor}
-	 * 
-	 * @return a list of {@link RegistryObject} of 16 blocks
-	 */
-	public static <T extends Block> List<RegistryObject<T>> registerDyedBlocks(DeferredRegister<T> deferredRegister, String baseID, Function<DyeColor, Supplier<T>> baseBlock) {
-		List<RegistryObject<T>> blocks = Lists.newArrayList();
+	public static <T extends Block> List<RegistryHolder<T>> registerDyedBlocks(SimpleRegistry<T> simpleRegistry, String baseID, Function<DyeColor, Supplier<T>> baseBlock) {
+		List<RegistryHolder<T>> blocks = Lists.newArrayList();
 		for (DyeColor dyeColor : DyeColor.values()) {
-			RegistryObject<T> block = deferredRegister.register(dyeColor.getName() + "_" + baseID, baseBlock.apply(dyeColor));
+			RegistryHolder<T> block = simpleRegistry.register(dyeColor.getName() + "_" + baseID, baseBlock.apply(dyeColor));
 			blocks.add(block);
 		}
 		return blocks;
 	}
 
-	/*
-	 * Used to register all items for all of you blocks blocks, with exceptions
-	 * 
-	 * @param deferredRegister Your mod's {@link DeferredRegister} for items
-	 * 
-	 * @param blocks Your mod's {@link DeferredRegister} for blocks
-	 * 
-	 * @param exceptions The blocks you don't want to register an item for
-	 */
-	public static void registerAllItems(DeferredRegister<Item> deferredRegister, DeferredRegister<Block> blocks, RegistryObject<Block>... exceptions) {
-		for (RegistryObject<Block> block : blocks.getEntries().stream().filter(block -> !SimpleUtils.toList(exceptions).contains(block)).toList()) {
+	public static void registerAllItems(SimpleRegistry<Item> deferredRegister, SimpleRegistry<Block> blocks, RegistryHolder<Block>... exceptions) {
+		for (RegistryHolder<Block> block : blocks.getEntries().stream().filter(block -> !SimpleUtils.toList(exceptions).contains(block)).toList()) {
 			deferredRegister.register(block.getId().getPath(), () -> new SuppliedBlockItem(block, new Item.Properties()));
 		}
 	}
 
-	/*
-	 * Used to create a simple creative tab
-	 * 
-	 * @param modId Your mod's id
-	 * 
-	 * @param id The tab's id
-	 * 
-	 * @param icon The (@link Item) to be used as the icon
-	 * 
-	 * @param displayItemsGenerator The items to be displayed in the creative mode tab
-	 */
 	public static CreativeModeTab.Builder create(String modId, String id, Supplier<Item> icon, CreativeModeTab.DisplayItemsGenerator displayItemsGenerator) {
-		return CreativeModeTab.builder().title(translation(modId, "itemGroup", id)).icon(() -> icon.get().getDefaultInstance()).displayItems(displayItemsGenerator);
+		return FabricItemGroup.builder().title(translation(modId, "itemGroup", id)).icon(() -> icon.get().getDefaultInstance()).displayItems(displayItemsGenerator);
 	}
 
-	/*
-	 * Used to provide a list for a {@link BlockEntity}
-	 * 
-	 * @param blocks The {@link List} of blocks to turn into an array for a {@link BlockEntity}
-	 * 
-	 * @param extraBlocks Extra blocks to add to the array.
-	 * 
-	 * @return a {@link Block} Array of all the blocks provided
-	 */
-	public static Block[] blocksForBlockEntities(List<RegistryObject<Block>> blocks, RegistryObject<Block>... extraBlocks) {
+	public static Block[] blocksForBlockEntities(List<RegistryHolder<Block>> blocks, RegistryHolder<Block>... extraBlocks) {
 		Block[] blockArray = new Block[blocks.size()];
 		for (int i = 0; i < blocks.size(); i++) {
-			RegistryObject<Block> block = blocks.get(i);
+			RegistryHolder<Block> block = blocks.get(i);
 			blockArray[i] = block.get();
 		}
 		for (int i = 0; i < extraBlocks.length; i++) {
-			RegistryObject<Block> block = extraBlocks[i];
+			RegistryHolder<Block> block = extraBlocks[i];
 			blockArray[i] = block.get();
 		}
 		return blockArray;
 	}
 
-	/*
-	 * Turns arrays into lists
-	 * 
-	 * @param array The array of what you want to turn into a {@link List}
-	 * 
-	 * @return a {@link List} filled with everything in the array
-	 */
 	public static <T> List<T> toList(T[] array) {
 		List<T> stuff = Lists.newArrayList();
 		for (int i = 0; i < array.length; i++) {
@@ -171,13 +87,6 @@ public final class SimpleUtils {
 		return stuff;
 	}
 
-	/*
-	 * Turns arrays into lists
-	 * 
-	 * @param array The array of floats you want to turn into a {@link List}
-	 * 
-	 * @return a {@link List} filled with every float in the array
-	 */
 	public static List<Float> toList(float[] array) {
 		List<Float> stuff = Lists.newArrayList();
 		for (int i = 0; i < array.length; i++) {
@@ -186,13 +95,6 @@ public final class SimpleUtils {
 		return stuff;
 	}
 
-	/*
-	 * Turns arrays into lists
-	 * 
-	 * @param array The array of integers you want to turn into a {@link List}
-	 * 
-	 * @return a {@link List} filled with every integer in the array
-	 */
 	public static List<Integer> toList(int[] array) {
 		List<Integer> stuff = Lists.newArrayList();
 		for (int i = 0; i < array.length; i++) {
@@ -201,63 +103,21 @@ public final class SimpleUtils {
 		return stuff;
 	}
 
-	/*
-	 * Used to turn an id to a readable name
-	 * 
-	 * @param internalName The {@link String} that is an id to turn into a name
-	 * 
-	 * @return a {@link String} of the name
-	 */
 	public static final String autoName(String internalName) {
 		return Arrays.stream(internalName.toLowerCase(Locale.ROOT).split("_")).map(StringUtils::capitalize).collect(Collectors.joining(" "));
 	}
 
-	/*
-	 * Used to turn an id to a readable name
-	 * 
-	 * @param modId Your mod's id
-	 * 
-	 * @param path The path
-	 * 
-	 * @return a {@link ResourceLocation} for the mod
-	 */
 	public static ResourceLocation resource(String modId, String path) {
 		return new ResourceLocation(modId, path);
 	}
 
-	/*
-	 * Used to turn an id to a readable name
-	 * 
-	 * @param modId Your mod's id
-	 * 
-	 * @param type The type of the name
-	 * 
-	 * @param name The name
-	 * 
-	 * @return a {@link ResourceLocation} for the mod
-	 */
 	public static MutableComponent translation(String modId, String type, String name) {
 		return Component.translatable(type + "." + modId + "." + name);
 	}
 
-	/*
-	 * Used to turn an id to a readable name
-	 * 
-	 * @param modId Your mod's id
-	 * 
-	 * @param type The type of the name
-	 * 
-	 * @param name The name
-	 * 
-	 * @param args Arguments to add
-	 * 
-	 * @return a {@link ResourceLocation} for the mod
-	 */
 	public static MutableComponent translation(String modId, String type, String name, Object... args) {
 		return Component.translatable(type + "." + modId + "." + name, args);
 	}
-
-	// @Link net.minecraft.world.level.block.Blocks functions at the bottom public
 
 	public static ToIntFunction<BlockState> litBlockEmission(int lightLevel) {
 		return blockState -> blockState.getValue(BlockStateProperties.LIT) ? lightLevel : 0;

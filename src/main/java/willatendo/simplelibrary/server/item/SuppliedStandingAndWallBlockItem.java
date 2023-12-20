@@ -12,11 +12,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 
-/* 
- * A {@link StandingAndWallBlockItem} that uses Suppliers instead of a Blocks
- * 
- * @author Willatendo
- */
 public class SuppliedStandingAndWallBlockItem extends SuppliedBlockItem {
 	protected final Supplier<Block> wallBlock;
 	private final Direction attachmentDirection;
@@ -55,11 +50,5 @@ public class SuppliedStandingAndWallBlockItem extends SuppliedBlockItem {
 	public void registerBlocks(Map<Block, Item> blockToItemMap, Item item) {
 		super.registerBlocks(blockToItemMap, item);
 		blockToItemMap.put(this.wallBlock.get(), item);
-	}
-
-	@Override
-	public void removeFromBlockToItemMap(Map<Block, Item> blockToItemMap, Item item) {
-		super.removeFromBlockToItemMap(blockToItemMap, item);
-		blockToItemMap.remove(this.wallBlock.get());
 	}
 }

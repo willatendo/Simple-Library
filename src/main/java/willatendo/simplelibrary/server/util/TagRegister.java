@@ -5,11 +5,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 
-/*
- * Used to create a {@link TagKey} similar to a {@link DeferredRegister}
- * 
- * @author Willatendo
- */
 public class TagRegister<T> {
 	private final ResourceKey<? extends Registry<T>> resourceKey;
 	private final String modId;
