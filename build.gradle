@@ -53,16 +53,14 @@ jar {
 publishing {
 	publications {
 		mavenJava(MavenPublication) {
-			artifact jar
-			groupId project.group
-			artifactId project.archivesBaseName
-			version project.version
-
-			pom {
-				name = 'Simple-Library'
-				description = "Willatendo's library."
-				url = 'https://github.com/willatendo/Simple-Library'
+			artifact(remapJar) {
+				builtBy remapJar
+			}
+			artifact(sourcesJar) {
+				builtBy remapSourcesJar
 			}
 		}
+	}
+	repositories {
 	}
 }
