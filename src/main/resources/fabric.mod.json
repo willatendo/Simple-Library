@@ -17,6 +17,9 @@
 	"entrypoints": {
 		"main": [
 			"willatendo.simplelibrary.SimpleLibrary"
+		],
+		"fabric-datagen": [
+			"willatendo.simplelibrary.data.SimpleLibraryData"
 		]
 	},
 	"mixins": [
