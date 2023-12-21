@@ -10,7 +10,7 @@ base {
 	archivesName = project.mod_id
 }
 
-repositories {
+repositories {	
 }
 
 loom {
@@ -34,14 +34,11 @@ dependencies {
 }
 
 tasks.withType(JavaCompile).configureEach {
-	it.options.release = 17
+    it.options.encoding = "UTF-8"
 }
 
 java {
 	withSourcesJar()
-
-	sourceCompatibility = JavaVersion.VERSION_17
-	targetCompatibility = JavaVersion.VERSION_17
 }
 
 jar {
@@ -51,16 +48,7 @@ jar {
 }
 
 publishing {
-	publications {
-		mavenJava(MavenPublication) {
-			artifact(remapJar) {
-				builtBy remapJar
-			}
-			artifact(sourcesJar) {
-				builtBy remapSourcesJar
-			}
-		}
-	}
-	repositories {
-	}
+    publications.register("mavenJava", MavenPublication) {
+        from components.java
+    }
 }

@@ -67,7 +67,7 @@ public final class SimpleUtils {
 	}
 
 	public static Block[] blocksForBlockEntities(List<RegistryHolder<Block>> blocks, RegistryHolder<Block>... extraBlocks) {
-		Block[] blockArray = new Block[blocks.size()];
+		Block[] blockArray = new Block[blocks.size() + extraBlocks.length];
 		for (int i = 0; i < blocks.size(); i++) {
 			RegistryHolder<Block> block = blocks.get(i);
 			blockArray[i] = block.get();
