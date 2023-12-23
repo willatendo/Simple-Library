@@ -38,7 +38,7 @@ public final class SimpleUtils {
 	}
 
 	public static void fillCreativeTab(SimpleRegistry<Item> simpleRegister, CreativeModeTab.ItemDisplayParameters itemDisplayParameters, CreativeModeTab.Output output) {
-		for (Supplier<Item> item : simpleRegister.getEntries()) {
+		for (RegistryHolder<? extends Item> item : simpleRegister.getEntries()) {
 			if (item.get() instanceof FillCreativeTab fillCreativeTab) {
 				fillCreativeTab.fillCreativeTab(itemDisplayParameters, output);
 			} else {
@@ -57,8 +57,8 @@ public final class SimpleUtils {
 	}
 
 	public static void registerAllItems(SimpleRegistry<Item> deferredRegister, SimpleRegistry<Block> blocks, RegistryHolder<Block>... exceptions) {
-		for (RegistryHolder<Block> block : blocks.getEntries().stream().filter(block -> !SimpleUtils.toList(exceptions).contains(block)).toList()) {
-			deferredRegister.register(block.getId().getPath(), () -> new SuppliedBlockItem(block, new Item.Properties()));
+		for (RegistryHolder<? extends Block> block : blocks.getEntries().stream().filter(block -> !SimpleUtils.toList(exceptions).contains(block)).toList()) {
+			deferredRegister.register(block.getId().getPath(), () -> new SuppliedBlockItem(() -> block.get(), new Item.Properties()));
 		}
 	}
 

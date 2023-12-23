@@ -8,7 +8,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 
 public class SimpleRegistry<T> {
-	private final List<RegistryHolder<T>> objects = new ArrayList<>();
+	private final List<RegistryHolder<? extends T>> objects = new ArrayList<>();
 	private final Registry<T> registryType;
 	private final String modId;
 
@@ -21,12 +21,12 @@ public class SimpleRegistry<T> {
 		return new SimpleRegistry<>(registryType, modId);
 	}
 
-	public List<RegistryHolder<T>> getEntries() {
+	public List<RegistryHolder<? extends T>> getEntries() {
 		return this.objects;
 	}
 
-	public RegistryHolder<T> register(String id, Supplier<T> object) {
-		RegistryHolder<T> registryHolder = new RegistryHolder<T>(object.get(), new ResourceLocation(this.modId, id));
+	public <I extends T> RegistryHolder<I> register(String id, Supplier<I> object) {
+		RegistryHolder<I> registryHolder = new RegistryHolder<I>(object.get(), new ResourceLocation(this.modId, id));
 
 		Registry.register(this.registryType, registryHolder.getId(), registryHolder.get());
 		this.objects.add(registryHolder);
