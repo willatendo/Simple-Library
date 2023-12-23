@@ -1,0 +1,11 @@
+accessWidener v2 named
+
+accessible class net/minecraft/client/renderer/block/model/ItemTransform$Deserializer
+
+accessible field net/minecraft/client/renderer/block/model/ItemTransform$Deserializer DEFAULT_ROTATION Lorg/joml/Vector3f;
+accessible field net/minecraft/client/renderer/block/model/ItemTransform$Deserializer DEFAULT_TRANSLATION Lorg/joml/Vector3f;
+accessible field net/minecraft/client/renderer/block/model/ItemTransform$Deserializer DEFAULT_SCALE Lorg/joml/Vector3f;
+
+accessible field net/minecraft/client/renderer/block/model/BlockModel$GuiLight name Ljava/lang/String;
+
+accessible method net/minecraft/client/resources/ClientPackSource createVanillaPackSource (Ljava/nio/file/Path;)Lnet/minecraft/server/packs/VanillaPackResources;

@@ -4,6 +4,7 @@
 	"version": "2.1.0",
 	"name": "Simple Library",
 	"description": "A simple library for Minecraft!",
+	"accessWidener": "simplelibrary.accesswidener",
 	"authors": [
 		"Willatendo"
 	],

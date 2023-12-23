@@ -56,7 +56,7 @@ public final class SimpleUtils {
 		return blocks;
 	}
 
-	public static void registerAllItems(SimpleRegistry<Item> deferredRegister, SimpleRegistry<Block> blocks, RegistryHolder<Block>... exceptions) {
+	public static void registerAllItems(SimpleRegistry<Item> deferredRegister, SimpleRegistry<Block> blocks, RegistryHolder<? extends Block>... exceptions) {
 		for (RegistryHolder<? extends Block> block : blocks.getEntries().stream().filter(block -> !SimpleUtils.toList(exceptions).contains(block)).toList()) {
 			deferredRegister.register(block.getId().getPath(), () -> new SuppliedBlockItem(() -> block.get(), new Item.Properties()));
 		}
