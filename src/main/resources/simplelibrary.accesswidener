@@ -8,4 +8,8 @@ accessible field net/minecraft/client/renderer/block/model/ItemTransform$Deseria
 
 accessible field net/minecraft/client/renderer/block/model/BlockModel$GuiLight name Ljava/lang/String;
 
+accessible field net/minecraft/tags/TagEntry id Lnet/minecraft/resources/ResourceLocation;
+accessible field net/minecraft/tags/TagEntry tag Z
+accessible field net/minecraft/tags/TagEntry required Z
+
 accessible method net/minecraft/client/resources/ClientPackSource createVanillaPackSource (Ljava/nio/file/Path;)Lnet/minecraft/server/packs/VanillaPackResources;
