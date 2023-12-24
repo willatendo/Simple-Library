@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagEntry;
 
@@ -61,5 +64,24 @@ public class TagBuilder {
 
 	public boolean isReplace() {
 		return this.replace;
+	}
+
+	public void serializeTagAdditions(JsonObject jsonObject) {
+		JsonArray removeEntriesAsJsonArray = new JsonArray();
+		if (removeEntriesAsJsonArray.size() > 0) {
+			jsonObject.add("remove", removeEntriesAsJsonArray);
+		}
+	}
+
+	public TagBuilder remove(TagEntry tagEntry, String source) {
+		return this.remove(tagEntry);
+	}
+
+	public TagBuilder removeElement(ResourceLocation elementID, String source) {
+		return this.remove(TagEntry.element(elementID), source);
+	}
+
+	public TagBuilder removeTag(ResourceLocation tagID, String source) {
+		return this.remove(TagEntry.tag(tagID), source);
 	}
 }

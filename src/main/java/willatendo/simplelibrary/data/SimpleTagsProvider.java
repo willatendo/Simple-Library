@@ -126,70 +126,146 @@ public abstract class SimpleTagsProvider<T> implements DataProvider {
 		return false;
 	}
 
-	protected TagAppender<T> tag(TagKey<T> tagKey) {
-		TagBuilder tagBuilder = this.getOrCreateRawBuilder(tagKey);
-		return new TagAppender(tagBuilder);
+	protected SimpleTagsProvider.TagAppender<T> tag(TagKey<T> tagKey) {
+		TagBuilder tagbuilder = this.getOrCreateRawBuilder(tagKey);
+		return new SimpleTagsProvider.TagAppender<>(tagbuilder, this.modId);
 	}
 
 	protected TagBuilder getOrCreateRawBuilder(TagKey<T> tagKey) {
-		return this.builders.computeIfAbsent(tagKey.location(), resourceLocation -> TagBuilder.create());
+		return this.builders.computeIfAbsent(tagKey.location(), (resourceLocation) -> {
+			if (this.existingFileHelper != null) {
+				this.existingFileHelper.trackGenerated(resourceLocation, this.resourceType);
+			}
+			return TagBuilder.create();
+		});
 	}
 
-	public CompletableFuture<TagLookup<T>> contentsGetter() {
-		return this.contentsDone.thenApply(void_ -> tagKey -> Optional.ofNullable(this.builders.get(tagKey.location())));
+	public CompletableFuture<SimpleTagsProvider.TagLookup<T>> contentsGetter() {
+		return this.contentsDone.thenApply((void_) -> {
+			return (tagKey) -> {
+				return Optional.ofNullable(this.builders.get(tagKey.location()));
+			};
+		});
 	}
 
 	protected CompletableFuture<HolderLookup.Provider> createContentsProvider() {
-		return this.lookupProvider.thenApply(provider -> {
+		return this.lookupProvider.thenApply((provider) -> {
 			this.builders.clear();
-			this.addTags((HolderLookup.Provider) provider);
+			this.addTags(provider);
 			return provider;
 		});
 	}
 
-	@FunctionalInterface
-	public static interface TagLookup<T> extends Function<TagKey<T>, Optional<TagBuilder>> {
-		public static <T> TagLookup<T> empty() {
-			return tagKey -> Optional.empty();
-		}
-
-		default public boolean contains(TagKey<T> tagKey) {
-			return ((Optional) this.apply(tagKey)).isPresent();
-		}
-	}
-
 	public static class TagAppender<T> {
-		private final TagBuilder builder;
+		private final TagBuilder tagBuilder;
+		private final String modId;
 
-		protected TagAppender(TagBuilder tagBuilder) {
-			this.builder = tagBuilder;
+		protected TagAppender(TagBuilder tagBuilder, String modId) {
+			this.tagBuilder = tagBuilder;
+			this.modId = modId;
 		}
 
 		public final TagAppender<T> add(ResourceKey<T> resourceKey) {
-			this.builder.addElement(resourceKey.location());
+			this.tagBuilder.addElement(resourceKey.location());
 			return this;
 		}
 
 		public TagAppender<T> add(ResourceKey<T>... resourceKeys) {
 			for (ResourceKey<T> resourceKey : resourceKeys) {
-				this.builder.addElement(resourceKey.location());
+				this.tagBuilder.addElement(resourceKey.location());
 			}
 			return this;
 		}
 
 		public TagAppender<T> addOptional(ResourceLocation resourceLocation) {
-			this.builder.addOptionalElement(resourceLocation);
+			this.tagBuilder.addOptionalElement(resourceLocation);
 			return this;
 		}
 
 		public TagAppender<T> addTag(TagKey<T> tagKey) {
-			this.builder.addTag(tagKey.location());
+			this.tagBuilder.addTag(tagKey.location());
 			return this;
 		}
 
 		public TagAppender<T> addOptionalTag(ResourceLocation resourceLocation) {
-			this.builder.addOptionalTag(resourceLocation);
+			this.tagBuilder.addOptionalTag(resourceLocation);
 			return this;
+		}
+
+		public SimpleTagsProvider.TagAppender<T> addTags(TagKey<T>... tagKeys) {
+			for (TagKey<T> tagKey : tagKeys) {
+				this.addTag(tagKey);
+			}
+			return this;
+		}
+
+		public SimpleTagsProvider.TagAppender<T> replace() {
+			return this.replace(true);
+		}
+
+		public SimpleTagsProvider.TagAppender<T> replace(boolean value) {
+			this.getInternalBuilder().replace(value);
+			return this;
+		}
+
+		public SimpleTagsProvider.TagAppender<T> remove(ResourceLocation resourceLocation) {
+			this.getInternalBuilder().removeElement(resourceLocation, this.getModId());
+			return this;
+		}
+
+		public SimpleTagsProvider.TagAppender<T> remove(ResourceLocation first, ResourceLocation... resourceLocations) {
+			this.remove(first);
+			for (ResourceLocation resourceLocation : resourceLocations) {
+				this.remove(resourceLocation);
+			}
+			return this;
+		}
+
+		public SimpleTagsProvider.TagAppender<T> remove(ResourceKey<T> resourceKey) {
+			this.remove(resourceKey.location());
+			return this;
+		}
+
+		public SimpleTagsProvider.TagAppender<T> remove(ResourceKey<T> firstResourceKey, ResourceKey<T>... resourceKeys) {
+			this.remove(firstResourceKey.location());
+			for (ResourceKey<T> resourceKey : resourceKeys) {
+				this.remove(resourceKey.location());
+			}
+			return this;
+		}
+
+		public SimpleTagsProvider.TagAppender<T> remove(TagKey<T> tagKey) {
+			this.getInternalBuilder().removeTag(tagKey.location(), this.getModId());
+			return this;
+		}
+
+		public SimpleTagsProvider.TagAppender<T> remove(TagKey<T> first, TagKey<T>... tags) {
+			this.remove(first);
+			for (TagKey<T> tagKey : tags) {
+				this.remove(tagKey);
+			}
+			return this;
+		}
+
+		public TagBuilder getInternalBuilder() {
+			return this.tagBuilder;
+		}
+
+		public String getModId() {
+			return this.modId;
+		}
+	}
+
+	@FunctionalInterface
+	public interface TagLookup<T> extends Function<TagKey<T>, Optional<TagBuilder>> {
+		static <T> TagsProvider.TagLookup<T> empty() {
+			return (tagKey) -> {
+				return Optional.empty();
+			};
+		}
+
+		default boolean contains(TagKey<T> tagKey) {
+			return this.apply(tagKey).isPresent();
 		}
 	}
 }
