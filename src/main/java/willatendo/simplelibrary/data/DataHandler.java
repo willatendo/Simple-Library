@@ -58,36 +58,34 @@ public class DataHandler {
 		return this.fabricDataGenerator.getModId();
 	}
 
-	private <T extends DataProvider> void addProvider(Factory<T> factory) {
-		this.pack.addProvider(factory);
+	private <T extends DataProvider> T addProvider(Factory<T> factory) {
+		T provider = this.pack.addProvider(factory);
+		return provider;
 	}
 
 	// Broad
 
-	public <T extends DataProvider> void addProvider(ProviderSupplier providerSupplier) {
-		this.addProvider(fabricDataOutput -> providerSupplier.accept(fabricDataOutput, this.getModId()));
+	public <T extends DataProvider> T addProvider(ProviderSupplier<T> providerSupplier) {
+		return this.addProvider(fabricDataOutput -> providerSupplier.accept(fabricDataOutput, this.getModId()));
 	}
 
-	public <T extends DataProvider> void addProvider(SimpleProviderSupplier simpleProviderSupplier) {
-		this.addProvider(fabricDataOutput -> simpleProviderSupplier.accept(fabricDataOutput, this.getModId(), this.getExistingFileHelper()));
+	public <T extends DataProvider> T addProvider(SimpleProviderSupplier<T> simpleProviderSupplier) {
+		return this.addProvider(fabricDataOutput -> simpleProviderSupplier.accept(fabricDataOutput, this.getModId(), this.getExistingFileHelper()));
 	}
 
-	public <T extends DataProvider> void addProvider(WithProviderSupplier withProviderSupplier) {
-		this.pack.addProvider((fabricDataOutput, provider) -> withProviderSupplier.accept(fabricDataOutput, provider, this.getModId()));
+	public <T extends DataProvider> T addProvider(WithProviderSupplier<T> withProviderSupplier) {
+		return this.pack.addProvider((fabricDataOutput, provider) -> withProviderSupplier.accept(fabricDataOutput, provider, this.getModId()));
 	}
 
-	public <T extends DataProvider> void addProvider(SimpleWithProviderSupplier simpleWithProviderSupplier) {
-		this.pack.addProvider((fabricDataOutput, provider) -> simpleWithProviderSupplier.accept(fabricDataOutput, provider, this.getModId(), this.getExistingFileHelper()));
+	public <T extends DataProvider> T addProvider(SimpleWithProviderSupplier<T> simpleWithProviderSupplier) {
+		return this.pack.addProvider((fabricDataOutput, provider) -> simpleWithProviderSupplier.accept(fabricDataOutput, provider, this.getModId(), this.getExistingFileHelper()));
 	}
 
 	// Specific
 
 	public <T extends DataProvider> void addTagsProvider(ItemTagSupplier itemTagSupplier, BlockTagSupplier blockTagSupplier) {
-		this.addProvider((fabricDataOutput, provider, modId, existingFileHelper) -> {
-			SimpleBlockTagsProvider simpleBlockTagsProvider = blockTagSupplier.accept(fabricDataOutput, provider, modId, existingFileHelper);
-			this.addProvider((fabricDataOutput1, provider1, modId1, existingFileHelper1) -> itemTagSupplier.accept(fabricDataOutput1, provider1, simpleBlockTagsProvider.contentsGetter(), modId1, existingFileHelper1));
-			return simpleBlockTagsProvider;
-		});
+		SimpleBlockTagsProvider simpleBlockTagsProvider = this.addProvider((fabricDataOutput, provider, modId, existingFileHelper) -> blockTagSupplier.accept(fabricDataOutput, provider, modId, existingFileHelper));
+		this.addProvider((fabricDataOutput, provider, modId, existingFileHelper) -> itemTagSupplier.accept(fabricDataOutput, provider, simpleBlockTagsProvider.contentsGetter(), modId, existingFileHelper));
 	}
 
 	public <T extends DataProvider> void addLanguageProvider(LanguageSupplier languageSupplier) {
@@ -99,37 +97,37 @@ public class DataHandler {
 	}
 
 	@FunctionalInterface
-	public static interface ProviderSupplier {
-		DataProvider accept(FabricDataOutput fabricDataOutput, String modId);
+	public static interface ProviderSupplier<T extends DataProvider> {
+		T accept(FabricDataOutput fabricDataOutput, String modId);
 	}
 
 	@FunctionalInterface
-	public static interface SimpleProviderSupplier {
-		DataProvider accept(FabricDataOutput fabricDataOutput, String modId, ExistingFileHelper existingFileHelper);
+	public static interface SimpleProviderSupplier<T extends DataProvider> {
+		T accept(FabricDataOutput fabricDataOutput, String modId, ExistingFileHelper existingFileHelper);
 	}
 
 	@FunctionalInterface
-	public static interface WithProviderSupplier {
-		DataProvider accept(FabricDataOutput fabricDataOutput, CompletableFuture<HolderLookup.Provider> provider, String modId);
+	public static interface WithProviderSupplier<T extends DataProvider> {
+		T accept(FabricDataOutput fabricDataOutput, CompletableFuture<HolderLookup.Provider> provider, String modId);
 	}
 
 	@FunctionalInterface
-	public static interface SimpleWithProviderSupplier {
-		DataProvider accept(FabricDataOutput fabricDataOutput, CompletableFuture<HolderLookup.Provider> provider, String modId, ExistingFileHelper existingFileHelper);
+	public static interface SimpleWithProviderSupplier<T extends DataProvider> {
+		T accept(FabricDataOutput fabricDataOutput, CompletableFuture<HolderLookup.Provider> provider, String modId, ExistingFileHelper existingFileHelper);
 	}
 
 	@FunctionalInterface
-	public static interface ItemTagSupplier {
-		SimpleItemTagsProvider accept(FabricDataOutput fabricDataOutput, CompletableFuture<HolderLookup.Provider> provider, CompletableFuture<SimpleTagsProvider.TagLookup<Block>> blockTags, String modId, ExistingFileHelper existingFileHelper);
+	public static interface ItemTagSupplier<T extends SimpleItemTagsProvider> {
+		T accept(FabricDataOutput fabricDataOutput, CompletableFuture<HolderLookup.Provider> provider, CompletableFuture<SimpleTagsProvider.TagLookup<Block>> blockTags, String modId, ExistingFileHelper existingFileHelper);
 	}
 
 	@FunctionalInterface
-	public static interface BlockTagSupplier {
-		SimpleBlockTagsProvider accept(FabricDataOutput fabricDataOutput, CompletableFuture<Provider> provider, String modId, ExistingFileHelper existingFileHelper);
+	public static interface BlockTagSupplier<T extends SimpleBlockTagsProvider> {
+		T accept(FabricDataOutput fabricDataOutput, CompletableFuture<Provider> provider, String modId, ExistingFileHelper existingFileHelper);
 	}
 
 	@FunctionalInterface
-	public static interface LanguageSupplier {
-		SimpleLanguageProvider accept(FabricDataOutput fabricDataOutput, String modId);
+	public static interface LanguageSupplier<T extends SimpleLanguageProvider> {
+		T accept(FabricDataOutput fabricDataOutput, String modId);
 	}
 }
