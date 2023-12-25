@@ -13,7 +13,9 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.data.DataProvider;
+import net.minecraft.world.level.block.Block;
 import willatendo.simplelibrary.data.SimpleAdvancementProvider.AdvancementGenerator;
 import willatendo.simplelibrary.data.util.ExistingFileHelper;
 import willatendo.simplelibrary.server.util.SimpleUtils;
@@ -80,6 +82,14 @@ public class DataHandler {
 
 	// Specific
 
+	public <T extends DataProvider> void addTagsProvider(ItemTagSupplier itemTagSupplier, BlockTagSupplier blockTagSupplier) {
+		this.addProvider((fabricDataOutput, provider, modId, existingFileHelper) -> {
+			SimpleBlockTagsProvider simpleBlockTagsProvider = blockTagSupplier.accept(fabricDataOutput, provider, modId, existingFileHelper);
+			this.addProvider((fabricDataOutput1, provider1, modId1, existingFileHelper1) -> itemTagSupplier.accept(fabricDataOutput1, provider1, simpleBlockTagsProvider.contentsGetter(), modId1, existingFileHelper1));
+			return simpleBlockTagsProvider;
+		});
+	}
+
 	public <T extends DataProvider> void addLanguageProvider(LanguageSupplier languageSupplier) {
 		this.addProvider(fabricDataOutput -> languageSupplier.accept(fabricDataOutput, this.getModId()));
 	}
@@ -106,6 +116,16 @@ public class DataHandler {
 	@FunctionalInterface
 	public static interface SimpleWithProviderSupplier {
 		DataProvider accept(FabricDataOutput fabricDataOutput, CompletableFuture<HolderLookup.Provider> provider, String modId, ExistingFileHelper existingFileHelper);
+	}
+
+	@FunctionalInterface
+	public static interface ItemTagSupplier {
+		SimpleItemTagsProvider accept(FabricDataOutput fabricDataOutput, CompletableFuture<HolderLookup.Provider> provider, CompletableFuture<SimpleTagsProvider.TagLookup<Block>> blockTags, String modId, ExistingFileHelper existingFileHelper);
+	}
+
+	@FunctionalInterface
+	public static interface BlockTagSupplier {
+		SimpleBlockTagsProvider accept(FabricDataOutput fabricDataOutput, CompletableFuture<Provider> provider, String modId, ExistingFileHelper existingFileHelper);
 	}
 
 	@FunctionalInterface
