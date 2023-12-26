@@ -10,6 +10,8 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.compress.utils.Lists;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.core.BlockPos;
@@ -32,6 +34,7 @@ import willatendo.simplelibrary.server.registry.SimpleRegistry;
 
 public final class SimpleUtils {
 	public static final String ID = "simplelibrary";
+	public static final Logger LOGGER = LoggerFactory.getLogger(ID);
 
 	public static <T> TagRegister<T> create(ResourceKey<? extends Registry<T>> resourceKey, String modId) {
 		return new TagRegister<>(resourceKey, modId);
