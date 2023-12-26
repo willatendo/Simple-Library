@@ -90,20 +90,22 @@ public final class SimpleConfig {
 		this.values.put(key.toLowerCase(), value);
 	}
 
-	public void saveBooleanValue(String key, boolean defaultValue) {
+	public boolean saveBooleanValue(String key, boolean defaultValue) {
 		if (!this.values.containsKey(key)) {
 			this.save(key, new BooleanValue(defaultValue));
 		} else {
 			SimpleUtils.LOGGER.error("Error! Two Entries Have the Same Key!");
 		}
+		return defaultValue;
 	}
 
-	public void saveIntegerValue(String key, int defaultValue) {
+	public int saveIntegerValue(String key, int defaultValue) {
 		if (!this.values.containsKey(key)) {
 			this.save(key, new IntegerValue(defaultValue));
 		} else {
 			SimpleUtils.LOGGER.error("Error! Two Entries Have the Same Key!");
 		}
+		return defaultValue;
 	}
 
 	public boolean getBooleanValue(String key) {
@@ -136,14 +138,6 @@ public final class SimpleConfig {
 	}
 
 	private int getInteger(String value) {
-//		if (value.equals("true")) {
-//			return true;
-//		} else if (value.equals("false")) {
-//			return false;
-//		} else {
-//			SimpleUtils.LOGGER.error(value + ": Is Not Right In " + this.configName);
-//			throw new ConfigLoadingException();
-//		}
 		return Integer.parseInt(value);
 	}
 
