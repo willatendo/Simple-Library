@@ -1,99 +1,90 @@
 package willatendo.simplelibrary.data.loot;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
-import java.util.stream.Collectors;
 
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import net.minecraft.advancements.critereon.DamageSourcePredicate;
-import net.minecraft.advancements.critereon.EntityFlagsPredicate;
-import net.minecraft.advancements.critereon.EntityPredicate;
-import net.minecraft.advancements.critereon.EntitySubPredicate;
-import net.minecraft.data.loot.LootTableSubProvider;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricLootTableProvider;
+import net.fabricmc.fabric.impl.datagen.loot.FabricLootTableProviderImpl;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.data.CachedOutput;
+import net.minecraft.data.loot.EntityLootSubProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.animal.FrogVariant;
-import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.flag.FeatureFlags;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
-import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.entries.LootItem;
-import net.minecraft.world.level.storage.loot.entries.LootTableReference;
-import net.minecraft.world.level.storage.loot.predicates.DamageSourceCondition;
-import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
-import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
-import willatendo.simplelibrary.server.registry.SimpleRegistry;
+import net.minecraft.world.level.storage.loot.LootTable.Builder;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 
-public abstract class SimpleEntityLootSubProvider implements LootTableSubProvider {
-	protected static final EntityPredicate.Builder ENTITY_ON_FIRE = EntityPredicate.Builder.entity().flags(EntityFlagsPredicate.Builder.flags().setOnFire(true));
-	private static final Set<EntityType<?>> SPECIAL_LOOT_TABLE_TYPES = ImmutableSet.of(EntityType.PLAYER, EntityType.ARMOR_STAND, EntityType.IRON_GOLEM, EntityType.SNOW_GOLEM, EntityType.VILLAGER);
-	private final Map<EntityType<?>, Map<ResourceLocation, LootTable.Builder>> map = Maps.newHashMap();
+public abstract class SimpleEntityLootSubProvider extends EntityLootSubProvider implements FabricLootTableProvider {
+	private final FabricDataOutput fabricDataOutput;
+	private final Set<ResourceLocation> excludedFromStrictValidation = new HashSet<>();
 
-	protected static LootTable.Builder createSheepTable(ItemLike itemLike) {
-		return LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0f)).add(LootItem.lootTableItem(itemLike))).withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0f)).add(LootTableReference.lootTableReference(EntityType.SHEEP.getDefaultLootTable())));
+	public SimpleEntityLootSubProvider(FabricDataOutput fabricDataOutput) {
+		super(FeatureFlags.REGISTRY.allFlags());
+		this.fabricDataOutput = fabricDataOutput;
 	}
 
-	public abstract void generate();
-
-	public abstract SimpleRegistry<EntityType<?>> getEntityTypeRegistry();
+	public void excludeFromStrictValidation(Block block) {
+		this.excludedFromStrictValidation.add(BuiltInRegistries.BLOCK.getKey(block));
+	}
 
 	@Override
 	public void generate(BiConsumer<ResourceLocation, LootTable.Builder> biConsumer) {
 		this.generate();
-		HashSet set = Sets.newHashSet();
-		this.getEntityTypeRegistry().getEntries().forEach(reference -> {
-			EntityType entityType = reference.get();
-			if (SimpleEntityLootSubProvider.canHaveLootTable(entityType)) {
-				Map<ResourceLocation, LootTable.Builder> map = this.map.remove(entityType);
-				ResourceLocation resourceLocation2 = entityType.getDefaultLootTable();
-				if (!(resourceLocation2.equals(BuiltInLootTables.EMPTY) || map != null && map.containsKey(resourceLocation2))) {
-					throw new IllegalStateException(String.format(Locale.ROOT, "Missing loottable '%s' for '%s'", resourceLocation2, reference.getId()));
+
+		for (Entry<EntityType<?>, Map<ResourceLocation, Builder>> entityEntry : this.map.entrySet()) {
+			for (Entry<ResourceLocation, Builder> entityEntries : entityEntry.getValue().entrySet()) {
+				ResourceLocation identifier = entityEntries.getKey();
+
+				if (identifier.equals(BuiltInLootTables.EMPTY)) {
+					continue;
 				}
-				if (map != null) {
-					map.forEach((resourceLocation, builder) -> {
-						if (!set.add(resourceLocation)) {
-							throw new IllegalStateException(String.format(Locale.ROOT, "Duplicate loottable '%s' for '%s'", resourceLocation, reference.getId()));
+
+				biConsumer.accept(identifier, entityEntries.getValue());
+			}
+		}
+
+		if (this.fabricDataOutput.isStrictValidationEnabled()) {
+			Set<ResourceLocation> missing = Sets.newHashSet();
+
+			for (ResourceLocation blockId : BuiltInRegistries.BLOCK.keySet()) {
+				if (blockId.getNamespace().equals(this.fabricDataOutput.getModId())) {
+					ResourceLocation blockLootTableId = BuiltInRegistries.BLOCK.get(blockId).getLootTable();
+
+					if (blockLootTableId.getNamespace().equals(this.fabricDataOutput.getModId())) {
+						for (Entry<EntityType<?>, Map<ResourceLocation, Builder>> entityEntry : this.map.entrySet()) {
+							if (!entityEntry.getValue().containsKey(blockLootTableId)) {
+								missing.add(blockId);
+							}
 						}
-						biConsumer.accept((ResourceLocation) resourceLocation, (LootTable.Builder) builder);
-					});
-				}
-			} else {
-				Map<ResourceLocation, LootTable.Builder> map = this.map.remove(entityType);
-				if (map != null) {
-					throw new IllegalStateException(String.format(Locale.ROOT, "Weird loottables '%s' for '%s', not a LivingEntity so should not have loot", map.keySet().stream().map(ResourceLocation::toString).collect(Collectors.joining(",")), reference.getId()));
+					}
 				}
 			}
-		});
-		if (!this.map.isEmpty()) {
-			throw new IllegalStateException("Created loot tables for entities not supported by datapack: " + this.map.keySet());
+
+			missing.removeAll(this.excludedFromStrictValidation);
+
+			if (!missing.isEmpty()) {
+				throw new IllegalStateException("Missing loot table(s) for %s".formatted(missing));
+			}
 		}
 	}
 
-	private static boolean canHaveLootTable(EntityType<?> entityType) {
-		return SPECIAL_LOOT_TABLE_TYPES.contains(entityType) || entityType.getCategory() != MobCategory.MISC;
+	@Override
+	public CompletableFuture<?> run(CachedOutput cachedOutput) {
+		return FabricLootTableProviderImpl.run(cachedOutput, this, LootContextParamSets.ENTITY, this.fabricDataOutput);
 	}
 
-	protected LootItemCondition.Builder killedByFrog() {
-		return DamageSourceCondition.hasDamageSource(DamageSourcePredicate.Builder.damageType().source(EntityPredicate.Builder.entity().of(EntityType.FROG)));
-	}
-
-	protected LootItemCondition.Builder killedByFrogVariant(FrogVariant frogVariant) {
-		return DamageSourceCondition.hasDamageSource(DamageSourcePredicate.Builder.damageType().source(EntityPredicate.Builder.entity().of(EntityType.FROG).subPredicate(EntitySubPredicate.variant(frogVariant))));
-	}
-
-	protected void add(EntityType<?> entityType, LootTable.Builder builder) {
-		this.add(entityType, entityType.getDefaultLootTable(), builder);
-	}
-
-	protected void add(EntityType<?> entityType2, ResourceLocation resourceLocation, LootTable.Builder builder) {
-		this.map.computeIfAbsent(entityType2, entityType -> new HashMap()).put(resourceLocation, builder);
+	@Override
+	public String getName() {
+		return "EntityType Loot Tables";
 	}
 }
