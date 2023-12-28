@@ -20,7 +20,7 @@ public abstract class SimpleBlockLootSubProvider extends BlockLootSubProvider {
 		super(Set.of(), FeatureFlags.REGISTRY.allFlags());
 	}
 
-	abstract SimpleRegistry<Block> getBlockRegistry();
+	public abstract SimpleRegistry<Block> getBlockRegistry();
 
 	@Override
 	public void generate(BiConsumer<ResourceLocation, LootTable.Builder> biConsumer) {
