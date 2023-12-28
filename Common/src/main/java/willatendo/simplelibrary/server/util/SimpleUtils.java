@@ -13,16 +13,15 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
-import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
-import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType.ExtendedFactory;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.CreativeModeTab;
@@ -32,6 +31,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import willatendo.simplelibrary.helper.ModloaderHelper;
 import willatendo.simplelibrary.server.item.SuppliedBlockItem;
 import willatendo.simplelibrary.server.registry.RegistryHolder;
 import willatendo.simplelibrary.server.registry.SimpleRegistry;
@@ -70,7 +70,7 @@ public final class SimpleUtils {
 	}
 
 	public static CreativeModeTab.Builder create(String modId, String id, Supplier<Item> icon, CreativeModeTab.DisplayItemsGenerator displayItemsGenerator) {
-		return FabricItemGroup.builder().title(translation(modId, "itemGroup", id)).icon(() -> icon.get().getDefaultInstance()).displayItems(displayItemsGenerator);
+		return ModloaderHelper.getInstance().getBuilder().title(translation(modId, "itemGroup", id)).icon(() -> icon.get().getDefaultInstance()).displayItems(displayItemsGenerator);
 	}
 
 	public static Block[] blocksForBlockEntities(List<RegistryHolder<Block>> blocks, RegistryHolder<Block>... extraBlocks) {
@@ -87,7 +87,7 @@ public final class SimpleUtils {
 	}
 
 	public static <T extends AbstractContainerMenu> MenuType<T> createMenuType(ExtendedFactory<T> extendedFactory) {
-		return new ExtendedScreenHandlerType<T>(extendedFactory);
+		return ModloaderHelper.getInstance().createMenuType(extendedFactory);
 	}
 
 	public static <T> List<T> toList(T[] array) {
@@ -152,5 +152,10 @@ public final class SimpleUtils {
 
 	public static boolean never(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos) {
 		return false;
+	}
+
+	@FunctionalInterface
+	public interface ExtendedFactory<T extends AbstractContainerMenu> {
+		T create(int windowId, Inventory inventory, FriendlyByteBuf friendlyByteBuf);
 	}
 }

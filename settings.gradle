@@ -1,10 +1,17 @@
 pluginManagement {
 	repositories {
 		maven {
-			name = 'Fabric'
-			url = 'https://maven.fabricmc.net/'
+			name = "Fabric"
+			url = "https://maven.fabricmc.net/"
+		}
+		maven {
+			name = 'Sponge Snapshots'
+			url = 'https://repo.spongepowered.org/repository/maven-public/'
 		}
 		mavenCentral()
 		gradlePluginPortal()
 	}
 }
+
+rootProject.name = "Simple Library"
+include("Common", "Radiation-Library", "Fabric", "Radiation-Library-Fabric")

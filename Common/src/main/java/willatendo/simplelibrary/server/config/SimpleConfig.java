@@ -8,11 +8,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import net.fabricmc.loader.api.FabricLoader;
+import willatendo.simplelibrary.helper.ModloaderHelper;
 import willatendo.simplelibrary.server.util.SimpleUtils;
 
 public final class SimpleConfig {
-	private final File configPath = new File(FabricLoader.getInstance().getConfigDir().toString());
+	private final File configPath = new File(ModloaderHelper.getInstance().getConfigDir().toString());
 	private final Properties properties = new Properties();
 	private final Map<String, ConfigValue> values = new HashMap<>();
 

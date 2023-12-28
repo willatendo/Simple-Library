@@ -1,4 +1,4 @@
-package willatendo.simplelibrary;
+package willatendo.simplelibrary.fabric;
 
 import net.fabricmc.api.ModInitializer;
 

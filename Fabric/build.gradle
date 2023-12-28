@@ -1,0 +1,54 @@
+plugins {
+	id 'idea'
+	id 'java'
+	id 'fabric-loom' version '1.4-SNAPSHOT'
+}
+
+archivesBaseName = "SimpleLibrary-fabric"
+
+dependencies {
+	minecraft "com.mojang:minecraft:${minecraft_version}"
+	mappings loom.officialMojangMappings()
+	
+	modImplementation "net.fabricmc:fabric-loader:${fabric_version}"
+	modImplementation "net.fabricmc.fabric-api:fabric-api:${api_version}"
+	implementation project(":Common")
+}
+
+loom {
+	accessWidenerPath.set(project(":Common").file("src/main/resources/simplelibrary.accesswidener"))
+
+	runs {
+		client {
+			client()
+			setConfigName("Fabric Client")
+			ideConfigGenerated(true)
+			runDir("run")
+		}
+		
+		server {
+			server()
+			setConfigName("Fabric Server")
+			ideConfigGenerated(true)
+			runDir("run")
+		}
+	
+		datagen {
+			inherit client
+			name "Data Generation"
+			vmArg "-Dfabric-api.datagen"
+			vmArg "-Dfabric-api.datagen.output-dir=${file("src/main/generated")}"
+			vmArg "-Dfabric-api.datagen.modid=${mod_id}"
+ 
+			runDir "build/datagen"
+		}
+	}
+}
+
+tasks.withType(JavaCompile).configureEach {
+	source(project(":Common").sourceSets.main.allSource)
+}
+
+processResources {
+	from project(":Common").sourceSets.main.resources
+}
