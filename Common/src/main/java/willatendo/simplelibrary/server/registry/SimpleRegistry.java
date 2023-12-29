@@ -6,6 +6,7 @@ import java.util.function.Supplier;
 
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
+import willatendo.simplelibrary.helper.ModloaderHelper;
 
 public class SimpleRegistry<T> {
 	private final List<RegistryHolder<? extends T>> objects = new ArrayList<>();
@@ -28,7 +29,7 @@ public class SimpleRegistry<T> {
 	public <I extends T> RegistryHolder<I> register(String id, Supplier<I> object) {
 		RegistryHolder<I> registryHolder = new RegistryHolder<I>(object.get(), new ResourceLocation(this.modId, id));
 
-		Registry.register(this.registryType, registryHolder.getId(), registryHolder.get());
+		ModloaderHelper.getInstance().register(this.registryType, registryHolder.getId(), () -> registryHolder.get());
 		this.objects.add(registryHolder);
 		return registryHolder;
 	}

@@ -5,6 +5,14 @@ pluginManagement {
 			url = "https://maven.fabricmc.net/"
 		}
 		maven {
+			name = "Forge"
+			url = "https://maven.minecraftforge.net/"
+		}
+		maven {
+			name = "NeoForge"
+			url = "https://maven.neoforged.net/releases/"
+		}
+		maven {
 			name = 'Sponge Snapshots'
 			url = 'https://repo.spongepowered.org/repository/maven-public/'
 		}
@@ -14,4 +22,4 @@ pluginManagement {
 }
 
 rootProject.name = "Simple Library"
-include("Common", "Radiation-Library", "Fabric", "Radiation-Library-Fabric")
+include("Common", "Fabric", "Forge", "Neoforged")

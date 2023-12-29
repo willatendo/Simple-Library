@@ -26,27 +26,10 @@ loom {
 			ideConfigGenerated(true)
 			runDir("run")
 		}
-		
-		server {
-			server()
-			setConfigName("Fabric Server")
-			ideConfigGenerated(true)
-			runDir("run")
-		}
-	
-		datagen {
-			inherit client
-			name "Data Generation"
-			vmArg "-Dfabric-api.datagen"
-			vmArg "-Dfabric-api.datagen.output-dir=${project(":Common").file("src/main/generated")}"
-			vmArg "-Dfabric-api.datagen.modid=${mod_id}"
- 
-			runDir "build/datagen"
-		}
 	}
 }
 
-tasks.withType(JavaCompile) {
+tasks.withType(JavaCompile).configureEach {
 	source(project(":Common").sourceSets.main.allSource)
 }
 
