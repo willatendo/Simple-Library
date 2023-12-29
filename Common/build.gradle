@@ -9,5 +9,7 @@ archivesBaseName = "SimpleLibrary-common"
 minecraft {
 	version(minecraft_version)
 	
-	//accessWideners(project(":Common").file("src/main/resources/simplelibrary.accesswidener"))
+	if (file("src/main/resources/simplelibrary.accesswidener").exists()) {
+        accessWideners(file("src/main/resources/simplelibrary.accesswidener"))
+    }
 }
