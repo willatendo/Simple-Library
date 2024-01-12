@@ -1,4 +1,4 @@
-package willatendo.simplelibrary.data.model;
+package willatendo.simplelibrary.data;
 
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -52,7 +52,13 @@ import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.level.block.state.properties.StairsShape;
 import net.minecraft.world.level.block.state.properties.WallSide;
-import willatendo.simplelibrary.data.SimpleItemModelProvider;
+import willatendo.simplelibrary.data.model.BlockModelProvider;
+import willatendo.simplelibrary.data.model.ConfiguredModel;
+import willatendo.simplelibrary.data.model.GeneratedBlockState;
+import willatendo.simplelibrary.data.model.ModelFile;
+import willatendo.simplelibrary.data.model.ModelProvider;
+import willatendo.simplelibrary.data.model.MultiPartBlockStateBuilder;
+import willatendo.simplelibrary.data.model.VariantBlockStateBuilder;
 import willatendo.simplelibrary.data.util.ExistingFileHelper;
 
 public abstract class SimpleBlockStateProvider implements DataProvider {
@@ -566,7 +572,7 @@ public abstract class SimpleBlockStateProvider implements DataProvider {
 	@NotNull
 	@Override
 	public String getName() {
-		return "Block States: " + this.modId;
+		return this.modId + ": Block States";
 	}
 
 	public static class ConfiguredModelList {

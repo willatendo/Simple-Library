@@ -26,7 +26,7 @@ import com.google.gson.JsonObject;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
-import willatendo.simplelibrary.data.model.SimpleBlockStateProvider.ConfiguredModelList;
+import willatendo.simplelibrary.data.SimpleBlockStateProvider.ConfiguredModelList;
 
 public class VariantBlockStateBuilder implements GeneratedBlockState {
 	private final Block owner;

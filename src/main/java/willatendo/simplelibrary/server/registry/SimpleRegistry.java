@@ -25,6 +25,10 @@ public class SimpleRegistry<T> {
 	private final Map<SimpleHolder<T>, Supplier<? extends T>> entries = new LinkedHashMap<>();
 	private final Set<SimpleHolder<T>> entriesView = Collections.unmodifiableSet(this.entries.keySet());
 
+	public static <T> SimpleRegistry<T> create(ResourceKey<? extends Registry<T>> registryKey, String modId) {
+		return new SimpleRegistry<>(registryKey, modId);
+	}
+
 	private SimpleRegistry(ResourceKey<? extends Registry<T>> registryKey, String modId) {
 		this.registryKey = Objects.requireNonNull(registryKey);
 		this.modId = Objects.requireNonNull(modId);
@@ -39,7 +43,7 @@ public class SimpleRegistry<T> {
 		Objects.requireNonNull(func);
 
 		ResourceLocation valueId = new ResourceLocation(this.modId, id);
-		SimpleHolder<T> simpleHolder = createHolder(this.registryKey, valueId);
+		SimpleHolder<T> simpleHolder = this.createHolder(this.registryKey, valueId);
 
 		if (this.entries.putIfAbsent(simpleHolder, () -> func.apply(valueId)) != null) {
 			throw new IllegalArgumentException("Duplicate registration " + id);
