@@ -3,7 +3,6 @@ package willatendo.simplelibrary.data.model;
 import org.jetbrains.annotations.NotNull;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import willatendo.simplelibrary.data.ModelProvider;
 import willatendo.simplelibrary.data.util.ExistingFileHelper;
 
 public abstract class BlockModelProvider extends ModelProvider<BlockModelBuilder> {

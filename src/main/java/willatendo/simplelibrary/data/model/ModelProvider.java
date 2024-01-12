@@ -1,4 +1,4 @@
-package willatendo.simplelibrary.data;
+package willatendo.simplelibrary.data.model;
 
 import java.nio.file.Path;
 import java.util.HashMap;
@@ -17,8 +17,6 @@ import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
-import willatendo.simplelibrary.data.model.ModelBuilder;
-import willatendo.simplelibrary.data.model.ModelFile;
 import willatendo.simplelibrary.data.util.ExistingFileHelper;
 import willatendo.simplelibrary.data.util.ExistingFileHelper.ResourceType;
 
@@ -346,7 +344,7 @@ public abstract class ModelProvider<T extends ModelBuilder<T>> implements DataPr
 		return existingModelFile;
 	}
 
-	protected void clear() {
+	public void clear() {
 		this.generatedModels.clear();
 	}
 
@@ -357,7 +355,7 @@ public abstract class ModelProvider<T extends ModelBuilder<T>> implements DataPr
 		return this.generateAll(cachedOutput);
 	}
 
-	protected CompletableFuture<?> generateAll(CachedOutput cachedOutput) {
+	public CompletableFuture<?> generateAll(CachedOutput cachedOutput) {
 		CompletableFuture<?>[] completableFutures = new CompletableFuture<?>[this.generatedModels.size()];
 		int i = 0;
 

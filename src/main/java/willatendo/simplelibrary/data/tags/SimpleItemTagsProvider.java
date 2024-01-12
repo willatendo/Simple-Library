@@ -1,4 +1,4 @@
-package willatendo.simplelibrary.data;
+package willatendo.simplelibrary.data.tags;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +11,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import willatendo.simplelibrary.data.tag.TagBuilder;
+import willatendo.simplelibrary.data.tagHelper.TagBuilder;
 import willatendo.simplelibrary.data.util.ExistingFileHelper;
 
 public abstract class SimpleItemTagsProvider extends SimpleIntrinsicHolderTagsProvider<Item> {

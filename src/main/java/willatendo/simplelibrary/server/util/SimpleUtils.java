@@ -25,15 +25,18 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import willatendo.simplelibrary.server.item.SuppliedBlockItem;
-import willatendo.simplelibrary.server.registry.RegistryHolder;
+import willatendo.simplelibrary.server.registry.SimpleHolder;
 import willatendo.simplelibrary.server.registry.SimpleRegistry;
 
 public final class SimpleUtils {
@@ -44,8 +47,8 @@ public final class SimpleUtils {
 		return new TagRegister<>(resourceKey, modId);
 	}
 
-	public static void fillCreativeTab(SimpleRegistry<Item> simpleRegister, CreativeModeTab.ItemDisplayParameters itemDisplayParameters, CreativeModeTab.Output output) {
-		for (RegistryHolder<? extends Item> item : simpleRegister.getEntries()) {
+	public static void fillCreativeTab(SimpleRegistry<Item> simpleRegister, CreativeModeTab.ItemDisplayParameters itemDisplayParameters, CreativeModeTab.Output output, SimpleHolder<? extends Item>... exceptions) {
+		for (SimpleHolder<? extends Item> item : simpleRegister.getEntries().stream().filter(item -> !SimpleUtils.toList(exceptions).contains(item)).toList()) {
 			if (item.get() instanceof FillCreativeTab fillCreativeTab) {
 				fillCreativeTab.fillCreativeTab(itemDisplayParameters, output);
 			} else {
@@ -54,18 +57,18 @@ public final class SimpleUtils {
 		}
 	}
 
-	public static <T extends Block> List<RegistryHolder<T>> registerDyedBlocks(SimpleRegistry<T> simpleRegistry, String baseID, Function<DyeColor, Supplier<T>> baseBlock) {
-		List<RegistryHolder<T>> blocks = Lists.newArrayList();
+	public static <T extends Block> List<SimpleHolder<T>> registerDyedBlocks(SimpleRegistry<T> simpleRegistry, String baseID, Function<DyeColor, Supplier<T>> baseBlock) {
+		List<SimpleHolder<T>> blocks = Lists.newArrayList();
 		for (DyeColor dyeColor : DyeColor.values()) {
-			RegistryHolder<T> block = simpleRegistry.register(dyeColor.getName() + "_" + baseID, baseBlock.apply(dyeColor));
+			SimpleHolder<T> block = simpleRegistry.register(dyeColor.getName() + "_" + baseID, baseBlock.apply(dyeColor));
 			blocks.add(block);
 		}
 		return blocks;
 	}
 
-	public static void registerAllItems(SimpleRegistry<Item> deferredRegister, SimpleRegistry<Block> blocks, RegistryHolder<? extends Block>... exceptions) {
-		for (RegistryHolder<? extends Block> block : blocks.getEntries().stream().filter(block -> !SimpleUtils.toList(exceptions).contains(block)).toList()) {
-			deferredRegister.register(block.getId().getPath(), () -> new SuppliedBlockItem(() -> block.get(), new Item.Properties()));
+	public static void registerAllItems(SimpleRegistry<Item> deferredRegister, SimpleRegistry<Block> blocks, SimpleHolder<? extends Block>... exceptions) {
+		for (SimpleHolder<? extends Block> block : blocks.getEntries().stream().filter(block -> !SimpleUtils.toList(exceptions).contains(block)).toList()) {
+			deferredRegister.register(block.getId().getPath(), () -> new BlockItem(block.get(), new Item.Properties()));
 		}
 	}
 
@@ -73,14 +76,14 @@ public final class SimpleUtils {
 		return FabricItemGroup.builder().title(translation(modId, "itemGroup", id)).icon(() -> icon.get().getDefaultInstance()).displayItems(displayItemsGenerator);
 	}
 
-	public static Block[] blocksForBlockEntities(List<RegistryHolder<Block>> blocks, RegistryHolder<Block>... extraBlocks) {
+	public static Block[] blocksForBlockEntities(List<SimpleHolder<Block>> blocks, SimpleHolder<Block>... extraBlocks) {
 		Block[] blockArray = new Block[blocks.size() + extraBlocks.length];
 		for (int i = 0; i < blocks.size(); i++) {
-			RegistryHolder<Block> block = blocks.get(i);
+			SimpleHolder<Block> block = blocks.get(i);
 			blockArray[i] = block.get();
 		}
 		for (int i = 0; i < extraBlocks.length; i++) {
-			RegistryHolder<Block> block = extraBlocks[i];
+			SimpleHolder<Block> block = extraBlocks[i];
 			blockArray[i] = block.get();
 		}
 		return blockArray;
@@ -112,6 +115,10 @@ public final class SimpleUtils {
 			stuff.add(array[i]);
 		}
 		return stuff;
+	}
+
+	public static <E extends BlockEntity, A extends BlockEntity> BlockEntityTicker<A> createTickerHelper(BlockEntityType<A> blockEntityTypeAtPos, BlockEntityType<E> blockEntityType, BlockEntityTicker<? super E> blockEntityTicker) {
+		return blockEntityType == blockEntityTypeAtPos ? (BlockEntityTicker<A>) blockEntityTicker : null;
 	}
 
 	public static final String autoName(String internalName) {

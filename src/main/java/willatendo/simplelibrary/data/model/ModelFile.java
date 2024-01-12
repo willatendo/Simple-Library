@@ -3,7 +3,6 @@ package willatendo.simplelibrary.data.model;
 import com.google.common.base.Preconditions;
 
 import net.minecraft.resources.ResourceLocation;
-import willatendo.simplelibrary.data.ModelProvider;
 import willatendo.simplelibrary.data.util.ExistingFileHelper;
 
 public abstract class ModelFile {

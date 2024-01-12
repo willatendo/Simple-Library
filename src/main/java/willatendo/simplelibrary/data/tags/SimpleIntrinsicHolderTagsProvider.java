@@ -1,4 +1,4 @@
-package willatendo.simplelibrary.data;
+package willatendo.simplelibrary.data.tags;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
@@ -11,7 +11,7 @@ import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
-import willatendo.simplelibrary.data.tag.TagBuilder;
+import willatendo.simplelibrary.data.tagHelper.TagBuilder;
 import willatendo.simplelibrary.data.util.ExistingFileHelper;
 
 public abstract class SimpleIntrinsicHolderTagsProvider<T> extends SimpleTagsProvider<T> {

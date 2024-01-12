@@ -22,9 +22,9 @@ public abstract class SimpleSoundDefinitionsProvider implements DataProvider {
 
 	private final Map<String, SoundDefinition> sounds = new LinkedHashMap<>();
 
-	protected SimpleSoundDefinitionsProvider(FabricDataOutput fabricDataOutput, String modId) {
+	public SimpleSoundDefinitionsProvider(FabricDataOutput fabricDataOutput) {
 		this.output = fabricDataOutput;
-		this.modId = modId;
+		this.modId = fabricDataOutput.getModId();
 	}
 
 	public abstract void registerSounds();
@@ -38,11 +38,6 @@ public abstract class SimpleSoundDefinitionsProvider implements DataProvider {
 		}
 
 		return CompletableFuture.allOf();
-	}
-
-	@Override
-	public String getName() {
-		return "Sound Definitions";
 	}
 
 	protected static SoundDefinition definition() {
@@ -95,5 +90,10 @@ public abstract class SimpleSoundDefinitionsProvider implements DataProvider {
 		JsonObject jsonObject = new JsonObject();
 		map.forEach((name, soundDefinition) -> jsonObject.add(name, soundDefinition.serialize()));
 		return jsonObject;
+	}
+
+	@Override
+	public String getName() {
+		return this.modId + ": Item Models";
 	}
 }

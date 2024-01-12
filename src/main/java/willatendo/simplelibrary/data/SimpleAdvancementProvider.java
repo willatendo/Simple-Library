@@ -11,8 +11,16 @@ import net.minecraft.data.advancements.AdvancementProvider;
 import net.minecraft.data.advancements.AdvancementSubProvider;
 
 public class SimpleAdvancementProvider extends AdvancementProvider {
+	private final String modId;
+
 	public SimpleAdvancementProvider(FabricDataOutput fabricDataOutput, CompletableFuture<HolderLookup.Provider> provider, List<AdvancementGenerator> subProviders) {
-		super(fabricDataOutput, provider, subProviders.stream().map(advancementGencerator -> advancementGencerator.toSubProvider()).toList());
+		super(fabricDataOutput, provider, subProviders.stream().map(advancementGenerator -> advancementGenerator.toSubProvider()).toList());
+		this.modId = fabricDataOutput.getModId();
+	}
+
+	@Override
+	public String getName() {
+		return this.modId + ": Advancements";
 	}
 
 	public interface AdvancementGenerator {

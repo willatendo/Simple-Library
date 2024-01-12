@@ -1,4 +1,4 @@
-package willatendo.simplelibrary.data.tag;
+package willatendo.simplelibrary.data.tagHelper;
 
 import java.util.ArrayList;
 import java.util.List;

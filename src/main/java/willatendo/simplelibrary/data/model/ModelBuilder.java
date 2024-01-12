@@ -30,7 +30,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemDisplayContext;
-import willatendo.simplelibrary.data.ModelProvider;
 import willatendo.simplelibrary.data.util.ExistingFileHelper;
 import willatendo.simplelibrary.data.util.TransformationHelper;
 

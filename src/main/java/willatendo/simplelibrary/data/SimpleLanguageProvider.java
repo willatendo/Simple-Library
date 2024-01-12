@@ -26,12 +26,12 @@ import willatendo.simplelibrary.server.util.SimpleUtils;
 public abstract class SimpleLanguageProvider implements DataProvider {
 	private final Map<String, String> translationData = new TreeMap<>();
 	private final FabricDataOutput fabricDataOutput;
-	private final String modid;
+	private final String modId;
 	private final String locale;
 
-	public SimpleLanguageProvider(FabricDataOutput fabricDataOutput, String modid, String locale) {
+	public SimpleLanguageProvider(FabricDataOutput fabricDataOutput, String locale) {
 		this.fabricDataOutput = fabricDataOutput;
-		this.modid = modid;
+		this.modId = fabricDataOutput.getModId();
 		this.locale = locale;
 	}
 
@@ -42,7 +42,7 @@ public abstract class SimpleLanguageProvider implements DataProvider {
 		this.addTranslations();
 
 		if (!this.translationData.isEmpty()) {
-			return save(cache, this.fabricDataOutput.getOutputFolder(PackOutput.Target.RESOURCE_PACK).resolve(this.modid).resolve("lang").resolve(this.locale + ".json"));
+			return save(cache, this.fabricDataOutput.getOutputFolder(PackOutput.Target.RESOURCE_PACK).resolve(this.modId).resolve("lang").resolve(this.locale + ".json"));
 		}
 
 		return CompletableFuture.allOf();
@@ -112,8 +112,8 @@ public abstract class SimpleLanguageProvider implements DataProvider {
 	}
 
 	public void add(String category, String advancement, String title, String desc) {
-		this.add("advancements." + this.modid + "." + category + "." + advancement + ".title", title);
-		this.add("advancements." + this.modid + "." + category + "." + advancement + ".desc", desc);
+		this.add("advancements." + this.modId + "." + category + "." + advancement + ".title", title);
+		this.add("advancements." + this.modId + "." + category + "." + advancement + ".desc", desc);
 	}
 
 	public void add(SoundEvent soundEvent, String name) {
@@ -156,6 +156,6 @@ public abstract class SimpleLanguageProvider implements DataProvider {
 
 	@Override
 	public String getName() {
-		return this.modid + ": Language Provider (" + this.locale + ")";
+		return this.modId + ": Language Provider (" + this.locale + ")";
 	}
 }

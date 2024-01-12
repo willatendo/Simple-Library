@@ -15,7 +15,6 @@ import com.google.gson.JsonObject;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.Property;
-import willatendo.simplelibrary.data.SimpleBlockStateProvider;
 
 public class MultiPartBlockStateBuilder implements GeneratedBlockState {
 	private final List<PartBuilder> partBuilders = new ArrayList<>();

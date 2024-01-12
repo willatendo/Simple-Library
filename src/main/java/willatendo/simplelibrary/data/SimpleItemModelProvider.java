@@ -2,8 +2,6 @@ package willatendo.simplelibrary.data;
 
 import java.util.Objects;
 
-import org.jetbrains.annotations.NotNull;
-
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -11,6 +9,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import willatendo.simplelibrary.data.model.ItemModelBuilder;
 import willatendo.simplelibrary.data.model.ModelFile;
+import willatendo.simplelibrary.data.model.ModelProvider;
 import willatendo.simplelibrary.data.util.ExistingFileHelper;
 
 public abstract class SimpleItemModelProvider extends ModelProvider<ItemModelBuilder> {
@@ -82,9 +81,8 @@ public abstract class SimpleItemModelProvider extends ModelProvider<ItemModelBui
 		this.getBuilder(BuiltInRegistries.BLOCK.getKey(block).getPath()).parent(new ModelFile.UncheckedModelFile(this.modLoc("block/" + BuiltInRegistries.BLOCK.getKey(block).getPath())));
 	}
 
-	@NotNull
 	@Override
 	public String getName() {
-		return "Item Models: " + this.modId;
+		return this.modId + ": Item Models";
 	}
 }

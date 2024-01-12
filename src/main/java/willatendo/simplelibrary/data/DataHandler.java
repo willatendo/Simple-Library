@@ -17,6 +17,9 @@ import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.data.DataProvider;
 import net.minecraft.world.level.block.Block;
 import willatendo.simplelibrary.data.SimpleAdvancementProvider.AdvancementGenerator;
+import willatendo.simplelibrary.data.tags.SimpleBlockTagsProvider;
+import willatendo.simplelibrary.data.tags.SimpleItemTagsProvider;
+import willatendo.simplelibrary.data.tags.SimpleTagsProvider;
 import willatendo.simplelibrary.data.util.ExistingFileHelper;
 import willatendo.simplelibrary.server.util.SimpleUtils;
 
@@ -83,6 +86,10 @@ public class DataHandler {
 
 	// Specific
 
+	public <T extends SimpleLanguageProvider> T addLanguageProvider(String local, LanguageSupplier<T> languageSupplier) {
+		return this.addProvider(fabricDataOutput -> languageSupplier.accept(fabricDataOutput, local));
+	}
+
 	public <T extends DataProvider> void addTagsProvider(ItemTagSupplier itemTagSupplier, BlockTagSupplier blockTagSupplier) {
 		SimpleBlockTagsProvider simpleBlockTagsProvider = this.addProvider((fabricDataOutput, provider, modId, existingFileHelper) -> blockTagSupplier.accept(fabricDataOutput, provider, modId, existingFileHelper));
 		this.addProvider((fabricDataOutput, provider, modId, existingFileHelper) -> itemTagSupplier.accept(fabricDataOutput, provider, simpleBlockTagsProvider.contentsGetter(), modId, existingFileHelper));
@@ -124,6 +131,6 @@ public class DataHandler {
 
 	@FunctionalInterface
 	public static interface LanguageSupplier<T extends SimpleLanguageProvider> {
-		T accept(FabricDataOutput fabricDataOutput, String modId);
+		T accept(FabricDataOutput fabricDataOutput, String local);
 	}
 }

@@ -1,4 +1,4 @@
-package willatendo.simplelibrary.data;
+package willatendo.simplelibrary.data.tags;
 
 import java.nio.file.Path;
 import java.util.List;
@@ -32,7 +32,7 @@ import net.minecraft.tags.TagEntry;
 import net.minecraft.tags.TagFile;
 import net.minecraft.tags.TagKey;
 import net.minecraft.tags.TagManager;
-import willatendo.simplelibrary.data.tag.TagBuilder;
+import willatendo.simplelibrary.data.tagHelper.TagBuilder;
 import willatendo.simplelibrary.data.util.ExistingFileHelper;
 
 public abstract class SimpleTagsProvider<T> implements DataProvider {

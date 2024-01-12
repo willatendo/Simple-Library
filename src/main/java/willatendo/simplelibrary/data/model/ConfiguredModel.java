@@ -13,7 +13,6 @@ import com.google.common.collect.ObjectArrays;
 import com.google.gson.JsonObject;
 
 import net.minecraft.client.resources.model.BlockModelRotation;
-import willatendo.simplelibrary.data.SimpleBlockStateProvider;
 import willatendo.simplelibrary.data.model.MultiPartBlockStateBuilder.PartBuilder;
 import willatendo.simplelibrary.data.model.VariantBlockStateBuilder.PartialBlockstate;
 

@@ -1,4 +1,4 @@
-package willatendo.simplelibrary.data;
+package willatendo.simplelibrary.data.tags;
 
 import java.util.concurrent.CompletableFuture;
 
