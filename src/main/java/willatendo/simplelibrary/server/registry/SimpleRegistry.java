@@ -9,12 +9,14 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 
@@ -58,5 +60,12 @@ public class SimpleRegistry<T> {
 
 	public Collection<SimpleHolder<T>> getEntries() {
 		return this.entriesView;
+	}
+
+	public void register() {
+		for (Entry<SimpleHolder<T>, Supplier<? extends T>> entry : this.entries.entrySet()) {
+			Registry.register((Registry) BuiltInRegistries.REGISTRY.get(this.registryKey.location()), entry.getKey().getId(), entry.getValue().get());
+			entry.getKey().bind(false);
+		}
 	}
 }
