@@ -35,11 +35,11 @@ public class SimpleRegistry<T> {
 		this.modId = Objects.requireNonNull(modId);
 	}
 
-	public SimpleHolder<T> register(String id, Supplier<T> value) {
+	public <I extends T> SimpleHolder<I> register(String id, Supplier<I> value) {
 		return this.register(id, key -> value.get());
 	}
 
-	public <I extends T> SimpleHolder<I> register(String id, Function<ResourceLocation, ? extends T> func) {
+	public <I extends T> SimpleHolder<I> register(String id, Function<ResourceLocation, I> func) {
 		Objects.requireNonNull(id);
 		Objects.requireNonNull(func);
 
