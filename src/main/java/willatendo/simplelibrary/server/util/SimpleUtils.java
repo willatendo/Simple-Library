@@ -13,7 +13,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType.ExtendedFactory;
 import net.minecraft.core.BlockPos;
@@ -26,7 +25,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.BlockGetter;
@@ -47,16 +45,6 @@ public final class SimpleUtils {
 		return new TagRegister<>(resourceKey, modId);
 	}
 
-	public static void fillCreativeTab(SimpleRegistry<Item> simpleRegister, CreativeModeTab.ItemDisplayParameters itemDisplayParameters, CreativeModeTab.Output output, SimpleHolder<? extends Item>... exceptions) {
-		for (SimpleHolder<? extends Item> item : simpleRegister.getEntries().stream().filter(item -> !SimpleUtils.toList(exceptions).contains(item)).toList()) {
-			if (item.get() instanceof FillCreativeTab fillCreativeTab) {
-				fillCreativeTab.fillCreativeTab(itemDisplayParameters, output);
-			} else {
-				output.accept(item.get());
-			}
-		}
-	}
-
 	public static <T extends Block> List<SimpleHolder<T>> registerDyedBlocks(SimpleRegistry<T> simpleRegistry, String baseID, Function<DyeColor, Supplier<T>> baseBlock) {
 		List<SimpleHolder<T>> blocks = Lists.newArrayList();
 		for (DyeColor dyeColor : DyeColor.values()) {
@@ -70,10 +58,6 @@ public final class SimpleUtils {
 		for (SimpleHolder<? extends Block> block : blocks.getEntries().stream().filter(block -> !SimpleUtils.toList(exceptions).contains(block)).toList()) {
 			deferredRegister.register(block.getId().getPath(), () -> new BlockItem(block.get(), new Item.Properties()));
 		}
-	}
-
-	public static CreativeModeTab.Builder create(String modId, String id, Supplier<Item> icon, CreativeModeTab.DisplayItemsGenerator displayItemsGenerator) {
-		return FabricItemGroup.builder().title(translation(modId, "itemGroup", id)).icon(() -> icon.get().getDefaultInstance()).displayItems(displayItemsGenerator);
 	}
 
 	public static Block[] blocksForBlockEntities(List<SimpleHolder<Block>> blocks, SimpleHolder<Block>... extraBlocks) {

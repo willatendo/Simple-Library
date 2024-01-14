@@ -1,0 +1,10 @@
+{
+	"required": true,
+	"package": "willatendo.simplelibrary.mixin",
+	"mixins": [
+		"EntityMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

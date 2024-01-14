@@ -1,7 +1,7 @@
 {
 	"schemaVersion": 1,
 	"id": "simplelibrary",
-	"version": "2.2.2",
+	"version": "2.3.0",
 	"name": "Simple Library",
 	"description": "A simple library for Minecraft!",
 	"accessWidener": "simplelibrary.accesswidener",
@@ -21,6 +21,7 @@
 		]
 	},
 	"mixins": [
+		"simplelibrary.mixins.json"
 	],
 	"depends": {
 		"fabricloader": ">=0.15.0",

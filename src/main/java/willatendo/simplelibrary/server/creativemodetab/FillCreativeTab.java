@@ -1,4 +1,4 @@
-package willatendo.simplelibrary.server.util;
+package willatendo.simplelibrary.server.creativemodetab;
 
 import net.minecraft.world.item.CreativeModeTab;
 
