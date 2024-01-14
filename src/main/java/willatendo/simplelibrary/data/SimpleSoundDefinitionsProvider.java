@@ -94,6 +94,6 @@ public abstract class SimpleSoundDefinitionsProvider implements DataProvider {
 
 	@Override
 	public String getName() {
-		return this.modId + ": Item Models";
+		return this.modId + ": Sound Definitions";
 	}
 }
