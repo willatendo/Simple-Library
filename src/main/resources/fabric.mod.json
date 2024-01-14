@@ -18,6 +18,9 @@
 	"entrypoints": {
 		"main": [
 			"willatendo.simplelibrary.SimpleLibrary"
+		],
+		"client": [
+			"willatendo.simplelibrary.client.SimpleLibraryClient"
 		]
 	},
 	"mixins": [

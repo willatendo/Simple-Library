@@ -14,6 +14,8 @@ import willatendo.simplelibrary.server.event.ForgeEvents;
 public class EntityMixin {
 	@Inject(at = @At("HEAD"), method = "thunderHit")
 	private void event(ServerLevel serverLevel, LightningBolt lightningBolt, CallbackInfo callbackInfo) {
-		ForgeEvents.ENTITY_STRUCK_BY_LIGHTNING.invoker().lightning((Entity) (Object) this, lightningBolt);
+		if (!ForgeEvents.ENTITY_STRUCK_BY_LIGHTNING.invoker().lightning((Entity) (Object) this, lightningBolt)) {
+			callbackInfo.cancel();
+		}
 	}
 }

@@ -41,6 +41,10 @@ public final class SimpleUtils {
 	public static final String ID = "simplelibrary";
 	public static final Logger LOGGER = LoggerFactory.getLogger(ID);
 
+	public static ResourceLocation resource(String path) {
+		return new ResourceLocation(ID, path);
+	}
+
 	public static <T> TagRegister<T> create(ResourceKey<? extends Registry<T>> resourceKey, String modId) {
 		return new TagRegister<>(resourceKey, modId);
 	}

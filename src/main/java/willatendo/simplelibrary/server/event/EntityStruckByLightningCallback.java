@@ -4,5 +4,5 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LightningBolt;
 
 public interface EntityStruckByLightningCallback {
-	void lightning(Entity entity, LightningBolt lightningBolt);
+	boolean lightning(Entity entity, LightningBolt lightningBolt);
 }

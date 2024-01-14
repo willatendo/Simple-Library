@@ -2,7 +2,12 @@
 	"required": true,
 	"package": "willatendo.simplelibrary.mixin",
 	"mixins": [
-		"EntityMixin"
+		"EntityMixin",
+		"accessor.LevelResourceAccessor"
+	],
+	"client": [
+		"client.ClientHandshakePacketListenerImplMixin",
+		"client.MinecraftMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
