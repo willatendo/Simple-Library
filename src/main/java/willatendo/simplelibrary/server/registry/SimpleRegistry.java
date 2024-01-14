@@ -5,7 +5,6 @@
 
 package willatendo.simplelibrary.server.registry;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -24,8 +23,8 @@ public class SimpleRegistry<T> {
 	private final ResourceKey<? extends Registry<T>> registryKey;
 	private final String modId;
 
-	private final Map<SimpleHolder<T>, Supplier<? extends T>> entries = new LinkedHashMap<>();
-	private final Set<SimpleHolder<T>> entriesView = Collections.unmodifiableSet(this.entries.keySet());
+	private final Map<SimpleHolder<? extends T>, Supplier<? extends T>> entries = new LinkedHashMap<>();
+	private final Set<SimpleHolder<? extends T>> entriesView = Collections.unmodifiableSet(this.entries.keySet());
 
 	public static <T> SimpleRegistry<T> create(ResourceKey<? extends Registry<T>> registryKey, String modId) {
 		return new SimpleRegistry<>(registryKey, modId);
@@ -40,12 +39,12 @@ public class SimpleRegistry<T> {
 		return this.register(id, key -> value.get());
 	}
 
-	public SimpleHolder<T> register(String id, Function<ResourceLocation, ? extends T> func) {
+	public <I extends T> SimpleHolder<I> register(String id, Function<ResourceLocation, ? extends T> func) {
 		Objects.requireNonNull(id);
 		Objects.requireNonNull(func);
 
 		ResourceLocation valueId = new ResourceLocation(this.modId, id);
-		SimpleHolder<T> simpleHolder = this.createHolder(this.registryKey, valueId);
+		SimpleHolder<I> simpleHolder = this.createHolder(this.registryKey, valueId);
 
 		if (this.entries.putIfAbsent(simpleHolder, () -> func.apply(valueId)) != null) {
 			throw new IllegalArgumentException("Duplicate registration " + id);
@@ -54,16 +53,16 @@ public class SimpleRegistry<T> {
 		return simpleHolder;
 	}
 
-	protected SimpleHolder<T> createHolder(ResourceKey<? extends Registry<T>> registryKey, ResourceLocation valueId) {
-		return SimpleHolder.create(registryKey, valueId);
+	protected <I extends T> SimpleHolder<I> createHolder(ResourceKey<? extends Registry<T>> registryKey, ResourceLocation valueId) {
+		return (SimpleHolder<I>) SimpleHolder.create(registryKey, valueId);
 	}
 
-	public Collection<SimpleHolder<T>> getEntries() {
+	public Set<SimpleHolder<? extends T>> getEntries() {
 		return this.entriesView;
 	}
 
 	public void register() {
-		for (Entry<SimpleHolder<T>, Supplier<? extends T>> entry : this.entries.entrySet()) {
+		for (Entry<SimpleHolder<? extends T>, Supplier<? extends T>> entry : this.entries.entrySet()) {
 			Registry.register((Registry) BuiltInRegistries.REGISTRY.get(this.registryKey.location()), entry.getKey().getId(), entry.getValue().get());
 			entry.getKey().bind(false);
 		}
