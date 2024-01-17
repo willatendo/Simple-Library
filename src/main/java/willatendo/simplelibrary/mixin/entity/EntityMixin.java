@@ -1,4 +1,4 @@
-package willatendo.simplelibrary.mixin;
+package willatendo.simplelibrary.mixin.entity;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

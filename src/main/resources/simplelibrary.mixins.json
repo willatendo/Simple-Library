@@ -2,7 +2,9 @@
 	"required": true,
 	"package": "willatendo.simplelibrary.mixin",
 	"mixins": [
-		"EntityMixin",
+		"entity.EntityMixin",
+		"entity.SheepMixin",
+		"item.ShearsItemMixin",
 		"accessor.LevelResourceAccessor"
 	],
 	"client": [
