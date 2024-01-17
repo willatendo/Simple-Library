@@ -16,6 +16,8 @@ public class EntityMixin {
 	private void event(ServerLevel serverLevel, LightningBolt lightningBolt, CallbackInfo callbackInfo) {
 		if (!ForgeEvents.ENTITY_STRUCK_BY_LIGHTNING.invoker().lightning((Entity) (Object) this, lightningBolt)) {
 			callbackInfo.cancel();
+		} else {
+			return;
 		}
 	}
 }

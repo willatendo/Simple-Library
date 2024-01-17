@@ -14,15 +14,15 @@ import com.electronwill.nightconfig.core.io.ParsingException;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 
-import willatendo.simplelibrary.config.ForgeConfigApiPortConfig;
-import willatendo.simplelibrary.config.api.ForgeConfigPaths;
+import net.fabricmc.loader.api.FabricLoader;
+import willatendo.simplelibrary.config.SimpleLibraryConfig;
 import willatendo.simplelibrary.server.util.SimpleUtils;
 
 public class ConfigLoadingHelper {
 	public static final Map<String, Map<String, Object>> DEFAULT_CONFIG_VALUES = Maps.newConcurrentMap();
 
 	public static void tryLoadConfigFile(FileConfig fileConfig) {
-		tryLoadConfigFile(fileConfig, () -> ForgeConfigApiPortConfig.INSTANCE.<Boolean>getValue("recreateConfigsWhenParsingFails"));
+		tryLoadConfigFile(fileConfig, () -> SimpleLibraryConfig.INSTANCE.<Boolean>getValue("recreateConfigsWhenParsingFails"));
 	}
 
 	private static void tryLoadConfigFile(FileConfig fileConfig, BooleanSupplier booleanSupplier) {
@@ -45,10 +45,10 @@ public class ConfigLoadingHelper {
 	}
 
 	public static void tryRegisterDefaultConfig(String fileName) {
-		if (!ForgeConfigApiPortConfig.INSTANCE.<Boolean>getValue("correctConfigValuesFromDefaultConfig")) {
+		if (!SimpleLibraryConfig.INSTANCE.<Boolean>getValue("correctConfigValuesFromDefaultConfig")) {
 			return;
 		}
-		Path path = ForgeConfigPaths.INSTANCE.getConfigDirectory().resolve(fileName);
+		Path path = FabricLoader.getInstance().getConfigDir().resolve(fileName);
 		if (Files.exists(path)) {
 			try (CommentedFileConfig config = CommentedFileConfig.of(path)) {
 				config.load();

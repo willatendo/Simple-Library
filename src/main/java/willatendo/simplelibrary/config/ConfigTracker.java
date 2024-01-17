@@ -25,7 +25,7 @@ import com.electronwill.nightconfig.core.CommentedConfig;
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.electronwill.nightconfig.core.file.FileConfig;
 
-import willatendo.simplelibrary.config.api.ForgeConfigPaths;
+import net.fabricmc.loader.api.FabricLoader;
 import willatendo.simplelibrary.config.api.ModConfigEvents;
 import willatendo.simplelibrary.server.util.SimpleUtils;
 
@@ -55,7 +55,7 @@ public class ConfigTracker {
 		this.configsByMod.computeIfAbsent(modConfig.getModId(), (k) -> new EnumMap<>(ModConfig.Type.class)).computeIfAbsent(modConfig.getType(), type -> new ArrayList<>()).add(modConfig);
 		SimpleUtils.LOGGER.debug(CONFIG, "Config file {} for {} tracking", modConfig.getFileName(), modConfig.getModId());
 		if (modConfig.getType() != ModConfig.Type.SERVER) {
-			this.openConfig(modConfig, ForgeConfigPaths.INSTANCE.getConfigDirectory());
+			this.openConfig(modConfig, FabricLoader.getInstance().getConfigDir());
 		}
 	}
 
@@ -90,7 +90,7 @@ public class ConfigTracker {
 	public void loadDefaultServerConfigs() {
 		this.configSets.get(ModConfig.Type.SERVER).forEach(modConfig -> {
 			final CommentedConfig commentedConfig = CommentedConfig.inMemory();
-			modConfig.getSpec().correct(commentedConfig);
+			modConfig.getConfigSpec().correct(commentedConfig);
 			modConfig.setConfigData(commentedConfig);
 			ModConfigEvents.loading(modConfig.getModId()).invoker().onModConfigLoading(modConfig);
 		});

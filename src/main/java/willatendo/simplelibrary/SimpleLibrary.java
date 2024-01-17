@@ -28,7 +28,7 @@ public class SimpleLibrary implements ModInitializer {
 
 	private static void registerMessages() {
 		ServerLoginConnectionEvents.QUERY_START.register((handler2, server2, sender, synchronizer2) -> {
-			final List<Pair<String, FriendlyByteBuf>> pairs = ConfigSync.writeSyncedConfigs();
+			List<Pair<String, FriendlyByteBuf>> pairs = ConfigSync.writeSyncedConfigs();
 			for (Pair<String, FriendlyByteBuf> pair : pairs) {
 				synchronizer2.waitFor(server2.submit(() -> sender.sendPacket(ConfigSync.SYNC_CONFIGS_CHANNEL, pair.getValue())));
 			}

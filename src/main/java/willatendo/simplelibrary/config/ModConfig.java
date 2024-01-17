@@ -19,15 +19,15 @@ import willatendo.simplelibrary.config.api.ModConfigEvents;
 
 public class ModConfig {
 	private final Type type;
-	private final ConfigSpec<?> spec;
+	private final ConfigSpec<?> configSpec;
 	private final String fileName;
 	private final String modId;
 	private final ConfigFileTypeHandler configHandler;
 	private CommentedConfig configData;
 
-	public ModConfig(Type type, ConfigSpec<?> spec, String modId, String fileName) {
+	public ModConfig(Type type, ConfigSpec<?> configSpec, String modId, String fileName) {
 		this.type = type;
-		this.spec = spec;
+		this.configSpec = configSpec;
 		this.fileName = fileName;
 		if (!FabricLoader.getInstance().isModLoaded(modId)) {
 			throw new IllegalArgumentException("No mod with id '%s'".formatted(modId));
@@ -57,8 +57,8 @@ public class ModConfig {
 		return this.configHandler;
 	}
 
-	public <T extends ConfigSpec<T>> ConfigSpec<T> getSpec() {
-		return (ConfigSpec<T>) this.spec;
+	public <T extends ConfigSpec<T>> ConfigSpec<T> getConfigSpec() {
+		return (ConfigSpec<T>) this.configSpec;
 	}
 
 	public String getModId() {
@@ -71,7 +71,7 @@ public class ModConfig {
 
 	void setConfigData(CommentedConfig commentedConfig) {
 		this.configData = commentedConfig;
-		this.spec.acceptConfig(this.configData);
+		this.configSpec.acceptConfig(this.configData);
 	}
 
 	public void save() {

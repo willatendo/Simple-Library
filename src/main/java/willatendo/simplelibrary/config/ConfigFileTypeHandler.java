@@ -23,20 +23,20 @@ import com.electronwill.nightconfig.core.io.WritingMode;
 import com.electronwill.nightconfig.toml.TomlFormat;
 import com.mojang.logging.LogUtils;
 
-import willatendo.simplelibrary.config.api.ForgeConfigPaths;
+import net.fabricmc.loader.api.FabricLoader;
 import willatendo.simplelibrary.config.api.ModConfigEvents;
 import willatendo.simplelibrary.config.impl.util.ConfigLoadingHelper;
 
 public class ConfigFileTypeHandler {
 	private static final Logger LOGGER = LogUtils.getLogger();
 	static ConfigFileTypeHandler TOML = new ConfigFileTypeHandler();
-	private static final Path DEFAULT_CONFIG_PATH = ForgeConfigPaths.INSTANCE.getDefaultConfigsDirectory();
+	private static final Path DEFAULT_CONFIG_PATH = SimpleLibraryConfig.getDefaultConfigsDirectory();
 
 	public Function<ModConfig, CommentedFileConfig> reader(Path configBasePath) {
 		return (c) -> {
-			Path configPath = configBasePath.resolve(c.getFileName());
-			if (ForgeConfigApiPortConfig.INSTANCE.<Boolean>getValue("forceGlobalServerConfigs") && Files.notExists(configPath)) {
-				configPath = ForgeConfigPaths.INSTANCE.getConfigDirectory().resolve(c.getFileName());
+			Path configPath = SimpleLibraryConfig.getConfigPath(configBasePath, c.getFileName());
+			if (SimpleLibraryConfig.INSTANCE.<Boolean>getValue("forceGlobalServerConfigs") && Files.notExists(configPath)) {
+				configPath = FabricLoader.getInstance().getConfigDir().resolve(c.getFileName());
 			}
 			final CommentedFileConfig configData = CommentedFileConfig.builder(configPath, TomlFormat.instance()).sync().preserveInsertionOrder().autosave().onFileNotFound((newfile, configFormat) -> this.setupConfigFile(c, newfile, configFormat)).writingMode(WritingMode.REPLACE).build();
 			LOGGER.debug(ConfigTracker.CONFIG, "Built TOML config for {}", configPath);
@@ -59,7 +59,7 @@ public class ConfigFileTypeHandler {
 	}
 
 	public void unload(Path configBasePath, ModConfig modConfig) {
-		Path configPath = configBasePath.resolve(modConfig.getFileName());
+		Path configPath = SimpleLibraryConfig.getConfigPath(configBasePath, modConfig.getFileName());
 		try {
 			FileWatcher.defaultInstance().removeWatch(configBasePath.resolve(modConfig.getFileName()));
 		} catch (RuntimeException e) {
@@ -67,7 +67,7 @@ public class ConfigFileTypeHandler {
 		}
 	}
 
-	private boolean setupConfigFile(final ModConfig modConfig, final Path file, final ConfigFormat<?> conf) throws IOException {
+	private boolean setupConfigFile(ModConfig modConfig, Path file, ConfigFormat<?> conf) throws IOException {
 		Files.createDirectories(file.getParent());
 		Path p = DEFAULT_CONFIG_PATH.resolve(modConfig.getFileName());
 		if (Files.exists(p)) {
@@ -119,20 +119,20 @@ public class ConfigFileTypeHandler {
 		@Override
 		public void run() {
 			Thread.currentThread().setContextClassLoader(this.realClassLoader);
-			if (!this.modConfig.getSpec().isCorrecting()) {
+			if (!this.modConfig.getConfigSpec().isCorrecting()) {
 				try {
 					this.commentedFileConfig.load();
-					if (!this.modConfig.getSpec().isCorrect(this.commentedFileConfig)) {
+					if (!this.modConfig.getConfigSpec().isCorrect(this.commentedFileConfig)) {
 						LOGGER.warn(CONFIG, "Configuration file {} is not correct. Correcting", this.commentedFileConfig.getFile().getAbsolutePath());
 						ConfigFileTypeHandler.backUpConfig(this.commentedFileConfig);
-						this.modConfig.getSpec().correct(this.commentedFileConfig);
+						this.modConfig.getConfigSpec().correct(this.commentedFileConfig);
 						this.commentedFileConfig.save();
 					}
 				} catch (ParsingException ex) {
 					throw new ConfigLoadingException(this.modConfig, ex);
 				}
 				LOGGER.debug(CONFIG, "Config file {} changed, sending notifies", this.modConfig.getFileName());
-				this.modConfig.getSpec().afterReload();
+				this.modConfig.getConfigSpec().afterReload();
 				ModConfigEvents.reloading(this.modConfig.getModId()).invoker().onModConfigReloading(this.modConfig);
 			}
 		}
