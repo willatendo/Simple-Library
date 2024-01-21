@@ -2,7 +2,7 @@
 	"required": true,
 	"package": "willatendo.simplelibrary.mixin",
 	"mixins": [
-		"entity.EntityMixin",
+		"entity.LightningBoltMixin",
 		"entity.SheepMixin",
 		"item.ShearsItemMixin",
 		"item.DyeColourMixin",
