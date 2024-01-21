@@ -5,6 +5,7 @@
 		"entity.EntityMixin",
 		"entity.SheepMixin",
 		"item.ShearsItemMixin",
+		"item.DyeColourMixin",
 		"accessor.LevelResourceAccessor"
 	],
 	"client": [

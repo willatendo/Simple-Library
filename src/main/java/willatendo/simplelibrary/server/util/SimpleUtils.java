@@ -41,6 +41,9 @@ public final class SimpleUtils {
 	public static final String ID = "simplelibrary";
 	public static final Logger LOGGER = LoggerFactory.getLogger(ID);
 
+	// Used for compatibility tags
+	public static final String FORGE = "forge";
+
 	public static ResourceLocation resource(String path) {
 		return new ResourceLocation(ID, path);
 	}
