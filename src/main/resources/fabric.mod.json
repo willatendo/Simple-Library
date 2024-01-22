@@ -42,6 +42,27 @@
 			],
 			"net/minecraft/class_1472": [
 				"willatendo/simplelibrary/server/entity/SimpleShearable"
+			],
+			"net/minecraft/class_2248": [
+				"willatendo/simplelibrary/server/block/SimpleBlock"
+			],
+			"net/minecraft/class_2680": [
+				"willatendo/simplelibrary/server/block/SimpleBlockState"
+			],
+			"net/minecraft/class_2195": [
+				"willatendo/simplelibrary/server/block/SimplePlantable"
+			],
+			"net/minecraft/class_2211": [
+				"willatendo/simplelibrary/server/block/SimplePlantable"
+			],
+			"net/minecraft/class_2261": [
+				"willatendo/simplelibrary/server/block/SimplePlantable"
+			],
+			"net/minecraft/class_2266": [
+				"willatendo/simplelibrary/server/block/SimplePlantable"
+			],
+			"net/minecraft/class_2523": [
+				"willatendo/simplelibrary/server/block/SimplePlantable"
 			]
 		}
 	}

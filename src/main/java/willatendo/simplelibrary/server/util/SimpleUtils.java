@@ -6,6 +6,7 @@ import java.util.Locale;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.commons.compress.utils.Lists;
@@ -43,6 +44,8 @@ public final class SimpleUtils {
 
 	// Used for compatibility tags
 	public static final String FORGE = "forge";
+
+	public static final Pattern INVALID_CHARACTERS = Pattern.compile("[^a-z_]");
 
 	public static ResourceLocation resource(String path) {
 		return new ResourceLocation(ID, path);

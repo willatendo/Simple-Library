@@ -17,3 +17,4 @@ accessible field net/minecraft/data/loot/EntityLootSubProvider map Ljava/util/Ma
 accessible field net/minecraft/world/entity/animal/Sheep ITEM_BY_DYE Ljava/util/Map;
 
 accessible method net/minecraft/client/resources/ClientPackSource createVanillaPackSource (Ljava/nio/file/Path;)Lnet/minecraft/server/packs/VanillaPackResources;
+accessible method net/minecraft/world/level/block/BushBlock mayPlaceOn (Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)Z

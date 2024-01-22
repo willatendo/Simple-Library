@@ -2,14 +2,21 @@
 	"required": true,
 	"package": "willatendo.simplelibrary.mixin",
 	"mixins": [
-		"entity.LightningBoltMixin",
-		"entity.SheepMixin",
-		"item.ShearsItemMixin",
-		"item.DyeColourMixin",
-		"accessor.LevelResourceAccessor"
+		"accessor.LevelResourceAccessor",
+		"world.entity.SheepMixin",
+		"world.entity.LightningBoltMixin",
+		"world.item.ShearsItemMixin",
+		"world.item.DyeColourMixin",
+		"world.level.block.AttachedStemBlockMixin",
+		"world.level.block.BambooStalkBlockMixin",
+		"world.level.block.BlockMixin",
+		"world.level.block.BushBlockMixin",
+		"world.level.block.CactusBlockMixin",
+		"world.level.block.CropBlockMixin",
+		"world.level.block.SugarCaneBlockMixin"
 	],
 	"client": [
-		"client.ClientHandshakePacketListenerImplMixin",
+		"client.multiplayer.ClientHandshakePacketListenerImplMixin",
 		"client.MinecraftMixin"
 	],
 	"injectors": {

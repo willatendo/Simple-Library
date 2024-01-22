@@ -1,4 +1,4 @@
-package willatendo.simplelibrary.mixin.item;
+package willatendo.simplelibrary.mixin.world.item;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package willatendo.simplelibrary.mixin.client;
+package willatendo.simplelibrary.mixin.client.multiplayer;
 
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;

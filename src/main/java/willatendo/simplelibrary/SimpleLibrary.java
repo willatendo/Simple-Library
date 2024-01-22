@@ -23,6 +23,7 @@ public class SimpleLibrary implements ModInitializer {
 	public void onInitialize() {
 		registerMessages();
 		registerHandlers();
+		
 		ForgeConfigRegistry.INSTANCE.register(SimpleUtils.ID, ModConfig.Type.SERVER, new ModConfigSpec.Builder().comment("Hello world").define("dummy_optoin", true).next().build());
 	}
 

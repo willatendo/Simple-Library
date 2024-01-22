@@ -1,4 +1,4 @@
-package willatendo.simplelibrary.mixin.entity;
+package willatendo.simplelibrary.mixin.world.entity;
 
 import java.util.ArrayList;
 import java.util.Collections;
