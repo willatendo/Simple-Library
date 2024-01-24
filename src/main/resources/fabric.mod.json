@@ -1,7 +1,7 @@
 {
 	"schemaVersion": 1,
 	"id": "simplelibrary",
-	"version": "2.5.3",
+	"version": "2.5.4",
 	"name": "Simple Library",
 	"description": "A simple library for Minecraft!",
 	"accessWidener": "simplelibrary.accesswidener",

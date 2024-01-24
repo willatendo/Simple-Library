@@ -12,10 +12,13 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator.Pack.Factory;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.main.GameConfig;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.data.DataProvider;
 import net.minecraft.world.level.block.Block;
+import willatendo.simplelibrary.client.SimpleMinecraft;
 import willatendo.simplelibrary.data.SimpleAdvancementProvider.AdvancementGenerator;
 import willatendo.simplelibrary.data.tags.SimpleBlockTagsProvider;
 import willatendo.simplelibrary.data.tags.SimpleItemTagsProvider;
@@ -42,7 +45,9 @@ public class DataHandler {
 			loadedModIds.add(modContainer.getMetadata().getId());
 		}
 
-		this.existingFileHelper = new ExistingFileHelper(loadedPacks, loadedModIds, fabricDataGenerator.isStrictValidationEnabled(), null, null);
+		GameConfig gameConfig = ((SimpleMinecraft) Minecraft.getInstance()).getGameConfig();
+
+		this.existingFileHelper = new ExistingFileHelper(loadedPacks, loadedModIds, fabricDataGenerator.isStrictValidationEnabled(), gameConfig.location.assetIndex, gameConfig.location.assetDirectory);
 	}
 
 	public FabricDataGenerator getFabricDataGenerator() {

@@ -26,7 +26,6 @@ import net.minecraft.server.packs.resources.MultiPackResourceManager;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 
-@Deprecated
 public class ExistingFileHelper {
 	private final MultiPackResourceManager clientResources;
 	private final MultiPackResourceManager serverData;
@@ -41,12 +40,12 @@ public class ExistingFileHelper {
 			candidateClientResources.add(ClientPackSource.createVanillaPackSource(IndexedAssetSource.createIndexFs(assetsDir.toPath(), assetIndex)));
 		}
 		candidateServerResources.add(ServerPacksSource.createVanillaPackSource());
-//		for (Path existingPaths : existingPacks) {
-//			File file = existingPaths.toFile();
-//			PackResources packResources = file.isDirectory() ? new PathPackResources(file.getName(), file.toPath(), false) : new FilePackResources(file.getName(), file, false);
-//			candidateClientResources.add(packResources);
-//			candidateServerResources.add(packResources);
-//		}
+		for (Path existingPaths : existingPacks) {
+			File file = existingPaths.toFile();
+			PackResources packResources = file.isDirectory() ? new PathPackResources(file.getName(), false, file.toPath()) : new FilePackResources(file.getName(), file, false);
+			candidateClientResources.add(packResources);
+			candidateServerResources.add(packResources);
+		}
 		for (String existingModId : existingMods) {
 			Optional<ModContainer> modContainer = FabricLoader.getInstance().getModContainer(existingModId);
 			if (modContainer.isPresent()) {
