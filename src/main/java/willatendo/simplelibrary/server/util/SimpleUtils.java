@@ -1,5 +1,6 @@
 package willatendo.simplelibrary.server.util;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -88,7 +89,7 @@ public final class SimpleUtils {
 	}
 
 	public static <T> List<T> toList(T[] array) {
-		List<T> stuff = Lists.newArrayList();
+		ArrayList<T> stuff = new ArrayList<>();
 		for (int i = 0; i < array.length; i++) {
 			stuff.add(array[i]);
 		}
@@ -96,7 +97,7 @@ public final class SimpleUtils {
 	}
 
 	public static List<Float> toList(float[] array) {
-		List<Float> stuff = Lists.newArrayList();
+		ArrayList<Float> stuff = new ArrayList<>();
 		for (int i = 0; i < array.length; i++) {
 			stuff.add(array[i]);
 		}
@@ -104,7 +105,7 @@ public final class SimpleUtils {
 	}
 
 	public static List<Integer> toList(int[] array) {
-		List<Integer> stuff = Lists.newArrayList();
+		ArrayList<Integer> stuff = new ArrayList<>();
 		for (int i = 0; i < array.length; i++) {
 			stuff.add(array[i]);
 		}

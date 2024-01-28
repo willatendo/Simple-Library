@@ -6,7 +6,7 @@ plugins {
 sourceCompatibility = JavaVersion.VERSION_17
 targetCompatibility = JavaVersion.VERSION_17
 
-version = "2.6.0"
+version = "2.6.1"
 group = project.mod_id
 
 base {
@@ -54,9 +54,6 @@ dependencies {
 	
 	modImplementation "net.fabricmc:fabric-loader:${project.fabric_version}"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.api_version}"
-	
-	api "com.electronwill.night-config:core:${project.night_config_version}"
-	api "com.electronwill.night-config:toml:${project.night_config_version}"
 }
 
 tasks.withType(JavaCompile).configureEach {
