@@ -9,7 +9,6 @@
 		"world.item.DyeColourMixin"
 	],
 	"client": [
-		"client.multiplayer.ClientHandshakePacketListenerImplMixin",
 		"client.MinecraftMixin"
 	],
 	"injectors": {

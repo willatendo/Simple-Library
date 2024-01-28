@@ -1,7 +1,7 @@
 {
 	"schemaVersion": 1,
 	"id": "simplelibrary",
-	"version": "2.5.4",
+	"version": "2.6.0",
 	"name": "Simple Library",
 	"description": "A simple library for Minecraft!",
 	"accessWidener": "simplelibrary.accesswidener",
@@ -18,9 +18,6 @@
 	"entrypoints": {
 		"main": [
 			"willatendo.simplelibrary.SimpleLibrary"
-		],
-		"client": [
-			"willatendo.simplelibrary.client.SimpleLibraryClient"
 		],
 		"fabric-datagen": [
 			"willatendo.simplelibrary.data.SimpleLibraryData"
