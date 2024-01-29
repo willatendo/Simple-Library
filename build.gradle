@@ -13,7 +13,8 @@ base {
 	archivesName = project.mod_id
 }
 
-repositories {	
+repositories {
+	maven { url = "https://mvn.devos.one/snapshots/" }
 }
 
 loom {
@@ -54,6 +55,8 @@ dependencies {
 	
 	modImplementation "net.fabricmc:fabric-loader:${project.fabric_version}"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.api_version}"
+	
+	modApi include("io.github.fabricators_of_create.Porting-Lib:Porting-Lib:${project.porting_lib_version}")
 }
 
 tasks.withType(JavaCompile).configureEach {

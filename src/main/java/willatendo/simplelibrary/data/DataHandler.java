@@ -37,7 +37,7 @@ public class DataHandler {
 
 		List<Path> loadedPacks = new ArrayList<>();
 		for (ModContainer modContainer : FabricLoader.getInstance().getAllMods()) {
-			loadedPacks.addAll(modContainer.getRootPaths());
+//			loadedPacks.addAll(modContainer.getRootPaths());
 		}
 
 		Set<String> loadedModIds = new HashSet<>();
