@@ -73,21 +73,6 @@ processResources {
 
 jar.finalizedBy('reobfJar')
 
-publishing {
-	publications {
-		mavenJava(MavenPublication) {
-			artifactId base.archivesName.get()
-			from components.java
-			fg.component(it)
-		}
-	}
-	repositories {
-		maven {
-			url "file://" + System.getenv("local_maven")
-		}
-	}
-}
-
 sourceSets.each {
 	def dir = layout.buildDirectory.dir("sourcesSets/$it.name")
 	it.output.resourcesDir = dir

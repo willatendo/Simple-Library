@@ -4,6 +4,7 @@ plugins {
 	id 'net.neoforged.gradle.userdev' version '7.0.81'
 	id 'java-library'
 }
+
 base {
 	archivesName = "${mod_id}-neoforge"
 }
@@ -29,6 +30,7 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 dependencies {
 	implementation "net.neoforged:neoforge:${neoforge_version}"
+	
 	compileOnly project(":common")
 }
 
@@ -40,18 +42,4 @@ tasks.withType(JavaCompile).matching(notNeoTask).configureEach {
 
 tasks.withType(ProcessResources).matching(notNeoTask).configureEach {
 	from project(":common").sourceSets.main.resources
-}
-
-publishing {
-	publications {
-		mavenJava(MavenPublication) {
-			artifactId base.archivesName.get()
-			from components.java
-		}
-	}
-	repositories {
-		maven {
-			url "file://" + System.getenv("local_maven")
-		}
-	}
 }

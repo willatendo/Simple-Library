@@ -17,7 +17,6 @@ import java.util.function.Supplier;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import willatendo.simplelibrary.platform.ModloaderHelper;
 
 // A generic multi-platform registry
 
@@ -63,9 +62,9 @@ public class SimpleRegistry<T> {
 		return this.entriesView;
 	}
 
-	public void register() {
+	public void register(GenericRegister genericRegister) {
 		for (Entry<SimpleHolder<? extends T>, Supplier<? extends T>> entry : this.entries.entrySet()) {
-			ModloaderHelper.INSTANCE.register(this.registryKey, entry.getKey().getId(), () -> entry.getKey().get());
+			genericRegister.register(this.registryKey, entry.getKey().getId(), () -> entry.getKey().get());
 			entry.getKey().bind(false);
 		}
 	}

@@ -8,6 +8,7 @@ package willatendo.simplelibrary.server.registry;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import com.mojang.datafixers.util.Either;
@@ -22,7 +23,7 @@ import net.minecraft.tags.TagKey;
 
 // A generic multi-platform registry; implements {@Link java.util.function.Supplier} and {@Link net.minecraft.core.Holder}
 
-public class SimpleHolder<T> extends SimpleHolderInternals<T, T> {
+public class SimpleHolder<T> implements Holder<T>, Supplier<T> {
 	public static <T> SimpleHolder<T> create(ResourceKey<? extends Registry<T>> registryKey, ResourceLocation valueId) {
 		return SimpleHolder.create(ResourceKey.create(registryKey, valueId));
 	}
