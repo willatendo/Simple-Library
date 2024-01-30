@@ -16,7 +16,6 @@ minecraft {
 	runs {
 		client {
 			workingDirectory project.file('run')
-			ideaModule "${rootProject.name}.${project.name}.main"
 			taskName 'Client'
 
 			mods {
@@ -29,7 +28,6 @@ minecraft {
 
 		server {
 			workingDirectory project.file('run')
-			ideaModule "${rootProject.name}.${project.name}.main"
 			taskName 'Server'
 
 			mods {
@@ -42,7 +40,6 @@ minecraft {
 
 		data {
 			workingDirectory project.file('run')
-			ideaModule "${rootProject.name}.${project.name}.main"
 			args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
 			taskName 'Data'
 			mods {

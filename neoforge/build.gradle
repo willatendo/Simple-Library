@@ -28,13 +28,13 @@ runs {
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
+Spec<Task> notNeoTask = { Task it -> !it.name.startsWith("neo") } as Spec<Task>
+
 dependencies {
 	implementation "net.neoforged:neoforge:${neoforge_version}"
 	
 	compileOnly project(":common")
 }
-
-Spec<Task> notNeoTask = { Task it -> !it.name.startsWith("neo") } as Spec<Task>
 
 tasks.withType(JavaCompile).matching(notNeoTask).configureEach {
 	source(project(":common").sourceSets.main.allSource)

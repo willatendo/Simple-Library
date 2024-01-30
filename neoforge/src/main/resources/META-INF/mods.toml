@@ -19,7 +19,7 @@ description='''A simple library for Minecraft!'''
 	ordering="NONE"
 	side="BOTH"
 	
-[[dependencies.${mod_id}]]
+[[dependencies.simplelibrary]]
 	modId="minecraft"
 	mandatory=true
 	versionRange="[1.20.4, 1.21)"
