@@ -20,7 +20,7 @@ subprojects {
 	tasks.withType(GenerateModuleMetadata).configureEach {
 		enabled = false
 	}
-	
+	afterEvaluate {
 	publishing {
 		publications {
 			mavenJava(MavenPublication) {
@@ -33,5 +33,6 @@ subprojects {
 				url "file://" + System.getenv("local_maven")
 			}
 		}
+	}
 	}
 }
