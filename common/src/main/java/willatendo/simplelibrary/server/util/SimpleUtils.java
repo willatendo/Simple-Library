@@ -49,12 +49,19 @@ public final class SimpleUtils {
 	// Multi-Platform Helpers
 
 	public static <T> T loadModloaderHelper(Class<T> clazz) {
-		final T loadedService = ServiceLoader.load(clazz).findFirst().orElseThrow(() -> new NullPointerException("Failed to load service for " + clazz.getName()));
-		LOGGER.debug("Loaded {} for service {}", loadedService, clazz);
-		return loadedService;
+		return ServiceLoader.load(clazz).findFirst().orElseThrow(() -> new NullPointerException("Failed to load service for " + clazz.getName()));
+	}
+
+	public static boolean isDevEnviroment() {
+		return ModloaderHelper.INSTANCE.isDevEnviroment();
+	}
+
+	public static boolean isModLoaded(String modId) {
+		return ModloaderHelper.INSTANCE.isModLoaded(modId);
 	}
 
 	// Creative Mode Tab Helpers
+
 	public static CreativeModeTab.Builder create(String modId, String id, Supplier<Item> icon, CreativeModeTab.DisplayItemsGenerator displayItemsGenerator) {
 		return ModloaderHelper.INSTANCE.createCreativeModeTab().title(SimpleUtils.translation(modId, "itemGroup", id)).icon(() -> icon.get().getDefaultInstance()).displayItems(displayItemsGenerator);
 	}

@@ -13,3 +13,17 @@ minecraft {
 
 dependencies {
 }
+
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+			artifactId base.archivesName.get()
+			from components.java
+		}
+	}
+	repositories {
+		maven {
+			url "file://" + System.getenv("local_maven")
+		}
+	}
+}
