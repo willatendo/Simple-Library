@@ -20,4 +20,10 @@ subprojects {
 	tasks.withType(GenerateModuleMetadata).configureEach {
 		enabled = false
 	}
+	
+	publishing {
+		publications.register("mavenJava", MavenPublication) {
+			from components.java
+		}
+	}
 }
