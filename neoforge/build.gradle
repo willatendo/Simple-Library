@@ -1,45 +1,59 @@
 plugins {
-    id 'idea'
-    id 'maven-publish'
-    id 'net.neoforged.gradle.userdev' version '7.0.81'
-    id 'java-library'
+	id 'idea'
+	id 'maven-publish'
+	id 'net.neoforged.gradle.userdev' version '7.0.81'
+	id 'java-library'
 }
 
 base {
-    archivesName = "${mod_id}-neoforge"
+	archivesName = "${mod_id}-neoforge"
 }
 
 runs {
-    configureEach {
-        modSource project.sourceSets.main
-    }
-    
-    client {
-    }
-    
-    server {
-        programArgument '--nogui'
-    }
+	configureEach {
+		modSource project.sourceSets.main
+	}
+	
+	client {
+	}
+	
+	server {
+		programArgument '--nogui'
+	}
 
-    data {
-        programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
-    }
+	data {
+		programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
+	}
 }
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 dependencies {
-    implementation "net.neoforged:neoforge:${neoforge_version}"
-    
-    compileOnly project(":common")
+	implementation "net.neoforged:neoforge:${neoforge_version}"
+	
+	compileOnly project(":common")
 }
 
 Spec<Task> notNeoTask = { Task it -> !it.name.startsWith("neo") } as Spec<Task>
 
 tasks.withType(JavaCompile).matching(notNeoTask).configureEach {
-    source(project(":common").sourceSets.main.allSource)
+	source(project(":common").sourceSets.main.allSource)
 }
 
 tasks.withType(ProcessResources).matching(notNeoTask).configureEach {
-    from project(":common").sourceSets.main.resources
+	from project(":common").sourceSets.main.resources
+}
+
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+			artifactId base.archivesName.get()
+			from components.java
+		}
+	}
+	repositories {
+		maven {
+			url "file://" + System.getenv("local_maven")
+		}
+	}
 }
