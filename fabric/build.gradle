@@ -16,6 +16,10 @@ dependencies {
 	modImplementation "net.fabricmc:fabric-loader:${fabric_version}"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_api_version}"
 	
+	modApi "io.github.fabricators_of_create.Porting-Lib:Porting-Lib:${project.porting_lib_version}"
+    modApi "com.jamieswhiteshirt:reach-entity-attributes:${project.reach_entity_attributes_version}"
+    modImplementation(include("com.github.Chocohead:Fabric-ASM:v2.3"))
+	
 	compileOnly project(":common")
 }
 
