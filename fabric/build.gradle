@@ -16,11 +16,11 @@ dependencies {
 	modImplementation "net.fabricmc:fabric-loader:${fabric_version}"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_api_version}"
 	
-	modApi "io.github.fabricators_of_create.Porting-Lib:data:${project.porting_lib_version}"
-	modApi "io.github.fabricators_of_create.Porting-Lib:model_builders:${project.porting_lib_version}"
-	modApi "io.github.fabricators_of_create.Porting-Lib:model_generators:${project.porting_lib_version}"
-    modApi "com.jamieswhiteshirt:reach-entity-attributes:${project.reach_entity_attributes_version}"
-	
+	modImplementation("io.github.fabricators_of_create.Porting-Lib:data:${porting_lib_version}")
+	modImplementation("io.github.fabricators_of_create.Porting-Lib:model_generators:${porting_lib_version}")
+	modImplementation("io.github.fabricators_of_create.Porting-Lib:utility:${porting_lib_version}")
+	modImplementation("io.github.fabricators_of_create.Porting-Lib:model_materials:${porting_lib_version}")
+
 	compileOnly project(":common")
 }
 
