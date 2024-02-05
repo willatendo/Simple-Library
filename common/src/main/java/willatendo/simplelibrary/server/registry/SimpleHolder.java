@@ -1,8 +1,3 @@
-/*
- * Copyright (c) NeoForged and contributors
- * SPDX-License-Identifier: LGPL-2.1-only
- */
-
 package willatendo.simplelibrary.server.registry;
 
 import java.util.Locale;
@@ -20,8 +15,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
-
-// A generic multi-platform registry; implements {@Link java.util.function.Supplier} and {@Link net.minecraft.core.Holder}
 
 public class SimpleHolder<T> implements Holder<T>, Supplier<T> {
 	public static <T> SimpleHolder<T> create(ResourceKey<? extends Registry<T>> registryKey, ResourceLocation valueId) {

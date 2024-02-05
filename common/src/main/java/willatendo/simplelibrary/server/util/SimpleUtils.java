@@ -34,7 +34,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import willatendo.simplelibrary.platform.ModloaderHelper;
-import willatendo.simplelibrary.server.creativemodetab.FillCreativeTab;
+import willatendo.simplelibrary.server.creativemodetab.CreativeModeTabFill;
 import willatendo.simplelibrary.server.registry.SimpleHolder;
 import willatendo.simplelibrary.server.registry.SimpleRegistry;
 
@@ -70,13 +70,13 @@ public final class SimpleUtils {
 		return fillCreativeTab(simpleRegister, Map.of(), exceptions);
 	}
 
-	public static CreativeModeTab.DisplayItemsGenerator fillCreativeTab(SimpleRegistry<Item> simpleRegister, Map<Item, FillCreativeTab> fillLike, SimpleHolder<? extends Item>... exceptions) {
+	public static CreativeModeTab.DisplayItemsGenerator fillCreativeTab(SimpleRegistry<Item> simpleRegister, Map<Item, CreativeModeTabFill> fillLike, SimpleHolder<? extends Item>... exceptions) {
 		return (itemDisplayParameters, output) -> {
-			for (SimpleHolder<? extends Item> item : simpleRegister.getEntries().stream().filter(item -> !SimpleUtils.toList(exceptions).contains(item)).toList()) {
-				if (item.get() instanceof FillCreativeTab fillCreativeTab) {
-					fillCreativeTab.fillCreativeTab(itemDisplayParameters, output);
+			for (SimpleHolder<? extends Item> item : simpleRegister.getEntriesView().stream().filter(item -> !SimpleUtils.toList(exceptions).contains(item)).toList()) {
+				if (item.get() instanceof CreativeModeTabFill fillCreativeTab) {
+					fillCreativeTab.fill(itemDisplayParameters, output);
 				} else if (fillLike.containsKey(item.get())) {
-					fillLike.get(item.get()).fillCreativeTab(itemDisplayParameters, output);
+					fillLike.get(item.get()).fill(itemDisplayParameters, output);
 				} else {
 					output.accept(item.get());
 				}
@@ -96,7 +96,7 @@ public final class SimpleUtils {
 	}
 
 	public static void registerAllItems(SimpleRegistry<Item> deferredRegister, SimpleRegistry<Block> blocks, SimpleHolder<? extends Block>... exceptions) {
-		for (SimpleHolder<? extends Block> block : blocks.getEntries().stream().filter(block -> !SimpleUtils.toList(exceptions).contains(block)).toList()) {
+		for (SimpleHolder<? extends Block> block : blocks.getEntriesView().stream().filter(block -> !SimpleUtils.toList(exceptions).contains(block)).toList()) {
 			deferredRegister.register(block.getId().getPath(), () -> new BlockItem(block.get(), new Item.Properties()));
 		}
 	}

@@ -1,21 +1,27 @@
 package willatendo.simplelibrary.server.registry;
 
+import java.util.Map.Entry;
 import java.util.function.Supplier;
 
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.registries.RegisterEvent;
 
-public class NeoForgeRegister implements GenericRegister {
-	private final RegisterEvent registerEvent;
-
-	public NeoForgeRegister(RegisterEvent registerEvent) {
-		this.registerEvent = registerEvent;
+public class NeoForgeRegister {
+	public static <T> void register(RegisterEvent registerEvent, SimpleRegistry<? extends T>... simpleRegistries) {
+		for (SimpleRegistry<? extends T> simpleRegistry : simpleRegistries) {
+			NeoForgeRegister.register(registerEvent, simpleRegistry);
+		}
 	}
 
-	@Override
-	public <T> void register(ResourceKey<? extends Registry<T>> registryKey, ResourceLocation id, Supplier<T> supplier) {
-		this.registerEvent.register(registryKey, registerHelper -> registerHelper.register(id, supplier.get()));
+	public static <T> void register(RegisterEvent registerEvent, SimpleRegistry<T> simpleRegistry) {
+		ResourceKey<? extends Registry<T>> resourceKey = simpleRegistry.getRegistryKey();
+		if (!registerEvent.getRegistryKey().equals(resourceKey)) {
+			return;
+		}
+		for (Entry<SimpleHolder<? extends T>, Supplier<? extends T>> entry : simpleRegistry.getEntries().entrySet()) {
+			registerEvent.register(resourceKey, entry.getKey().getId(), () -> entry.getValue().get());
+			entry.getKey().bind(false);
+		}
 	}
 }
