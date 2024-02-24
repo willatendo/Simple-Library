@@ -25,6 +25,9 @@
         "minecraft": "~1.20.4",
         "java": ">=17"
     },
+	"mixins": [
+		"simplelibrary.mixins.json"
+	],
     "suggests": {
         "another-mod": "*"
     }

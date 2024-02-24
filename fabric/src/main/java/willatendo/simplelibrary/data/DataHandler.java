@@ -1,19 +1,30 @@
 package willatendo.simplelibrary.data;
 
+import java.nio.file.Path;
 import java.util.concurrent.CompletableFuture;
+
+import com.mojang.serialization.Codec;
 
 import io.github.fabricators_of_create.porting_lib.data.ExistingFileHelper;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator.Pack;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator.Pack.Factory;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderLookup.Provider;
+import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.data.DataProvider;
+import net.minecraft.data.metadata.PackMetadataGenerator;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.level.block.Block;
 import willatendo.simplelibrary.data.SimpleAdvancementProvider.AdvancementGenerator;
 import willatendo.simplelibrary.data.tags.SimpleBlockTagsProvider;
 import willatendo.simplelibrary.data.tags.SimpleItemTagsProvider;
 import willatendo.simplelibrary.data.tags.SimpleTagsProvider;
+import willatendo.simplelibrary.mixin.PackMixin;
+import willatendo.simplelibrary.server.flag.FeatureFlagsMetadataSection;
 import willatendo.simplelibrary.server.util.SimpleUtils;
 
 public class DataHandler {
@@ -31,16 +42,26 @@ public class DataHandler {
 		return this.fabricDataGenerator;
 	}
 
-	public FabricDataGenerator.Pack getPack() {
-		return this.pack;
-	}
-
 	public ExistingFileHelper getExistingFileHelper() {
 		return this.existingFileHelper;
 	}
 
 	public String getModId() {
 		return this.fabricDataGenerator.getModId();
+	}
+
+	public FabricDataGenerator.Pack getPack() {
+		return this.pack;
+	}
+
+	public Pack createBuiltinResourcePack(FabricDataOutput fabricDataOutput, ResourceLocation id) {
+		Path path = fabricDataOutput.getOutputFolder().resolve("resourcepacks").resolve(id.getPath());
+		return PackMixin.create(true, id.toString(), new FabricDataOutput(this.getFabricDataGenerator().getModContainer(), path, this.getFabricDataGenerator().isStrictValidationEnabled()));
+	}
+
+	public Pack createBuiltinDataPack(FabricDataOutput fabricDataOutput, ResourceLocation id) {
+		Path path = fabricDataOutput.getOutputFolder().resolve("datapacks").resolve(id.getPath());
+		return PackMixin.create(true, id.toString(), new FabricDataOutput(this.getFabricDataGenerator().getModContainer(), path, this.getFabricDataGenerator().isStrictValidationEnabled()));
 	}
 
 	// Broad
@@ -52,6 +73,10 @@ public class DataHandler {
 
 	public <T extends DataProvider> T addProvider(ProviderSupplier<T> providerSupplier) {
 		return this.addProvider(fabricDataOutput -> providerSupplier.accept(fabricDataOutput, this.getModId()));
+	}
+
+	public <T extends DataProvider> T addProvider(ProviderExistingFileHelperSupplier<T> providerSupplier) {
+		return this.addProvider(fabricDataOutput -> providerSupplier.accept(fabricDataOutput, this.getExistingFileHelper()));
 	}
 
 	public <T extends DataProvider> T addProvider(SimpleProviderSupplier<T> simpleProviderSupplier) {
@@ -77,13 +102,31 @@ public class DataHandler {
 		this.addProvider((fabricDataOutput, provider, modId, existingFileHelper) -> itemTagSupplier.accept(fabricDataOutput, provider, simpleBlockTagsProvider.contentsGetter(), modId, existingFileHelper));
 	}
 
-	public <T extends DataProvider> void generateAdvancements(AdvancementGenerator... advancementGenerators) {
+	public void addDataPackEntryProvider(RegistrySetBuilder registrySetBuilder) {
+		this.pack.addProvider((fabricDataOutput, provider) -> new DatapackEntriesProvider(fabricDataOutput, provider, registrySetBuilder));
+	}
+
+	public void generateAdvancements(AdvancementGenerator... advancementGenerators) {
 		this.pack.addProvider((fabricDataOutput, provider) -> new SimpleAdvancementProvider(fabricDataOutput, provider, SimpleUtils.toList(advancementGenerators)));
+	}
+
+	public void addPackMetadataGenerator(Component component, Codec<FeatureFlagSet> featureFlagSetCodec, FeatureFlagSet featureFlagSet) {
+		FeatureFlagsMetadataSection featureFlagsMetadataSection = new FeatureFlagsMetadataSection(featureFlagSet);
+		this.addProvider(fabricDataOutput -> PackMetadataGenerator.forFeaturePack(fabricDataOutput, component)).add(FeatureFlagsMetadataSection.getType(featureFlagSetCodec), featureFlagsMetadataSection);
+	}
+
+	public void addPackMetadataGenerator(Component component) {
+		this.addProvider(fabricDataOutput -> PackMetadataGenerator.forFeaturePack(fabricDataOutput, component));
 	}
 
 	@FunctionalInterface
 	public static interface ProviderSupplier<T extends DataProvider> {
 		T accept(FabricDataOutput fabricDataOutput, String modId);
+	}
+
+	@FunctionalInterface
+	public static interface ProviderExistingFileHelperSupplier<T extends DataProvider> {
+		T accept(FabricDataOutput fabricDataOutput, ExistingFileHelper existingFileHelper);
 	}
 
 	@FunctionalInterface
