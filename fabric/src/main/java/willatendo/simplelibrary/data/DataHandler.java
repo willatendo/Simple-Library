@@ -14,6 +14,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.data.DataProvider;
+import net.minecraft.data.PackOutput;
 import net.minecraft.data.metadata.PackMetadataGenerator;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -59,7 +60,7 @@ public class DataHandler {
 	}
 
 	public SimplePack createBuiltinDataPack(ResourceLocation id) {
-		Path path = this.fabricDataGenerator.vanillaPackOutput.getOutputFolder().resolve("datapacks").resolve(id.getPath());
+		Path path = this.fabricDataGenerator.vanillaPackOutput.getOutputFolder(PackOutput.Target.DATA_PACK).resolve("datapacks").resolve(id.getPath());
 		return new SimplePack(true, id.toString(), new FabricDataOutput(this.getFabricDataGenerator().getModContainer(), path, this.getFabricDataGenerator().isStrictValidationEnabled()));
 	}
 
