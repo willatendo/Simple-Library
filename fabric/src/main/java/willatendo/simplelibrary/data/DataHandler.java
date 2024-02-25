@@ -60,7 +60,7 @@ public class DataHandler {
 	}
 
 	public SimplePack createBuiltinDataPack(ResourceLocation id) {
-		Path path = this.fabricDataGenerator.vanillaPackOutput.getOutputFolder(PackOutput.Target.DATA_PACK).resolve("datapacks").resolve(id.getPath());
+		Path path = this.fabricDataGenerator.vanillaPackOutput.getOutputFolder(PackOutput.Target.DATA_PACK).resolve(this.getModId()).resolve("datapacks").resolve(id.getPath());
 		return new SimplePack(true, id.toString(), new FabricDataOutput(this.getFabricDataGenerator().getModContainer(), path, this.getFabricDataGenerator().isStrictValidationEnabled()));
 	}
 
