@@ -1,32 +1,32 @@
 {
-    "schemaVersion": 1,
-    "id": "simplelibrary",
-    "version": "3.0.0",
-    "name": "SimpleLibrary",
-    "description": "A simple library for Minecraft!",
-    "authors": [
-        "Willatendo"
-    ],
-    "contact": {
+	"schemaVersion": 1,
+	"id": "simplelibrary",
+	"version": "3.0.0",
+	"name": "SimpleLibrary",
+	"description": "A simple library for Minecraft!",
+	"authors": [
+		"Willatendo"
+	],
+	"contact": {
 		"homepage": "https://modrinth.com/mod/simple-library",
 		"sources": "https://github.com/willatendo/Simple-Library"
-    },
-    "license": "MIT",
-    "icon": "simple_icon.png",
-    "environment": "*",
-    "entrypoints": {
-        "main": [
-            "willatendo.simplelibrary.SimpleLibrary"
-        ]
-    },
-    "depends": {
-        "fabricloader": ">=0.15.0",
-        "fabric-api": "*",
-        "minecraft": "~1.20.4",
-        "java": ">=17"
-    },
+	},
+	"license": "MIT",
+	"icon": "simple_icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"willatendo.simplelibrary.SimpleLibrary"
+		]
+	},
+	"depends": {
+		"fabricloader": ">=0.15.0",
+		"fabric-api": "*",
+		"minecraft": "~1.20.4",
+		"java": ">=17"
+	},
+	"accessWidener": "simplelibrary-fabric.accesswidener",
 	"mixins": [
 		"simplelibrary.mixins.json"
 	]
 }
-  

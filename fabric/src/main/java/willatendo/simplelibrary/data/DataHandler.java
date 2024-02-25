@@ -23,8 +23,7 @@ import willatendo.simplelibrary.data.SimpleAdvancementProvider.AdvancementGenera
 import willatendo.simplelibrary.data.tags.SimpleBlockTagsProvider;
 import willatendo.simplelibrary.data.tags.SimpleItemTagsProvider;
 import willatendo.simplelibrary.data.tags.SimpleTagsProvider;
-import willatendo.simplelibrary.mixin.DataGeneratorMixin;
-import willatendo.simplelibrary.mixin.PackMixin;
+import willatendo.simplelibrary.mixin.DataGeneratorAccessor;
 import willatendo.simplelibrary.server.flag.FeatureFlagsMetadataSection;
 import willatendo.simplelibrary.server.util.SimpleUtils;
 
@@ -55,14 +54,14 @@ public class DataHandler {
 		return this.pack;
 	}
 
-	public Pack createBuiltinResourcePack(ResourceLocation id) {
-		Path path = ((DataGeneratorMixin) this).getVanillaPackOutput().getOutputFolder().resolve("resourcepacks").resolve(id.getPath());
-		return PackMixin.create(true, id.toString(), new FabricDataOutput(this.getFabricDataGenerator().getModContainer(), path, this.getFabricDataGenerator().isStrictValidationEnabled()));
+	public SimplePack createBuiltinResourcePack(ResourceLocation id) {
+		Path path = ((DataGeneratorAccessor) this).getVanillaPackOutput().getOutputFolder().resolve("resourcepacks").resolve(id.getPath());
+		return new SimplePack(true, id.toString(), new FabricDataOutput(this.getFabricDataGenerator().getModContainer(), path, this.getFabricDataGenerator().isStrictValidationEnabled()));
 	}
 
-	public Pack createBuiltinDataPack(ResourceLocation id) {
-		Path path = ((DataGeneratorMixin) this).getVanillaPackOutput().getOutputFolder().resolve("datapacks").resolve(id.getPath());
-		return PackMixin.create(true, id.toString(), new FabricDataOutput(this.getFabricDataGenerator().getModContainer(), path, this.getFabricDataGenerator().isStrictValidationEnabled()));
+	public SimplePack createBuiltinDataPack(ResourceLocation id) {
+		Path path = ((DataGeneratorAccessor) this).getVanillaPackOutput().getOutputFolder().resolve("datapacks").resolve(id.getPath());
+		return new SimplePack(true, id.toString(), new FabricDataOutput(this.getFabricDataGenerator().getModContainer(), path, this.getFabricDataGenerator().isStrictValidationEnabled()));
 	}
 
 	// Broad
@@ -111,14 +110,16 @@ public class DataHandler {
 		this.pack.addProvider((fabricDataOutput, provider) -> new SimpleAdvancementProvider(fabricDataOutput, provider, SimpleUtils.toList(advancementGenerators)));
 	}
 
-	public void addPackMetadataGenerator(Component component, Codec<FeatureFlagSet> featureFlagSetCodec, FeatureFlagSet featureFlagSet) {
+	public void addPackMetadataGenerator(Pack pack, Component component, Codec<FeatureFlagSet> featureFlagSetCodec, FeatureFlagSet featureFlagSet) {
 		FeatureFlagsMetadataSection featureFlagsMetadataSection = new FeatureFlagsMetadataSection(featureFlagSet);
-		this.addProvider(fabricDataOutput -> PackMetadataGenerator.forFeaturePack(fabricDataOutput, component)).add(FeatureFlagsMetadataSection.getType(featureFlagSetCodec), featureFlagsMetadataSection);
+		pack.addProvider((fabricDataOutput, provider) -> PackMetadataGenerator.forFeaturePack(fabricDataOutput, component)).add(FeatureFlagsMetadataSection.getType(featureFlagSetCodec), featureFlagsMetadataSection);
 	}
 
-	public void addPackMetadataGenerator(Component component) {
-		this.addProvider(fabricDataOutput -> PackMetadataGenerator.forFeaturePack(fabricDataOutput, component));
+	public void addPackMetadataGenerator(Pack pack, Component component) {
+		pack.addProvider((fabricDataOutput, provider) -> PackMetadataGenerator.forFeaturePack(fabricDataOutput, component));
 	}
+
+	// Suppliers
 
 	@FunctionalInterface
 	public static interface ProviderSupplier<T extends DataProvider> {
@@ -158,5 +159,32 @@ public class DataHandler {
 	@FunctionalInterface
 	public static interface LanguageSupplier<T extends SimpleLanguageProvider> {
 		T accept(FabricDataOutput fabricDataOutput, String local);
+	}
+
+	// Packs
+	public class SimplePack {
+		private final boolean shouldRun;
+		private final String name;
+		private final FabricDataOutput output;
+
+		public SimplePack(boolean shouldRun, String name, FabricDataOutput fabricDataOutput) {
+			this.shouldRun = shouldRun;
+			this.name = name;
+			this.output = fabricDataOutput;
+		}
+
+		public <T extends DataProvider> T addProvider(DataProvider.Factory<T> factory) {
+			T dataProvider = factory.create(this.output);
+			String s = this.name + "/" + dataProvider.getName();
+			if (!DataHandler.this.getFabricDataGenerator().allProviderIds.add(s)) {
+				throw new IllegalStateException("Duplicate provider: " + s);
+			} else {
+				if (this.shouldRun) {
+					DataHandler.this.getFabricDataGenerator().providersToRun.put(s, dataProvider);
+				}
+
+				return dataProvider;
+			}
+		}
 	}
 }

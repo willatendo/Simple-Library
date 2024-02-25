@@ -7,7 +7,7 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 
 @Mixin(DataGenerator.class)
-public interface DataGeneratorMixin {
+public interface DataGeneratorAccessor {
 	@Accessor("vanillaPackOutput")
 	public PackOutput getVanillaPackOutput();
 }
