@@ -8,7 +8,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 
 @Mixin(Pack.class)
 public interface PackMixin {
-	@Invoker("<init>")
+	@Invoker(value = "<init>", remap = false)
 	public static Pack create(boolean shouldRun, String name, FabricDataOutput output) {
 		throw new AssertionError();
 	}

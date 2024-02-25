@@ -55,12 +55,12 @@ public class DataHandler {
 		return this.pack;
 	}
 
-	public Pack createBuiltinResourcePack(FabricDataOutput fabricDataOutput, ResourceLocation id) {
+	public Pack createBuiltinResourcePack(ResourceLocation id) {
 		Path path = ((DataGeneratorMixin) this).getVanillaPackOutput().getOutputFolder().resolve("resourcepacks").resolve(id.getPath());
 		return PackMixin.create(true, id.toString(), new FabricDataOutput(this.getFabricDataGenerator().getModContainer(), path, this.getFabricDataGenerator().isStrictValidationEnabled()));
 	}
 
-	public Pack createBuiltinDataPack(FabricDataOutput fabricDataOutput, ResourceLocation id) {
+	public Pack createBuiltinDataPack(ResourceLocation id) {
 		Path path = ((DataGeneratorMixin) this).getVanillaPackOutput().getOutputFolder().resolve("datapacks").resolve(id.getPath());
 		return PackMixin.create(true, id.toString(), new FabricDataOutput(this.getFabricDataGenerator().getModContainer(), path, this.getFabricDataGenerator().isStrictValidationEnabled()));
 	}
