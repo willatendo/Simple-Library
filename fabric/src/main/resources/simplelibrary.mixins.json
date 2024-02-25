@@ -4,7 +4,8 @@
 	"package": "willatendo.simplelibrary.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
-		"PackMixin"
+		"PackMixin",
+		"DataGeneratorMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
