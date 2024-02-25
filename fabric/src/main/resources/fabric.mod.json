@@ -27,9 +27,6 @@
     },
 	"mixins": [
 		"simplelibrary.mixins.json"
-	],
-    "suggests": {
-        "another-mod": "*"
-    }
+	]
 }
   
