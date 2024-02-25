@@ -23,7 +23,6 @@ import willatendo.simplelibrary.data.SimpleAdvancementProvider.AdvancementGenera
 import willatendo.simplelibrary.data.tags.SimpleBlockTagsProvider;
 import willatendo.simplelibrary.data.tags.SimpleItemTagsProvider;
 import willatendo.simplelibrary.data.tags.SimpleTagsProvider;
-import willatendo.simplelibrary.mixin.DataGeneratorAccessor;
 import willatendo.simplelibrary.server.flag.FeatureFlagsMetadataSection;
 import willatendo.simplelibrary.server.util.SimpleUtils;
 
@@ -55,12 +54,12 @@ public class DataHandler {
 	}
 
 	public SimplePack createBuiltinResourcePack(ResourceLocation id) {
-		Path path = ((DataGeneratorAccessor) this).getVanillaPackOutput().getOutputFolder().resolve("resourcepacks").resolve(id.getPath());
+		Path path = this.fabricDataGenerator.vanillaPackOutput.getOutputFolder().resolve("resourcepacks").resolve(id.getPath());
 		return new SimplePack(true, id.toString(), new FabricDataOutput(this.getFabricDataGenerator().getModContainer(), path, this.getFabricDataGenerator().isStrictValidationEnabled()));
 	}
 
 	public SimplePack createBuiltinDataPack(ResourceLocation id) {
-		Path path = ((DataGeneratorAccessor) this).getVanillaPackOutput().getOutputFolder().resolve("datapacks").resolve(id.getPath());
+		Path path = this.fabricDataGenerator.vanillaPackOutput.getOutputFolder().resolve("datapacks").resolve(id.getPath());
 		return new SimplePack(true, id.toString(), new FabricDataOutput(this.getFabricDataGenerator().getModContainer(), path, this.getFabricDataGenerator().isStrictValidationEnabled()));
 	}
 

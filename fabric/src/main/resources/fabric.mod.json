@@ -25,8 +25,5 @@
 		"minecraft": "~1.20.4",
 		"java": ">=17"
 	},
-	"accessWidener": "simplelibrary-fabric.accesswidener",
-	"mixins": [
-		"simplelibrary.mixins.json"
-	]
+	"accessWidener": "simplelibrary-fabric.accesswidener"
 }
