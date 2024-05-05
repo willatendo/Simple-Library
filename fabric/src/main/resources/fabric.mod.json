@@ -4,7 +4,7 @@
   "version": "${version}",
   "name": "${mod_name}",
   "description": "${description}",
-  "accessWidener": "simplelibrary-fabric.accesswidener",
+  "accessWidener": "simplelibrary.accesswidener",
   "authors": [
     "${mod_author}"
   ],
