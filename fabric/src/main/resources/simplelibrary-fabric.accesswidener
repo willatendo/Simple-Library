@@ -1,7 +1,0 @@
-accessWidener v2 named
-
-accessible field net/minecraft/data/DataGenerator vanillaPackOutput Lnet/minecraft/data/PackOutput;
-accessible field net/minecraft/data/DataGenerator allProviderIds Ljava/util/Set;
-accessible field net/minecraft/data/DataGenerator providersToRun Ljava/util/Map;
-
-accessible field net/minecraft/world/item/Item$Properties requiredFeatures Lnet/minecraft/world/flag/FeatureFlagSet;

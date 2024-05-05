@@ -1,4 +1,4 @@
-package willatendo.simplelibrary.server.util;
+package willatendo.simplelibrary.server.utils;
 
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType.ExtendedFactory;

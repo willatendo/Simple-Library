@@ -1,8 +1,7 @@
 plugins {
 	id 'java'
 	id 'idea'
-	id 'maven-publish'
-	id 'fabric-loom' version '1.4-SNAPSHOT'
+	id 'fabric-loom' version '1.6-SNAPSHOT'
 }
 
 base {
@@ -14,18 +13,12 @@ dependencies {
 	mappings loom.officialMojangMappings()
 	
 	modImplementation "net.fabricmc:fabric-loader:${fabric_version}"
-	modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_api_version}"
-	
-	modImplementation("io.github.fabricators_of_create.Porting-Lib:data:${porting_lib_version}")
-	modImplementation("io.github.fabricators_of_create.Porting-Lib:model_generators:${porting_lib_version}")
-	modImplementation("io.github.fabricators_of_create.Porting-Lib:utility:${porting_lib_version}")
-	modImplementation("io.github.fabricators_of_create.Porting-Lib:model_materials:${porting_lib_version}")
+	modImplementation "net.fabricmc.fabric-api:fabric-api:${api_version}"
 
 	compileOnly project(":common")
 }
 
 loom {
-	accessWidenerPath = file("src/main/resources/${mod_id}-fabric.accesswidener")
 	mixin {
 		defaultRefmapName.set("${mod_id}.refmap.json")
 	}
@@ -51,18 +44,4 @@ tasks.withType(JavaCompile).configureEach {
 
 processResources {
 	from project(":common").sourceSets.main.resources
-}
-
-publishing {
-	publications {
-		mavenJava(MavenPublication) {
-			artifactId base.archivesName.get()
-			from components.java
-		}
-	}
-	repositories {
-		maven {
-			url "file://" + System.getenv("local_maven")
-		}
-	}
 }
