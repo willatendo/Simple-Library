@@ -1,20 +1,10 @@
 package willatendo.simplelibrary.platform;
 
-import java.util.Iterator;
-import java.util.Optional;
-import java.util.function.Supplier;
-
-import javax.annotation.Nullable;
-
-import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleType;
-import net.minecraft.core.particles.SimpleParticleType;
-import org.jetbrains.annotations.NotNull;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.IdMap;
 import net.minecraft.core.Registry;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -38,8 +28,14 @@ import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryBuilder;
+import org.jetbrains.annotations.NotNull;
 import willatendo.simplelibrary.server.menu.ExtendedMenuSupplier;
 import willatendo.simplelibrary.server.util.RegistryHolder;
+
+import javax.annotation.Nullable;
+import java.util.Iterator;
+import java.util.Optional;
+import java.util.function.Supplier;
 
 public class ForgeHelper implements ModloaderHelper {
     @Override
@@ -179,8 +175,8 @@ public class ForgeHelper implements ModloaderHelper {
     }
 
     @Override
-    public <T extends ParticleOptions> ParticleType<T> createParticleType(boolean overrideLimiter) {
-        return (ParticleType<T>) new SimpleParticleType(overrideLimiter);
+    public SimpleParticleType createParticleType(boolean overrideLimiter) {
+        return new SimpleParticleType(overrideLimiter);
     }
 
     @Override

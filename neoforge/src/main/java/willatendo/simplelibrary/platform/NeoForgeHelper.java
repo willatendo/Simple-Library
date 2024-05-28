@@ -1,12 +1,7 @@
 package willatendo.simplelibrary.platform;
 
-import java.util.Optional;
-import java.util.function.Supplier;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
-import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
@@ -29,6 +24,9 @@ import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
 import net.neoforged.neoforge.registries.RegistryBuilder;
 import willatendo.simplelibrary.server.menu.ExtendedMenuSupplier;
 import willatendo.simplelibrary.server.util.RegistryHolder;
+
+import java.util.Optional;
+import java.util.function.Supplier;
 
 public class NeoForgeHelper implements ModloaderHelper {
     @Override
@@ -77,8 +75,8 @@ public class NeoForgeHelper implements ModloaderHelper {
     }
 
     @Override
-    public <T extends ParticleOptions> ParticleType<T> createParticleType(boolean overrideLimiter) {
-        return (ParticleType<T>) new SimpleParticleType(overrideLimiter);
+    public SimpleParticleType createParticleType(boolean overrideLimiter) {
+        return new SimpleParticleType(overrideLimiter);
     }
 
     @Override

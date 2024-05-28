@@ -1,25 +1,9 @@
 package willatendo.simplelibrary.server.util;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Optional;
-import java.util.ServiceLoader;
-import java.util.function.Function;
-import java.util.function.Supplier;
-import java.util.function.ToIntFunction;
-import java.util.stream.Collectors;
-
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.common.collect.Lists;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceKey;
@@ -33,12 +17,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.SpawnEggItem;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -46,11 +25,20 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import willatendo.simplelibrary.platform.ModloaderHelper;
 import willatendo.simplelibrary.server.creativemodetab.CreativeModeTabFill;
 import willatendo.simplelibrary.server.menu.ExtendedMenuSupplier;
 import willatendo.simplelibrary.server.registry.SimpleHolder;
 import willatendo.simplelibrary.server.registry.SimpleRegistry;
+
+import java.util.*;
+import java.util.function.Function;
+import java.util.function.Supplier;
+import java.util.function.ToIntFunction;
+import java.util.stream.Collectors;
 
 public final class SimpleUtils {
     public static final String SIMPLE_ID = "simplelibrary";
@@ -94,8 +82,8 @@ public final class SimpleUtils {
         return ModloaderHelper.INSTANCE.createSpawnEgg(entityType, primaryColor, secondaryColor, properties);
     }
 
-    public static void createParticleType(boolean serverPlayer) {
-        ModloaderHelper.INSTANCE.createParticleType(serverPlayer);
+    public static SimpleParticleType createParticleType(boolean serverPlayer) {
+        return ModloaderHelper.INSTANCE.createParticleType(serverPlayer);
     }
 
     public static void openContainer(BlockEntity blockEntity, BlockPos blockPos, ServerPlayer serverPlayer) {

@@ -7,8 +7,6 @@ import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
-import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -82,8 +80,8 @@ public class FabricHelper implements ModloaderHelper {
     }
 
     @Override
-    public <T extends ParticleOptions> ParticleType<T> createParticleType(boolean overrideLimiter) {
-        return (ParticleType<T>) FabricParticleTypes.simple(overrideLimiter);
+    public SimpleParticleType createParticleType(boolean overrideLimiter) {
+        return FabricParticleTypes.simple(overrideLimiter);
     }
 
     @Override

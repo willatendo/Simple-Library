@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -47,7 +48,7 @@ public interface ModloaderHelper {
 
     SpawnEggItem createSpawnEgg(Supplier<EntityType<? extends Mob>> entityType, int primaryColor, int secondaryColor, Item.Properties properties);
 
-    <T extends ParticleOptions> ParticleType<T> createParticleType(boolean overrideLimiter);
+    SimpleParticleType createParticleType(boolean overrideLimiter);
 
     void openContainer(BlockEntity blockEntity, BlockPos blockPos, ServerPlayer serverPlayer);
 }
