@@ -2,10 +2,14 @@ package willatendo.simplelibrary.platform;
 
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
@@ -75,6 +79,11 @@ public class FabricHelper implements ModloaderHelper {
     @Override
     public SpawnEggItem createSpawnEgg(Supplier<EntityType<? extends Mob>> entityType, int primaryColor, int secondaryColor, Item.Properties properties) {
         return new SpawnEggItem(entityType.get(), primaryColor, secondaryColor, properties);
+    }
+
+    @Override
+    public <T extends ParticleOptions> ParticleType<T> createParticleType(boolean overrideLimiter) {
+        return (ParticleType<T>) FabricParticleTypes.simple(overrideLimiter);
     }
 
     @Override
