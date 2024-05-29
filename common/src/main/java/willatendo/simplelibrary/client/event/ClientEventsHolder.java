@@ -8,6 +8,7 @@ import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.Entity;
@@ -38,7 +39,7 @@ public final class ClientEventsHolder {
         this.blockModels.add(new BlockModelEntry(blockEntityType, blockEntityRendererProvider));
     }
 
-    public <T extends BlockEntity> void addParticleSheet(ParticleType<? extends T> particleType, ParticleEngine.SpriteParticleRegistration<? extends T> particleSheetProvider) {
+    public <T extends ParticleOptions> void addParticleSheet(ParticleType<? extends T> particleType, ParticleEngine.SpriteParticleRegistration<? extends T> particleSheetProvider) {
         this.particleSheets.add(new ParticleEntry(particleType, particleSheetProvider));
     }
 
