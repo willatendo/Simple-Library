@@ -7,7 +7,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.neoforged.neoforge.registries.RegisterEvent;
 
-public class NeoForgeRegister {
+public final class NeoForgeRegister {
 	public static <T> void register(RegisterEvent registerEvent, SimpleRegistry<? extends T>... simpleRegistries) {
 		for (SimpleRegistry<? extends T> simpleRegistry : simpleRegistries) {
 			NeoForgeRegister.register(registerEvent, simpleRegistry);

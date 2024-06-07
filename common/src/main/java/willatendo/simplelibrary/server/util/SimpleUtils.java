@@ -29,7 +29,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import willatendo.simplelibrary.platform.ModloaderHelper;
-import willatendo.simplelibrary.server.creativemodetab.CreativeModeTabFill;
 import willatendo.simplelibrary.server.menu.ExtendedMenuSupplier;
 import willatendo.simplelibrary.server.registry.SimpleHolder;
 import willatendo.simplelibrary.server.registry.SimpleRegistry;
@@ -94,24 +93,6 @@ public final class SimpleUtils {
 
     public static CreativeModeTab.Builder create(String modId, String id, Supplier<Item> icon, CreativeModeTab.DisplayItemsGenerator displayItemsGenerator) {
         return ModloaderHelper.INSTANCE.createCreativeModeTab().title(SimpleUtils.translation(modId, "itemGroup", id)).icon(() -> icon.get().getDefaultInstance()).displayItems(displayItemsGenerator);
-    }
-
-    public static CreativeModeTab.DisplayItemsGenerator fillCreativeTab(SimpleRegistry<Item> simpleRegister, SimpleHolder<? extends Item>... exceptions) {
-        return fillCreativeTab(simpleRegister, Map.of(), exceptions);
-    }
-
-    public static CreativeModeTab.DisplayItemsGenerator fillCreativeTab(SimpleRegistry<Item> simpleRegister, Map<Item, CreativeModeTabFill> fillLike, SimpleHolder<? extends Item>... exceptions) {
-        return (itemDisplayParameters, output) -> {
-            for (SimpleHolder<? extends Item> item : simpleRegister.getEntriesView().stream().filter(item -> !SimpleUtils.toList(exceptions).contains(item)).toList()) {
-                if (item.get() instanceof CreativeModeTabFill fillCreativeTab) {
-                    fillCreativeTab.fill(itemDisplayParameters, output);
-                } else if (fillLike.containsKey(item.get())) {
-                    fillLike.get(item.get()).fill(itemDisplayParameters, output);
-                } else {
-                    output.accept(item.get());
-                }
-            }
-        };
     }
 
     // Registry Helpers
