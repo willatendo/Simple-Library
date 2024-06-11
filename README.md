@@ -1,25 +1,50 @@
-# SimpleLibrary [![Latest Version](https://jitpack.io/v/willatendo/Simple-Library.svg)](https://jitpack.io/#willatendo/Simple-Library) ![Minecraft Version](https://img.shields.io/badge/minecraft-1.20.4-blue)
+# SimpleLibrary [![Minecraft Version](https://img.shields.io/badge/minecraft-1.20.4-blue)
 
 ## Overview:
 SimpleLibrary is a small library to make modding a little easier and reduce the amount of step. Small little things found in SimpleUtils are ment to reduce hastle across multiple projects.
 
-SimpleLibrary suports FML 1.20.1 and lower and Fabric 1.20.4+
+SimpleLibrary suports FML, NeoForge, and Fabric 1.20.6
 
 ## Installation:
 First add the maven. Just use JitPack with a gradle release.
 ```gradle
 repositories {
 	...
-	maven { "https://jitpack.io/" }
+	maven { "https://raw.githubusercontent.com/willatendo/Willatendo-Mods/main/builds/" }
 }
 ```
 
 Then add the dependency in the dependencies.
 
-```gradle
+Common:
+```
 dependencies {
 	...
-	implementation fg.deobf("com.github.willatendo:Simple-Library:${simple_library_version}")
+	compileOnly "simplelibrary:simplelibrary-common:${simple_library_version}"
+}
+```
+
+Fabric
+```
+dependencies {
+	...
+	compileOnly "simplelibrary:simplelibrary-fabric:${simple_library_version}"
+}
+```
+
+FML
+```
+dependencies {
+	...
+	compileOnly "simplelibrary:simplelibrary-forge:${simple_library_version}"
+}
+```
+
+NeoForge
+```
+dependencies {
+	...
+	compileOnly "simplelibrary:simplelibrary-neoforge:${simple_library_version}"
 }
 ```
 
