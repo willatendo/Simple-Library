@@ -1,30 +1,29 @@
 plugins {
-	id "org.jetbrains.gradle.plugin.idea-ext" version "1.1.7"
+    id "org.jetbrains.gradle.plugin.idea-ext" version "1.1.7"
 }
 
 subprojects {
-	apply plugin: 'java'
+    apply plugin: 'java'
 
-	java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+    java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
-	repositories {
-		mavenCentral()
-		maven { url = "https://repo.spongepowered.org/repository/maven-public/" }
-		maven { url = "https://mvn.devos.one/snapshots/" }
-	}
+    repositories {
+        mavenCentral()
+        maven { url = "https://repo.spongepowered.org/repository/maven-public/" }
+        maven { url = "https://mvn.devos.one/snapshots/" }
+    }
 
-	tasks.withType(JavaCompile).configureEach {
-		it.options.encoding = 'UTF-8'
-		it.options.getRelease().set(17)
-	}
-	
-	processResources {
+    tasks.withType(JavaCompile).configureEach {
+        it.options.encoding = 'UTF-8'
+        it.options.getRelease().set(21)
+    }
+
+    processResources {
         def expandProps = [
                 "version"                : version,
                 "group"                  : project.group,
                 "minecraft_version"      : minecraft_version,
                 "forge_version"          : forge_version,
-                "forge_version_range"    : forge_version_range,
                 "forge_version_range"    : forge_version_range,
                 "minecraft_version_range": minecraft_version_range,
                 "api_version"            : api_version,
@@ -38,15 +37,16 @@ subprojects {
                 "license"                : license,
                 "description"            : project.description,
                 "neoforge_version"       : neoforge_version,
-                "neoforge_version_range" : neoforge_version_range,]
+                "neoforge_version_range" : neoforge_version_range
+        ]
 
-        filesMatching(['fabric.mod.json', 'META-INF/mods.toml']) {
+        filesMatching(['fabric.mod.json', 'META-INF/mods.toml', 'META-INF/neoforge.mods.toml']) {
             expand expandProps
         }
         inputs.properties(expandProps)
     }
 
-	tasks.withType(GenerateModuleMetadata).configureEach {
-		enabled = false
-	}
+    tasks.withType(GenerateModuleMetadata).configureEach {
+        enabled = false
+    }
 }

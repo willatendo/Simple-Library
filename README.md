@@ -6,7 +6,7 @@ SimpleLibrary is a small library to make modding a little easier and reduce the 
 SimpleLibrary suports FML, NeoForge, and Fabric 1.20.6
 
 ## Installation:
-First add the maven. Just use JitPack with a gradle release.
+First add the maven.
 ```gradle
 repositories {
 	...

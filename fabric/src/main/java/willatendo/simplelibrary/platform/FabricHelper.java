@@ -2,8 +2,10 @@ package willatendo.simplelibrary.platform;
 
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
+import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
@@ -28,7 +30,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import willatendo.simplelibrary.server.menu.ExtendedMenuSupplier;
 import willatendo.simplelibrary.server.util.RegistryHolder;
-import willatendo.simplelibrary.server.utils.FabricUtils;
 
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -66,7 +67,11 @@ public class FabricHelper implements ModloaderHelper {
 
     @Override
     public <T extends AbstractContainerMenu> MenuType<T> createMenuType(ExtendedMenuSupplier<T> extendedMenuSupplier) {
-        return FabricUtils.createMenuType((windowId, inventory, friendlyByteBuf) -> extendedMenuSupplier.create(windowId, inventory, friendlyByteBuf));
+        return new ExtendedScreenHandlerType<>((windowId, inventory, blockPos) -> {
+            FriendlyByteBuf friendlyByteBuf = PacketByteBufs.create();
+            friendlyByteBuf.writeBlockPos(blockPos);
+            return extendedMenuSupplier.create(windowId, inventory, friendlyByteBuf);
+        }, BlockPos.STREAM_CODEC.cast());
     }
 
     @Override
@@ -86,10 +91,12 @@ public class FabricHelper implements ModloaderHelper {
 
     @Override
     public void openContainer(BlockEntity blockEntity, BlockPos blockPos, ServerPlayer serverPlayer) {
-        serverPlayer.openMenu(new ExtendedScreenHandlerFactory() {
+        serverPlayer.openMenu(new ExtendedScreenHandlerFactory<FriendlyByteBuf>() {
             @Override
-            public void writeScreenOpeningData(ServerPlayer serverPlayer, FriendlyByteBuf friendlyByteBuf) {
+            public FriendlyByteBuf getScreenOpeningData(ServerPlayer serverPlayer) {
+                FriendlyByteBuf friendlyByteBuf = PacketByteBufs.create();
                 friendlyByteBuf.writeBlockPos(blockEntity.getBlockPos());
+                return friendlyByteBuf;
             }
 
             @Override
