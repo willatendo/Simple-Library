@@ -1,48 +1,29 @@
 plugins {
-	id 'java'
-	id 'idea'
-	id 'fabric-loom' version '1.6-SNAPSHOT'
+    id 'multiloader-loader'
+    id 'fabric-loom' version '1.6-SNAPSHOT'
 }
-
-base {
-	archivesName = "${mod_id}-fabric"
-}
-
 dependencies {
-	minecraft "com.mojang:minecraft:${minecraft_version}"
-	mappings loom.officialMojangMappings()
-	
-	modImplementation "net.fabricmc:fabric-loader:${fabric_version}"
-	modImplementation "net.fabricmc.fabric-api:fabric-api:${api_version}"
-
-	compileOnly project(":common")
+    minecraft "com.mojang:minecraft:${minecraft_version}"
+    mappings loom.officialMojangMappings()
+    modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
 }
 
 loom {
-	accessWidenerPath.set(project(":common").file("src/main/resources/${mod_id}.accesswidener"))
-	mixin {
-		defaultRefmapName.set("${mod_id}.refmap.json")
-	}
-	runs {
-		client {
-			client()
-			setConfigName("Fabric Client")
-			ideConfigGenerated(true)
-			runDir("run")
-		}
-		server {
-			server()
-			setConfigName("Fabric Server")
-			ideConfigGenerated(true)
-			runDir("run")
-		}
-	}
-}
+    accessWidenerPath.set(project(":common").file("src/main/resources/${mod_id}.accesswidener"))
 
-tasks.withType(JavaCompile).configureEach {
-	source(project(":common").sourceSets.main.allSource)
-}
-
-processResources {
-	from project(":common").sourceSets.main.resources
+    runs {
+        client {
+            client()
+            setConfigName("Fabric Client")
+            ideConfigGenerated(true)
+            runDir("runs/client")
+        }
+        server {
+            server()
+            setConfigName("Fabric Server")
+            ideConfigGenerated(true)
+            runDir("runs/server")
+        }
+    }
 }

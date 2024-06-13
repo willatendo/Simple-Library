@@ -1,29 +1,32 @@
 {
-  "schemaVersion": 1,
-  "id": "${mod_id}",
-  "version": "${version}",
-  "name": "${mod_name}",
-  "description": "${description}",
-  "accessWidener": "simplelibrary.accesswidener",
-  "authors": [
-    "${mod_author}"
-  ],
-  "contact": {
-    "homepage": "${homepage}",
-    "sources": "${issue_tracker}"
-  },
-  "license": "${license}",
-  "icon": "${icon}",
-  "environment": "*",
-  "entrypoints": {
-    "main": [
-      "willatendo.simplelibrary.SimpleLibrary"
-    ]
-  },
-  "depends": {
-    "fabricloader": ">=${fabric_version}",
-    "minecraft": "~1.20.4",
-    "java": ">=17",
-    "fabric-api": "*"
-  }
+    "schemaVersion": 1,
+    "id": "${mod_id}",
+    "version": "${version}",
+    "name": "${mod_name}",
+    "description": "${description}",
+    "authors": [
+        "${mod_author}"
+    ],
+    "contact": {
+        "homepage": "${homepage}",
+        "sources": "${issue_tracker}"
+    },
+    "license": "${license}",
+    "icon": "${mod_id}_icon.png",
+    "environment": "*",
+    "entrypoints": {
+        "main": [
+            "willatendo.simplelibrary.SimpleLibrary"
+        ]
+    },
+    "depends": {
+        "fabricloader": ">=${fabric_loader_version}",
+        "fabric-api": "*",
+        "minecraft": "${minecraft_version}",
+        "java": ">=${java_version}"
+    },
+    "suggests": {
+        "another-mod": "*"
+    }
 }
+  

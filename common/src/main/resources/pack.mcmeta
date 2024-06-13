@@ -1,6 +1,6 @@
 {
     "pack": {
-        "description": "SimpleLibrary Resources",
-        "pack_format": 18
+        "description": "${mod_name}",
+        "pack_format": 26
     }
 }
