@@ -163,17 +163,17 @@ public abstract class SimpleRecipeProvider extends RecipeProvider {
     }
 
     public void smelting(ItemLike output, ItemLike input, float experience, int time) {
-        this.ore(null, output, input, experience, time);
+        this.smelting(null, output, input, experience, time);
     }
 
     public void smelting(ItemLike output, TagKey<Item> input, String requires, float experience, int time) {
-        this.ore(null, output, input, requires, experience, time);
+        this.smelting(null, output, input, requires, experience, time);
     }
 
-    public void food(String group, ItemLike output, ItemLike input, float experience, int time) {
-        SimpleCookingRecipeBuilder smeltingRecipeBuilder = SimpleCookingRecipeBuilder.smelting(Ingredient.of(input), RecipeCategory.FOOD, output, experience, time).unlockedBy(getHasName(input), has(input));
-        SimpleCookingRecipeBuilder smokingRecipeBuilder = SimpleCookingRecipeBuilder.smoking(Ingredient.of(input), RecipeCategory.FOOD, output, experience, time).unlockedBy(getHasName(input), has(input));
-        SimpleCookingRecipeBuilder campfireCookingRecipeBuilder = SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(input), RecipeCategory.FOOD, output, experience, time).unlockedBy(getHasName(input), has(input));
+    public void food(String group, ItemLike output, ItemLike input, float experience) {
+        SimpleCookingRecipeBuilder smeltingRecipeBuilder = SimpleCookingRecipeBuilder.smelting(Ingredient.of(input), RecipeCategory.FOOD, output, experience, 200).unlockedBy(getHasName(input), has(input));
+        SimpleCookingRecipeBuilder smokingRecipeBuilder = SimpleCookingRecipeBuilder.smoking(Ingredient.of(input), RecipeCategory.FOOD, output, experience, 100).unlockedBy(getHasName(input), has(input));
+        SimpleCookingRecipeBuilder campfireCookingRecipeBuilder = SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(input), RecipeCategory.FOOD, output, experience, 400).unlockedBy(getHasName(input), has(input));
         if (group != null) {
             smeltingRecipeBuilder.group(group);
             smokingRecipeBuilder.group(group);
@@ -185,10 +185,10 @@ public abstract class SimpleRecipeProvider extends RecipeProvider {
         this.recipeBuilders.put(baseName + "_from_campfire_cooking", campfireCookingRecipeBuilder);
     }
 
-    public void food(String group, ItemLike output, TagKey<Item> input, String requires, float experience, int time) {
-        SimpleCookingRecipeBuilder smeltingRecipeBuilder = SimpleCookingRecipeBuilder.smelting(Ingredient.of(input), RecipeCategory.FOOD, output, experience, time).unlockedBy(requires, has(input));
-        SimpleCookingRecipeBuilder smokingRecipeBuilder = SimpleCookingRecipeBuilder.smoking(Ingredient.of(input), RecipeCategory.FOOD, output, experience, time).unlockedBy(requires, has(input));
-        SimpleCookingRecipeBuilder campfireCookingRecipeBuilder = SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(input), RecipeCategory.FOOD, output, experience, time).unlockedBy(requires, has(input));
+    public void food(String group, ItemLike output, TagKey<Item> input, String requires, float experience) {
+        SimpleCookingRecipeBuilder smeltingRecipeBuilder = SimpleCookingRecipeBuilder.smelting(Ingredient.of(input), RecipeCategory.FOOD, output, experience, 200).unlockedBy(requires, has(input));
+        SimpleCookingRecipeBuilder smokingRecipeBuilder = SimpleCookingRecipeBuilder.smoking(Ingredient.of(input), RecipeCategory.FOOD, output, experience, 100).unlockedBy(requires, has(input));
+        SimpleCookingRecipeBuilder campfireCookingRecipeBuilder = SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(input), RecipeCategory.FOOD, output, experience, 400).unlockedBy(requires, has(input));
         if (group != null) {
             smeltingRecipeBuilder.group(group);
             smokingRecipeBuilder.group(group);
@@ -200,17 +200,17 @@ public abstract class SimpleRecipeProvider extends RecipeProvider {
         this.recipeBuilders.put(baseName + "_from_campfire_cooking", campfireCookingRecipeBuilder);
     }
 
-    public void food(ItemLike output, ItemLike input, float experience, int time) {
-        this.food(null, output, input, experience, time);
+    public void food(ItemLike output, ItemLike input, float experience) {
+        this.food(null, output, input, experience);
     }
 
-    public void food(ItemLike output, TagKey<Item> input, String requires, float experience, int time) {
-        this.food(null, output, input, requires, experience, time);
+    public void food(ItemLike output, TagKey<Item> input, String requires, float experience) {
+        this.food(null, output, input, requires, experience);
     }
 
-    public void ore(String group, ItemLike output, ItemLike input, float experience, int time) {
-        SimpleCookingRecipeBuilder smeltingRecipeBuilder = SimpleCookingRecipeBuilder.smelting(Ingredient.of(input), RecipeCategory.FOOD, output, experience, time).group(group).unlockedBy(getHasName(input), has(input));
-        SimpleCookingRecipeBuilder blastingRecipeBuilder = SimpleCookingRecipeBuilder.blasting(Ingredient.of(input), RecipeCategory.FOOD, output, experience, time).group(group).unlockedBy(getHasName(input), has(input));
+    public void ore(String group, ItemLike output, ItemLike input, float experience) {
+        SimpleCookingRecipeBuilder smeltingRecipeBuilder = SimpleCookingRecipeBuilder.smelting(Ingredient.of(input), RecipeCategory.FOOD, output, experience, 200).group(group).unlockedBy(getHasName(input), has(input));
+        SimpleCookingRecipeBuilder blastingRecipeBuilder = SimpleCookingRecipeBuilder.blasting(Ingredient.of(input), RecipeCategory.FOOD, output, experience, 100).group(group).unlockedBy(getHasName(input), has(input));
         if (group != null) {
             smeltingRecipeBuilder.group(group);
             blastingRecipeBuilder.group(group);
@@ -220,9 +220,9 @@ public abstract class SimpleRecipeProvider extends RecipeProvider {
         this.recipeBuilders.put(baseName + "_from_blasting", blastingRecipeBuilder);
     }
 
-    public void ore(String group, ItemLike output, TagKey<Item> input, String requires, float experience, int time) {
-        SimpleCookingRecipeBuilder smeltingRecipeBuilder = SimpleCookingRecipeBuilder.smelting(Ingredient.of(input), RecipeCategory.FOOD, output, experience, time).unlockedBy(requires, has(input));
-        SimpleCookingRecipeBuilder blastingRecipeBuilder = SimpleCookingRecipeBuilder.blasting(Ingredient.of(input), RecipeCategory.FOOD, output, experience, time).unlockedBy(requires, has(input));
+    public void ore(String group, ItemLike output, TagKey<Item> input, String requires, float experience) {
+        SimpleCookingRecipeBuilder smeltingRecipeBuilder = SimpleCookingRecipeBuilder.smelting(Ingredient.of(input), RecipeCategory.FOOD, output, experience, 200).unlockedBy(requires, has(input));
+        SimpleCookingRecipeBuilder blastingRecipeBuilder = SimpleCookingRecipeBuilder.blasting(Ingredient.of(input), RecipeCategory.FOOD, output, experience, 100).unlockedBy(requires, has(input));
         if (group != null) {
             smeltingRecipeBuilder.group(group);
             blastingRecipeBuilder.group(group);
@@ -232,12 +232,12 @@ public abstract class SimpleRecipeProvider extends RecipeProvider {
         this.recipeBuilders.put(baseName + "_from_blasting", blastingRecipeBuilder);
     }
 
-    public void ore(ItemLike output, ItemLike input, float experience, int time) {
-        this.ore(null, output, input, experience, time);
+    public void ore(ItemLike output, ItemLike input, float experience) {
+        this.ore(null, output, input, experience);
     }
 
-    public void ore(ItemLike output, TagKey<Item> input, String requires, float experience, int time) {
-        this.ore(null, output, input, requires, experience, time);
+    public void ore(ItemLike output, TagKey<Item> input, String requires, float experience) {
+        this.ore(null, output, input, requires, experience);
     }
 
     public void smithing(String name, ItemLike template, ItemLike base, ItemLike addition, ItemLike result, RecipeCategory recipeCategory) {
