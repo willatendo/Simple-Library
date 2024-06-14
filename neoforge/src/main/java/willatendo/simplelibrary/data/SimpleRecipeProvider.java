@@ -20,11 +20,11 @@ import java.util.function.Function;
 
 public abstract class SimpleRecipeProvider extends RecipeProvider {
     //Broad
-    private final Map<String, RecipeBuilder> recipeBuilders = new HashMap<>();
+    protected final Map<String, RecipeBuilder> recipeBuilders = new HashMap<>();
 
     //Special Cases
-    private final Map<String, SmithingTransformRecipeBuilder> smithingTransformRecipeBuilderMap = new HashMap<>();
-    private final Map<String, SpecialRecipeBuilder> specialRecipeBuilderMap = new HashMap<>();
+    protected final Map<String, SmithingTransformRecipeBuilder> smithingTransformRecipeBuilderMap = new HashMap<>();
+    protected final Map<String, SpecialRecipeBuilder> specialRecipeBuilderMap = new HashMap<>();
 
     private final String modId;
 
