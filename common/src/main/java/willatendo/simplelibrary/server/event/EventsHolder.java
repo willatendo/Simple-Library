@@ -16,8 +16,8 @@ public class EventsHolder {
         this.attributes.add(new AttributeEntry(entityType, attributeSupplier));
     }
 
-    public <T extends Entity> void addSpawnPlacement(EntityType<T> entityType, SpawnPlacementTypes spawnPlacementTypes, Heightmap.Types types, SpawnPlacements.SpawnPredicate<T> spawnPredicate) {
-        this.spawnPlacements.add(new SpawnPlacementEntry(entityType, spawnPlacementTypes, types, spawnPredicate));
+    public <T extends Entity> void addSpawnPlacement(EntityType<T> entityType, SpawnPlacementType spawnPlacementType, Heightmap.Types types, SpawnPlacements.SpawnPredicate<T> spawnPredicate) {
+        this.spawnPlacements.add(new SpawnPlacementEntry(entityType, spawnPlacementType, types, spawnPredicate));
     }
 
     public void registerAllAttributes(Consumer<? super AttributeEntry> action) {
