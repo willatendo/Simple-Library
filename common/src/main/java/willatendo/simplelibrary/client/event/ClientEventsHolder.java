@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
+import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.MenuAccess;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
@@ -13,11 +16,14 @@ import net.minecraft.core.particles.ParticleType;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
 public final class ClientEventsHolder {
+    private final List<MenuScreenEntry> menuScreens = new ArrayList<MenuScreenEntry>();
     private final List<ModelLayerEntry> modelLayers = new ArrayList<ModelLayerEntry>();
     private final List<EntityModelEntry> entityModels = new ArrayList<EntityModelEntry>();
     private final List<BlockModelEntry> blockModels = new ArrayList<BlockModelEntry>();
@@ -25,6 +31,10 @@ public final class ClientEventsHolder {
     private final List<SkyRendererEntry> skyRenderers = new ArrayList<SkyRendererEntry>();
 
     public ClientEventsHolder() {
+    }
+
+    public <M extends AbstractContainerMenu, U extends Screen & MenuAccess<M>> void addMenuScreen(MenuType<? extends M> menuType, MenuScreens.ScreenConstructor<M, U> screenConstructor) {
+        this.menuScreens.add(new MenuScreenEntry(menuType, screenConstructor));
     }
 
     public void addModelLayer(ModelLayerLocation modelLayerLocation, TexturedModelDataProvider texturedModelDataProvider) {
@@ -45,6 +55,10 @@ public final class ClientEventsHolder {
 
     public void addSkyRenderer(ResourceKey<Level> levelResourceKey, SkyRendererProvider skyRendererProvider) {
         this.skyRenderers.add(new SkyRendererEntry(levelResourceKey, skyRendererProvider));
+    }
+
+    public void registerAllMenuScreens(Consumer<? super MenuScreenEntry> action) {
+        this.menuScreens.forEach(action);
     }
 
     public void registerAllModelLayers(Consumer<? super ModelLayerEntry> action) {
