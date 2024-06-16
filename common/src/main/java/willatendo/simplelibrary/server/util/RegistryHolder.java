@@ -1,16 +1,15 @@
 package willatendo.simplelibrary.server.util;
 
-import java.util.Iterator;
-import java.util.Optional;
-
-import org.jetbrains.annotations.NotNull;
-
 import net.minecraft.core.Holder;
 import net.minecraft.core.IdMap;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Iterator;
+import java.util.Optional;
 
 public interface RegistryHolder<T> extends IdMap<T> {
 	T getOrThrow(ResourceKey<T> resourceKey);

@@ -1,11 +1,11 @@
 package willatendo.simplelibrary.server.registry;
 
-import java.util.Map.Entry;
-import java.util.function.Supplier;
-
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.neoforged.neoforge.registries.RegisterEvent;
+
+import java.util.Map.Entry;
+import java.util.function.Supplier;
 
 public final class NeoForgeRegister {
 	public static <T> void register(RegisterEvent registerEvent, SimpleRegistry<? extends T>... simpleRegistries) {

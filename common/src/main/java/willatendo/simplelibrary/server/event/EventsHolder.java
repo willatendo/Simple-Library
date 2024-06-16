@@ -1,12 +1,12 @@
 package willatendo.simplelibrary.server.event;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Consumer;
-
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.level.levelgen.Heightmap;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
 
 public class EventsHolder {
     private final List<AttributeEntry> attributes = new ArrayList<AttributeEntry>();

@@ -1,13 +1,6 @@
 package willatendo.simplelibrary.server.registry;
 
-import java.util.Locale;
-import java.util.Optional;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-import java.util.stream.Stream;
-
 import com.mojang.datafixers.util.Either;
-
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderOwner;
 import net.minecraft.core.Registry;
@@ -15,6 +8,12 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
+
+import java.util.Locale;
+import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 public class SimpleHolder<T> implements Holder<T>, Supplier<T> {
     public static <T> SimpleHolder<T> create(ResourceKey<? extends Registry<T>> registryKey, ResourceLocation valueId) {

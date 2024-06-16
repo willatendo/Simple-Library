@@ -1,10 +1,10 @@
 package willatendo.simplelibrary.server.registry;
 
-import java.util.Map.Entry;
-import java.util.function.Supplier;
-
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+
+import java.util.Map.Entry;
+import java.util.function.Supplier;
 
 public class FabricRegister {
 	public static <T> void register(SimpleRegistry<T>... simpleRegistries) {

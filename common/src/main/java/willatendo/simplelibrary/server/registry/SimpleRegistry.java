@@ -1,16 +1,12 @@
 package willatendo.simplelibrary.server.registry;
 
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.function.Function;
-import java.util.function.Supplier;
-
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+
+import java.util.*;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class SimpleRegistry<T> {
 	private final ResourceKey<? extends Registry<T>> registryKey;
