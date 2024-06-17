@@ -1,5 +1,6 @@
 package willatendo.simplelibrary.data.loot;
 
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
@@ -11,8 +12,8 @@ import java.util.stream.Collectors;
 public abstract class SimpleBlockLootSubProvider extends BlockLootSubProvider {
     private final String modId;
 
-    public SimpleBlockLootSubProvider(String modId) {
-        super(Set.of(), FeatureFlags.REGISTRY.allFlags());
+    public SimpleBlockLootSubProvider(HolderLookup.Provider registries, String modId) {
+        super(Set.of(), FeatureFlags.REGISTRY.allFlags(), registries);
         this.modId = modId;
     }
 

@@ -34,10 +34,6 @@ public abstract class SimpleLanguageProvider extends LanguageProvider {
         this.add(key.getDescriptionId(), name);
     }
 
-    public void add(Enchantment key, String name) {
-        this.add(key.getDescriptionId(), name);
-    }
-
     public void add(MobEffect key, String name) {
         this.add(key.getDescriptionId(), name);
     }
@@ -52,10 +48,6 @@ public abstract class SimpleLanguageProvider extends LanguageProvider {
 
     public void add(Block block) {
         this.add(block, SimpleUtils.autoName(BuiltInRegistries.BLOCK.getKey(block).getPath()));
-    }
-
-    public void add(Enchantment enchantment) {
-        this.add(enchantment, SimpleUtils.autoName(BuiltInRegistries.ENCHANTMENT.getKey(enchantment).getPath()));
     }
 
     public void add(MobEffect mobEffect) {

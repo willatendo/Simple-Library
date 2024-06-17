@@ -1,5 +1,6 @@
 package willatendo.simplelibrary.data.loot;
 
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.loot.EntityLootSubProvider;
 import net.minecraft.world.entity.EntityType;
@@ -10,8 +11,8 @@ import java.util.stream.Stream;
 public abstract class SimpleEntityLootSubProvider extends EntityLootSubProvider {
     private final String modId;
 
-    public SimpleEntityLootSubProvider(String modId) {
-        super(FeatureFlags.REGISTRY.allFlags());
+    public SimpleEntityLootSubProvider(HolderLookup.Provider registries, String modId) {
+        super(FeatureFlags.REGISTRY.allFlags(), registries);
         this.modId = modId;
     }
 
