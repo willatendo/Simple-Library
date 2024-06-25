@@ -49,7 +49,7 @@ public final class FabricEvents {
         });
 
         this.eventsHolder.attributes.forEach(attributeEntry -> {
-            FabricDefaultAttributeRegistry.register(attributeEntry.getEntityType(), attributeEntry.attributeSupplier());
+            FabricDefaultAttributeRegistry.register(attributeEntry.getEntityType(), attributeEntry.getAttributeSupplier());
         });
 
         this.eventsHolder.spawnPlacements.forEach(spawnPlacementEntry -> {

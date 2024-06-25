@@ -15,7 +15,7 @@ public class EventsHolder {
     public final List<Registry<?>> registries = new ArrayList<Registry<?>>();
     public final List<ResourcePackEntry> resourcePackEntries = new ArrayList<ResourcePackEntry>();
 
-    public <T extends Entity> void addAttribute(Supplier<EntityType<T>> entityTypeSupplier, AttributeSupplier attributeSupplier) {
+    public <T extends Entity> void addAttribute(Supplier<EntityType<T>> entityTypeSupplier, Supplier<AttributeSupplier> attributeSupplier) {
         this.attributes.add(new AttributeEntry(entityTypeSupplier, attributeSupplier));
     }
 

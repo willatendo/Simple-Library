@@ -28,7 +28,7 @@ public final class NeoForgeEvents {
     @SubscribeEvent
     public void registerEntityAttributes(EntityAttributeCreationEvent event) {
         this.eventsHolder.attributes.forEach(attributeEntry -> {
-            event.put(attributeEntry.getEntityType(), attributeEntry.attributeSupplier());
+            event.put(attributeEntry.getEntityType(), attributeEntry.getAttributeSupplier());
         });
     }
 
