@@ -9,10 +9,8 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
@@ -40,16 +38,15 @@ import java.util.function.ToIntFunction;
 import java.util.stream.Collectors;
 
 public final class SimpleUtils {
-    public static final String NEOFORGE_ID = "neoforge";
     public static final String SIMPLE_ID = "simplelibrary";
-    public static final Logger LOGGER = LoggerFactory.getLogger(SIMPLE_ID);
+    public static final String MINECRAFT_ID = "minecraft";
 
-    public static ResourceLocation simpleResource(String path) {
-        return ResourceLocation.fromNamespaceAndPath(SIMPLE_ID, path);
+    public static ResourceLocation simple(String path) {
+        return SimpleUtils.resource(SIMPLE_ID, path);
     }
 
-    public static ResourceLocation neoforgeResource(String path) {
-        return ResourceLocation.fromNamespaceAndPath(SIMPLE_ID, path);
+    public static ResourceLocation mc(String path) {
+        return SimpleUtils.resource(MINECRAFT_ID, path);
     }
 
     // Multi-Platform Helpers
@@ -203,7 +200,7 @@ public final class SimpleUtils {
     // Used to setup a basic Utilities class
 
     public static ResourceLocation resource(String modId, String path) {
-        return new ResourceLocation(modId, path);
+        return ResourceLocation.fromNamespaceAndPath(modId, path);
     }
 
     public static MutableComponent translation(String modId, String type, String name) {
