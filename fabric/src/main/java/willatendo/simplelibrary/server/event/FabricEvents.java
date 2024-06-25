@@ -49,11 +49,11 @@ public final class FabricEvents {
         });
 
         this.eventsHolder.attributes.forEach(attributeEntry -> {
-            FabricDefaultAttributeRegistry.register(attributeEntry.entityType(), attributeEntry.attributeSupplier());
+            FabricDefaultAttributeRegistry.register(attributeEntry.getEntityType(), attributeEntry.attributeSupplier());
         });
 
         this.eventsHolder.spawnPlacements.forEach(spawnPlacementEntry -> {
-            SpawnPlacements.register(spawnPlacementEntry.entityType(), spawnPlacementEntry.spawnPlacementType(), spawnPlacementEntry.types(), spawnPlacementEntry.spawnPredicate());
+            SpawnPlacements.register(spawnPlacementEntry.getEntityType(), spawnPlacementEntry.spawnPlacementType(), spawnPlacementEntry.types(), spawnPlacementEntry.spawnPredicate());
         });
 
         this.eventsHolder.resourcePackEntries.forEach(resourcePackEntry -> {

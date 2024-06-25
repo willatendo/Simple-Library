@@ -7,6 +7,7 @@ import net.minecraft.world.level.levelgen.Heightmap;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class EventsHolder {
     public final List<AttributeEntry> attributes = new ArrayList<AttributeEntry>();
@@ -14,12 +15,12 @@ public class EventsHolder {
     public final List<Registry<?>> registries = new ArrayList<Registry<?>>();
     public final List<ResourcePackEntry> resourcePackEntries = new ArrayList<ResourcePackEntry>();
 
-    public void addAttribute(EntityType<? extends LivingEntity> entityType, AttributeSupplier attributeSupplier) {
-        this.attributes.add(new AttributeEntry(entityType, attributeSupplier));
+    public <T extends Entity> void addAttribute(Supplier<EntityType<T>> entityTypeSupplier, AttributeSupplier attributeSupplier) {
+        this.attributes.add(new AttributeEntry(entityTypeSupplier, attributeSupplier));
     }
 
-    public <T extends Entity> void addSpawnPlacement(EntityType<T> entityType, SpawnPlacementType spawnPlacementType, Heightmap.Types types, SpawnPlacements.SpawnPredicate<T> spawnPredicate) {
-        this.spawnPlacements.add(new SpawnPlacementEntry(entityType, spawnPlacementType, types, spawnPredicate));
+    public <T extends Entity> void addSpawnPlacement(Supplier<EntityType<T>> entityTypeSupplier, SpawnPlacementType spawnPlacementType, Heightmap.Types types, SpawnPlacements.SpawnPredicate<T> spawnPredicate) {
+        this.spawnPlacements.add(new SpawnPlacementEntry(entityTypeSupplier, spawnPlacementType, types, spawnPredicate));
     }
 
     public <T> void addRegistry(Registry<T> registry) {

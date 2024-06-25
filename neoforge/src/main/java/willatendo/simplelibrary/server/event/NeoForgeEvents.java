@@ -6,6 +6,7 @@ import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.PathPackResources;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
+import net.minecraft.world.entity.Entity;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
@@ -27,14 +28,14 @@ public final class NeoForgeEvents {
     @SubscribeEvent
     public void registerEntityAttributes(EntityAttributeCreationEvent event) {
         this.eventsHolder.attributes.forEach(attributeEntry -> {
-            event.put(attributeEntry.entityType(), attributeEntry.attributeSupplier());
+            event.put(attributeEntry.getEntityType(), attributeEntry.attributeSupplier());
         });
     }
 
     @SubscribeEvent
     public void registerSpawnPlacements(SpawnPlacementRegisterEvent event) {
         this.eventsHolder.spawnPlacements.forEach(spawnPlacementEntry -> {
-            event.register(spawnPlacementEntry.entityType(), spawnPlacementEntry.spawnPlacementType(), spawnPlacementEntry.types(), spawnPlacementEntry.spawnPredicate(), SpawnPlacementRegisterEvent.Operation.OR);
+            event.register(spawnPlacementEntry.getEntityType(), spawnPlacementEntry.spawnPlacementType(), spawnPlacementEntry.types(), spawnPlacementEntry.spawnPredicate(), SpawnPlacementRegisterEvent.Operation.OR);
         });
     }
 
