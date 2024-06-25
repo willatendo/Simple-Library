@@ -17,7 +17,7 @@ import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import willatendo.simplelibrary.server.menu.ExtendedMenuSupplier;
-import willatendo.simplelibrary.server.util.RegistryHolder;
+import willatendo.simplelibrary.server.util.SimpleRegistryBuilder;
 import willatendo.simplelibrary.server.util.SimpleUtils;
 
 import java.util.Optional;
@@ -42,7 +42,7 @@ public interface ModloaderHelper {
 
     <T extends AbstractContainerMenu> MenuType<T> createMenuType(ExtendedMenuSupplier<T> extendedMenuSupplier);
 
-    <T> RegistryHolder<T> createRegistry(ResourceKey<Registry<T>> resourceKey);
+    <T> Registry<T> createRegistry(ResourceKey<Registry<T>> resourceKey, SimpleRegistryBuilder simpleRegistryBuilder);
 
     SpawnEggItem createSpawnEgg(Supplier<EntityType<? extends Mob>> entityType, int primaryColor, int secondaryColor, Item.Properties properties);
 

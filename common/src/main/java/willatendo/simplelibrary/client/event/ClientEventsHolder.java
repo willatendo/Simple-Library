@@ -1,5 +1,6 @@
 package willatendo.simplelibrary.client.event;
 
+import net.minecraft.client.KeyMapping;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.MenuAccess;
@@ -20,15 +21,15 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 
 public final class ClientEventsHolder {
-    private final List<MenuScreenEntry> menuScreens = new ArrayList<MenuScreenEntry>();
-    private final List<ModelLayerEntry> modelLayers = new ArrayList<ModelLayerEntry>();
-    private final List<EntityModelEntry> entityModels = new ArrayList<EntityModelEntry>();
-    private final List<BlockModelEntry> blockModels = new ArrayList<BlockModelEntry>();
-    private final List<ParticleEntry> particleSheets = new ArrayList<ParticleEntry>();
-    private final List<SkyRendererEntry> skyRenderers = new ArrayList<SkyRendererEntry>();
+    public final List<MenuScreenEntry> menuScreens = new ArrayList<MenuScreenEntry>();
+    public final List<ModelLayerEntry> modelLayers = new ArrayList<ModelLayerEntry>();
+    public final List<EntityModelEntry> entityModels = new ArrayList<EntityModelEntry>();
+    public final List<BlockModelEntry> blockModels = new ArrayList<BlockModelEntry>();
+    public final List<ParticleEntry> particleSheets = new ArrayList<ParticleEntry>();
+    public final List<SkyRendererEntry> skyRenderers = new ArrayList<SkyRendererEntry>();
+    public final List<KeyMapping> keyMappings = new ArrayList<KeyMapping>();
 
     public ClientEventsHolder() {
     }
@@ -57,27 +58,7 @@ public final class ClientEventsHolder {
         this.skyRenderers.add(new SkyRendererEntry(levelResourceKey, skyRendererProvider));
     }
 
-    public void registerAllMenuScreens(Consumer<? super MenuScreenEntry> action) {
-        this.menuScreens.forEach(action);
-    }
-
-    public void registerAllModelLayers(Consumer<? super ModelLayerEntry> action) {
-        this.modelLayers.forEach(action);
-    }
-
-    public void registerAllEntityModels(Consumer<? super EntityModelEntry> action) {
-        this.entityModels.forEach(action);
-    }
-
-    public void registerAllBlockModels(Consumer<? super BlockModelEntry> action) {
-        this.blockModels.forEach(action);
-    }
-
-    public void registerAllParticleSheets(Consumer<? super ParticleEntry> action) {
-        this.particleSheets.forEach(action);
-    }
-
-    public void registerAllSkyRenderers(Consumer<? super SkyRendererEntry> action) {
-        this.skyRenderers.forEach(action);
+    public void addKeyMapping(KeyMapping keyMapping) {
+        this.keyMappings.add(keyMapping);
     }
 }

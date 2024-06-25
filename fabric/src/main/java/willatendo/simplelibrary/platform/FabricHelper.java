@@ -1,6 +1,7 @@
 package willatendo.simplelibrary.platform;
 
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
+import net.fabricmc.fabric.api.event.registry.RegistryAttribute;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
@@ -27,7 +28,7 @@ import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import willatendo.simplelibrary.server.menu.ExtendedMenuSupplier;
-import willatendo.simplelibrary.server.util.RegistryHolder;
+import willatendo.simplelibrary.server.util.SimpleRegistryBuilder;
 
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -69,8 +70,12 @@ public class FabricHelper implements ModloaderHelper {
     }
 
     @Override
-    public <T> RegistryHolder<T> createRegistry(ResourceKey<Registry<T>> resourceKey) {
-        return new RegistryHolder.BasicRegistryHolder<>(FabricRegistryBuilder.createSimple(resourceKey).buildAndRegister());
+    public <T> Registry<T> createRegistry(ResourceKey<Registry<T>> resourceKey, SimpleRegistryBuilder simpleRegistryBuilder) {
+        FabricRegistryBuilder fabricRegistryBuilder = FabricRegistryBuilder.createSimple(resourceKey);
+        if (simpleRegistryBuilder.isSynced()) {
+            fabricRegistryBuilder.attribute(RegistryAttribute.SYNCED);
+        }
+        return fabricRegistryBuilder.buildAndRegister();
     }
 
     @Override

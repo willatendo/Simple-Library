@@ -40,11 +40,16 @@ import java.util.function.ToIntFunction;
 import java.util.stream.Collectors;
 
 public final class SimpleUtils {
+    public static final String NEOFORGE_ID = "neoforge";
     public static final String SIMPLE_ID = "simplelibrary";
     public static final Logger LOGGER = LoggerFactory.getLogger(SIMPLE_ID);
 
     public static ResourceLocation simpleResource(String path) {
-        return new ResourceLocation(SIMPLE_ID, path);
+        return ResourceLocation.fromNamespaceAndPath(SIMPLE_ID, path);
+    }
+
+    public static ResourceLocation neoforgeResource(String path) {
+        return ResourceLocation.fromNamespaceAndPath(SIMPLE_ID, path);
     }
 
     // Multi-Platform Helpers
@@ -73,8 +78,8 @@ public final class SimpleUtils {
         return ModloaderHelper.INSTANCE.createMenuType(extendedMenuSupplier);
     }
 
-    public static <T> RegistryHolder<T> createRegistry(ResourceKey<Registry<T>> resourceKey) {
-        return ModloaderHelper.INSTANCE.createRegistry(resourceKey);
+    public static <T> Registry<T> createRegistry(ResourceKey<Registry<T>> resourceKey, SimpleRegistryBuilder simpleRegistryBuilder) {
+        return ModloaderHelper.INSTANCE.createRegistry(resourceKey, simpleRegistryBuilder);
     }
 
     public static SpawnEggItem createSpawnEgg(Supplier<EntityType<? extends Mob>> entityType, int primaryColor, int secondaryColor, Item.Properties properties) {
@@ -166,11 +171,7 @@ public final class SimpleUtils {
     // Generic Helpers
 
     public static <T> List<T> toList(T[] array) {
-        ArrayList<T> list = new ArrayList<>();
-        for (int i = 0; i < array.length; i++) {
-            list.add(array[i]);
-        }
-        return list;
+        return List.of(array);
     }
 
     public static List<Float> toList(float[] array) {

@@ -23,7 +23,7 @@ import net.neoforged.neoforge.common.DeferredSpawnEggItem;
 import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
 import net.neoforged.neoforge.registries.RegistryBuilder;
 import willatendo.simplelibrary.server.menu.ExtendedMenuSupplier;
-import willatendo.simplelibrary.server.util.RegistryHolder;
+import willatendo.simplelibrary.server.util.SimpleRegistryBuilder;
 
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -65,8 +65,12 @@ public class NeoForgeHelper implements ModloaderHelper {
     }
 
     @Override
-    public <T> RegistryHolder<T> createRegistry(ResourceKey<Registry<T>> resourceKey) {
-        return new RegistryHolder.BasicRegistryHolder<>(new RegistryBuilder<T>(resourceKey).create());
+    public <T> Registry<T> createRegistry(ResourceKey<Registry<T>> resourceKey, SimpleRegistryBuilder simpleRegistryBuilder) {
+        RegistryBuilder<T> registryBuilder = new RegistryBuilder<T>(resourceKey);
+        if (simpleRegistryBuilder.isSynced()) {
+            registryBuilder.sync(true);
+        }
+        return registryBuilder.create();
     }
 
     @Override

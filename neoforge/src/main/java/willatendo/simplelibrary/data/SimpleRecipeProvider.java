@@ -259,11 +259,11 @@ public abstract class SimpleRecipeProvider extends RecipeProvider {
         this.shaped(RecipeCategory.MISC, smithingTemplate, 2, PatternBuilder.builder("#S#", "#C#", "###"), IngredientBuilder.build(Items.DIAMOND).symbol('#'), IngredientBuilder.build(copyBlock).symbol('C'), IngredientBuilder.build(smithingTemplate).symbol('S').requires());
     }
 
-    private ResourceLocation toResourceLocation(String path) {
+    protected ResourceLocation toResourceLocation(String path) {
         return new ResourceLocation(this.modId, path);
     }
 
-    private String toName(ItemLike itemLike) {
+    protected String toName(ItemLike itemLike) {
         return BuiltInRegistries.ITEM.getKey(itemLike.asItem()).getPath();
     }
 

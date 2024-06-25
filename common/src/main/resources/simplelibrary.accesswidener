@@ -5,3 +5,4 @@ accessible class net/minecraft/client/gui/screens/MenuScreens$ScreenConstructor
 
 accessible method net/minecraft/world/inventory/AbstractContainerMenu moveItemStackTo (Lnet/minecraft/world/item/ItemStack;IIZ)Z
 accessible method net/minecraft/resources/ResourceLocation <init> (Ljava/lang/String;Ljava/lang/String;)V
+accessible method net/minecraft/world/level/biome/Biome$ClimateSettings <init> (ZFLnet/minecraft/world/level/biome/Biome$TemperatureModifier;F)V
