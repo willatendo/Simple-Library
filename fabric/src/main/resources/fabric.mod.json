@@ -17,8 +17,14 @@
   "entrypoints": {
     "main": [
       "willatendo.simplelibrary.SimpleLibrary"
+    ],
+    "mm:early_risers": [
+      "willatendo.simplelibrary.EnumExtender"
     ]
   },
+  "mixins": [
+    "simplelibrary.mixins.json"
+  ],
   "depends": {
     "fabricloader": ">=${fabric_loader_version}",
     "fabric-api": "*",

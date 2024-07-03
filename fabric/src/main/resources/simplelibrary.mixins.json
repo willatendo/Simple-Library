@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "willatendo.simplelibrary.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "ClientRecipeBookMixin",
+    "RecipeBookCategoriesMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
