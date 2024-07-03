@@ -3,7 +3,11 @@ package willatendo.simplelibrary.enumextender;
 import java.util.List;
 
 public interface EnumExtenderInitializer {
-    List<String> getRecipeBookTypes();
+    default List<String> getRecipeBookTypes() {
+        return List.of();
+    }
 
-    List<ExtendedRecipeBookCategory> getRecipeBookCategories();
+    default List<ExtendedRecipeBookCategory> getRecipeBookCategories() {
+        return List.of();
+    }
 }
