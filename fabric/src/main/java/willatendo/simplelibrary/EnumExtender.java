@@ -37,7 +37,7 @@ public class EnumExtender implements Runnable {
             recipeBookTypeAdder.addEnum(name.toUpperCase());
         }));
         enumExtenderInitializers.forEach(enumExtenderInitializer -> enumExtenderInitializer.getRecipeBookCategories().forEach(extendedRecipeBookCategory -> {
-            recipeBookCategoriesAdder.addEnum(extendedRecipeBookCategory.name().toUpperCase(), () -> Arrays.stream(extendedRecipeBookCategory.items()).map(itemKey -> new ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.parse(itemKey)))).collect(Collectors.toList()).toArray(ItemStack[]::new));
+            recipeBookCategoriesAdder.addEnum(extendedRecipeBookCategory.name().toUpperCase(), () -> new Object[]{Arrays.stream(extendedRecipeBookCategory.items()).map(itemKey -> BuiltInRegistries.ITEM.get(ResourceLocation.parse(itemKey))).map(ItemStack::new).toArray(ItemStack[]::new)});
         }));
 
         recipeBookTypeAdder.build();
