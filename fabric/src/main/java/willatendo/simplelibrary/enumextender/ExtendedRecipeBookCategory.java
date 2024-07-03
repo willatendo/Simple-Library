@@ -2,5 +2,7 @@ package willatendo.simplelibrary.enumextender;
 
 import net.minecraft.world.item.ItemStack;
 
-public record ExtendedRecipeBookCategory(String name, ItemStack... itemStacks) {
+import java.util.function.Supplier;
+
+public record ExtendedRecipeBookCategory(String name, Supplier<ItemStack>... itemStacks) {
 }

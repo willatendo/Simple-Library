@@ -7,7 +7,9 @@ import net.fabricmc.loader.api.MappingResolver;
 import willatendo.simplelibrary.enumextender.EnumExtenderInitializer;
 import willatendo.simplelibrary.server.util.SimpleUtils;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class EnumExtender implements Runnable {
     @Override
@@ -32,7 +34,7 @@ public class EnumExtender implements Runnable {
             recipeBookTypeAdder.addEnum(name);
         }));
         enumExtenderInitializers.forEach(enumExtenderInitializer -> enumExtenderInitializer.getRecipeBookCategories().forEach(extendedRecipeBookCategory -> {
-            recipeBookCategoriesAdder.addEnum(extendedRecipeBookCategory.name(), () -> extendedRecipeBookCategory.itemStacks());
+            recipeBookCategoriesAdder.addEnum(extendedRecipeBookCategory.name(), () -> Arrays.stream(extendedRecipeBookCategory.itemStacks()).map(itemStackSupplier -> itemStackSupplier.get()).collect(Collectors.toList()).toArray());
         }));
 
         recipeBookTypeAdder.build();
