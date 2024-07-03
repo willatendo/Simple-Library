@@ -1,5 +1,9 @@
 package willatendo.simplelibrary.server.util;
 
+import net.minecraft.client.RecipeBookCategories;
+import net.minecraft.world.inventory.RecipeBookType;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import org.apache.commons.lang3.ClassUtils;
 
 import java.lang.reflect.Method;
@@ -10,6 +14,14 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 public class FabricUtils {
+    public static RecipeBookType createRecipeBookType(String name) {
+        return FabricUtils.extend(RecipeBookType.class, name);
+    }
+
+    public static RecipeBookCategories createRecipeBookCategories(String name, ItemStack... itemStacks) {
+        return FabricUtils.extend(RecipeBookCategories.class, name, () -> itemStacks);
+    }
+
     // Enum Extenders
 
     public static <C extends Supplier<Object[]>, T extends Enum<T> & ExtendableEnum<C>> T extend(Class<T> cls, String internalName, C params) {

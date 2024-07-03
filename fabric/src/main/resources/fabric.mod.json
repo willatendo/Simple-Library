@@ -32,6 +32,9 @@
     "loom:injected_interfaces": {
       "net/minecraft/class_5421": [
         "willatendo/simplelibrary/server/util/ExtendableEnum"
+      ],
+      "net/minecraft/class_314": [
+        "willatendo/simplelibrary/server/util/ExtendableEnum"
       ]
     }
   }
