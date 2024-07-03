@@ -49,7 +49,7 @@ public class FabricUtils {
         list.addAll(List.of(params));
         params = list.toArray();
 
-        return (T) FabricUtils.findMethod(clazz, "dark_matter$extendEnum", params).orElseThrow(() -> new IllegalStateException("%s doesn't have a dark_matter$extendEnum method".formatted(clazz.getName()))).invoke(clazz, params);
+        return (T) FabricUtils.findMethod(clazz, "extend", params).orElseThrow(() -> new IllegalStateException("%s doesn't have a dark_matter$extendEnum method".formatted(clazz.getName()))).invoke(clazz, params);
     }
 
     private static Optional<Method> findMethod(Class<?> clazz, String name, Object... args) {
