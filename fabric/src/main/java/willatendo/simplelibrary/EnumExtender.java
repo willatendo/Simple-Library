@@ -4,6 +4,8 @@ import com.chocohead.mm.api.ClassTinkerers;
 import com.chocohead.mm.api.EnumAdder;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.MappingResolver;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import willatendo.simplelibrary.enumextender.EnumExtenderInitializer;
 import willatendo.simplelibrary.server.util.SimpleUtils;
@@ -35,7 +37,7 @@ public class EnumExtender implements Runnable {
             recipeBookTypeAdder.addEnum(name.toUpperCase());
         }));
         enumExtenderInitializers.forEach(enumExtenderInitializer -> enumExtenderInitializer.getRecipeBookCategories().forEach(extendedRecipeBookCategory -> {
-            recipeBookCategoriesAdder.addEnum(extendedRecipeBookCategory.name().toUpperCase(), () -> Arrays.stream(extendedRecipeBookCategory.items()).map(itemSupplier -> new ItemStack(itemSupplier.get())).collect(Collectors.toList()).toArray(ItemStack[]::new));
+            recipeBookCategoriesAdder.addEnum(extendedRecipeBookCategory.name().toUpperCase(), () -> Arrays.stream(extendedRecipeBookCategory.items()).map(itemKey -> new ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.parse(itemKey)))).collect(Collectors.toList()).toArray(ItemStack[]::new));
         }));
 
         recipeBookTypeAdder.build();
