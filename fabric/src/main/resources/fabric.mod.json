@@ -19,24 +19,11 @@
       "willatendo.simplelibrary.SimpleLibrary"
     ]
   },
-  "mixins": [
-    "simplelibrary.mixins.json"
-  ],
   "depends": {
     "fabricloader": ">=${fabric_loader_version}",
     "fabric-api": "*",
     "minecraft": "${minecraft_version}",
     "java": ">=${java_version}"
-  },
-  "custom": {
-    "loom:injected_interfaces": {
-      "net/minecraft/class_5421": [
-        "willatendo/simplelibrary/server/util/ExtendableEnum"
-      ],
-      "net/minecraft/class_314": [
-        "willatendo/simplelibrary/server/util/ExtendableEnum"
-      ]
-    }
   }
 }
   
