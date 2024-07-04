@@ -12,6 +12,6 @@ public class FabricResourcePackRegister implements ResourcePackRegister {
     @Override
     public void register(String modId, String resourcePackName) {
         Optional<ModContainer> modContainer = FabricLoader.getInstance().getModContainer(modId);
-        ResourceManagerHelper.registerBuiltinResourcePack(SimpleUtils.resource(modId, resourcePackName), modContainer.get(), SimpleUtils.translation(modId, "pack", resourcePackName), ResourcePackActivationType.NORMAL);
+        ResourceManagerHelper.registerBuiltinResourcePack(SimpleUtils.resource(modId, resourcePackName), modContainer.get(), SimpleUtils.translation(modId, "resourcePack", resourcePackName + ".name"), ResourcePackActivationType.NORMAL);
     }
 }

@@ -25,7 +25,7 @@ public class NeoforgeResourcePackRegister implements ResourcePackRegister {
         if (this.event.getPackType() == PackType.CLIENT_RESOURCES) {
             Path resourcePath = ModList.get().getModFileById(modId).getFile().findResource("resourcepacks/" + resourcePackName);
             this.event.addRepositorySource(consumer -> {
-                Pack pack = Pack.readMetaAndCreate(new PackLocationInfo(SimpleUtils.resource(modId, "resourcepacks." + resourcePackName).toString(), SimpleUtils.translation(modId, "resourcePack", resourcePackName + ".description"), PackSource.BUILT_IN, Optional.empty()), new PathPackResources.PathResourcesSupplier(resourcePath), PackType.CLIENT_RESOURCES, new PackSelectionConfig(false, Pack.Position.TOP, false));
+                Pack pack = Pack.readMetaAndCreate(new PackLocationInfo(SimpleUtils.resource(modId, "resourcepacks." + resourcePackName).toString(), SimpleUtils.translation(modId, "resourcePack", resourcePackName + ".name"), PackSource.BUILT_IN, Optional.empty()), new PathPackResources.PathResourcesSupplier(resourcePath), PackType.CLIENT_RESOURCES, new PackSelectionConfig(false, Pack.Position.TOP, false));
                 if (pack != null) {
                     consumer.accept(pack);
                 }
