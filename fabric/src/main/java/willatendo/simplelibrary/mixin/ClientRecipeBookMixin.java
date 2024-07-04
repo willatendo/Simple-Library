@@ -22,7 +22,7 @@ import java.util.Map;
 public class ClientRecipeBookMixin {
     @Inject(method = "setupCollections", at = @At(value = "INVOKE", target = "Lcom/google/common/collect/ImmutableMap;copyOf(Ljava/util/Map;)Lcom/google/common/collect/ImmutableMap;"), locals = LocalCapture.CAPTURE_FAILHARD)
     private void simplelibrary_setupCollections(Iterable<RecipeHolder<?>> iterable, RegistryAccess registryAccess, CallbackInfo callbackInfo, Map<RecipeBookCategories, List<List<RecipeHolder<?>>>> categorizeAndGroupRecipes, Map<RecipeBookCategories, List<RecipeCollection>> aggregateCategories) {
-        RecipeBookRegistry.AGGREGATE_CATEGORIES.forEach((recipeBookCategories, list) -> aggregateCategories.put(recipeBookCategories, list.stream().flatMap((recipeBookCategories1) -> aggregateCategories.getOrDefault(recipeBookCategories1, ImmutableList.of()).stream()).collect(ImmutableList.toImmutableList())));
+        RecipeBookRegistry.AGGREGATE_CATEGORIES.forEach((recipeBookCategories, list) -> aggregateCategories.put(recipeBookCategories, list.stream().flatMap(recipeBookCategories1 -> aggregateCategories.getOrDefault(recipeBookCategories1, ImmutableList.of()).stream()).collect(ImmutableList.toImmutableList())));
     }
 
     @Inject(method = "getCategory", at = @At(value = "INVOKE", target = "Lcom/mojang/logging/LogUtils;defer(Ljava/util/function/Supplier;)Ljava/lang/Object;", ordinal = 0), cancellable = true)
