@@ -26,6 +26,8 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import willatendo.simplelibrary.platform.ModloaderHelper;
 import willatendo.simplelibrary.server.menu.ExtendedMenuSupplier;
 import willatendo.simplelibrary.server.registry.SimpleHolder;
@@ -40,6 +42,8 @@ import java.util.stream.Collectors;
 public final class SimpleUtils {
     public static final String SIMPLE_ID = "simplelibrary";
     public static final String MINECRAFT_ID = "minecraft";
+
+    public static final Logger SIMPLE_LOGGER = LoggerFactory.getLogger(SimpleUtils.SIMPLE_ID);
 
     public static ResourceLocation simple(String path) {
         return SimpleUtils.resource(SIMPLE_ID, path);

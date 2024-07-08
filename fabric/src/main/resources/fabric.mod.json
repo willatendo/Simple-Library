@@ -16,7 +16,10 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "willatendo.simplelibrary.SimpleLibrary"
+      "willatendo.simplelibrary.FabricSimpleLibrary"
+    ],
+    "client": [
+      "willatendo.simplelibrary.client.SimpleLibraryFabricClient"
     ],
     "mm:early_risers": [
       "willatendo.simplelibrary.EnumExtender"
