@@ -15,7 +15,7 @@ import willatendo.simplelibrary.server.entity.variant.BoatType;
 
 public class SimpleLibraryClient {
     public static void modelEvent(ModelRegister modelRegister) {
-        modelRegister.register(SimpleEntityTypes.SIMPLE_BOAT.get(), context -> new SimpleBoatRenderer(context, true));
+        modelRegister.register(SimpleEntityTypes.SIMPLE_BOAT.get(), context -> new SimpleBoatRenderer(context, false));
         modelRegister.register(SimpleEntityTypes.SIMPLE_CHEST_BOAT.get(), context -> new SimpleBoatRenderer(context, true));
 
         modelRegister.register(SimpleBlockEntityTypes.SIMPLE_SIGN.get(), SignRenderer::new);
