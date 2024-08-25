@@ -113,7 +113,7 @@ public final class SimpleUtils {
     }
 
     public static void registerAllItems(SimpleRegistry<Item> deferredRegister, SimpleRegistry<Block> blocks, SimpleHolder<? extends Block>... exceptions) {
-        for (SimpleHolder<? extends Block> block : blocks.getEntriesView().stream().filter(block -> !SimpleUtils.toList(exceptions).contains(block)).collect(Collections.toList())) {
+        for (SimpleHolder<? extends Block> block : blocks.getEntriesView().stream().filter(block -> !SimpleUtils.toList(exceptions).contains(block)).toList()) {
             deferredRegister.register(block.getId().getPath(), () -> new BlockItem(block.get(), new Item.Properties()));
         }
     }
