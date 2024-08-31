@@ -260,7 +260,7 @@ public abstract class SimpleRecipeProvider extends RecipeProvider {
     }
 
     protected ResourceLocation toResourceLocation(String path) {
-        return new ResourceLocation(this.modId, path);
+        return ResourceLocation.fromNamespaceAndPath(this.modId, path);
     }
 
     protected String toName(ItemLike itemLike) {

@@ -30,7 +30,7 @@ public class SimpleRegistry<T> {
     }
 
     public <I extends T> SimpleHolder<I> register(String id, Function<ResourceLocation, I> func) {
-        ResourceLocation valueId = new ResourceLocation(this.modId, id);
+        ResourceLocation valueId = ResourceLocation.fromNamespaceAndPath(this.modId, id);
         SimpleHolder<I> simpleHolder = this.createHolder(this.registryKey, valueId);
 
         if (this.entries.putIfAbsent(simpleHolder, () -> func.apply(valueId)) != null) {

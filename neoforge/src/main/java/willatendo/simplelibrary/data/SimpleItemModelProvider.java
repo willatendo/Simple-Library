@@ -18,7 +18,7 @@ public abstract class SimpleItemModelProvider extends ItemModelProvider {
     }
 
     public ItemModelBuilder handheldItem(Item item) {
-        return this.handheldItem(Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item)), new ResourceLocation(BuiltInRegistries.ITEM.getKey(item).getNamespace(), "item/" + BuiltInRegistries.ITEM.getKey(item).getPath()));
+        return this.handheldItem(Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item)), ResourceLocation.fromNamespaceAndPath(BuiltInRegistries.ITEM.getKey(item).getNamespace(), "item/" + BuiltInRegistries.ITEM.getKey(item).getPath()));
     }
 
     public ItemModelBuilder handheldItem(Item item, ResourceLocation texture) {
