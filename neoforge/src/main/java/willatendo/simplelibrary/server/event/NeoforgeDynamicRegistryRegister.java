@@ -5,7 +5,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.neoforged.neoforge.registries.DataPackRegistryEvent;
 
-public class NeoforgeDynamicRegistryRegister implements DynamicRegistryRegister {
+public final class NeoforgeDynamicRegistryRegister implements DynamicRegistryRegister {
     private final DataPackRegistryEvent.NewRegistry event;
 
     public NeoforgeDynamicRegistryRegister(DataPackRegistryEvent.NewRegistry event) {

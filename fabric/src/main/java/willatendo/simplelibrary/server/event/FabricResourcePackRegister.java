@@ -8,7 +8,7 @@ import willatendo.simplelibrary.server.util.SimpleUtils;
 
 import java.util.Optional;
 
-public class FabricResourcePackRegister implements ResourcePackRegister {
+public final class FabricResourcePackRegister implements ResourcePackRegister {
     @Override
     public void register(String modId, String resourcePackName) {
         Optional<ModContainer> modContainer = FabricLoader.getInstance().getModContainer(modId);

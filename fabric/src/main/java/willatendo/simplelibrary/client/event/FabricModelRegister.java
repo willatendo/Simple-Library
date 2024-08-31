@@ -9,7 +9,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
-public class FabricModelRegister implements ModelRegister {
+public final class FabricModelRegister implements ModelRegister {
     @Override
     public <T extends Entity> void register(EntityType<? extends T> entityType, EntityRendererProvider<T> entityRendererProvider) {
         EntityRendererRegistry.register(entityType, entityRendererProvider);

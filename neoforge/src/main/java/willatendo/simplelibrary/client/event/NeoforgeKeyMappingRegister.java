@@ -3,7 +3,7 @@ package willatendo.simplelibrary.client.event;
 import net.minecraft.client.KeyMapping;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 
-public class NeoforgeKeyMappingRegister implements KeyMappingRegister {
+public final class NeoforgeKeyMappingRegister implements KeyMappingRegister {
     private final RegisterKeyMappingsEvent event;
 
     public NeoforgeKeyMappingRegister(RegisterKeyMappingsEvent event) {

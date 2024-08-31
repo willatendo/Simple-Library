@@ -8,7 +8,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 
-public class NeoforgeModelRegister implements ModelRegister {
+public final class NeoforgeModelRegister implements ModelRegister {
     private final EntityRenderersEvent.RegisterRenderers event;
 
     public NeoforgeModelRegister(EntityRenderersEvent.RegisterRenderers event) {

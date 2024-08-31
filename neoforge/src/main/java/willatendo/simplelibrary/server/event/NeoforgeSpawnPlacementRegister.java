@@ -7,7 +7,7 @@ import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 
-public class NeoforgeSpawnPlacementRegister implements SpawnPlacementRegister {
+public final class NeoforgeSpawnPlacementRegister implements SpawnPlacementRegister {
     private final RegisterSpawnPlacementsEvent event;
 
     public NeoforgeSpawnPlacementRegister(RegisterSpawnPlacementsEvent event) {

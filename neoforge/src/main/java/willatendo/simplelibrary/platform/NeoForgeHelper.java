@@ -63,15 +63,13 @@ public class NeoForgeHelper implements ModloaderHelper {
         if (fireImmune) {
             builder.fireImmune();
         }
-        if (!immuneTo.isEmpty()) {
-            builder.immuneTo(immuneTo.get());
-        }
+        immuneTo.ifPresent(builder::immuneTo);
         return builder.build(name);
     }
 
     @Override
     public <T extends AbstractContainerMenu> MenuType<T> createMenuType(ExtendedMenuSupplier<T> extendedMenuSupplier) {
-        return IMenuTypeExtension.create((windowId, inventory, friendlyByteBuf) -> extendedMenuSupplier.create(windowId, inventory, friendlyByteBuf));
+        return IMenuTypeExtension.create(extendedMenuSupplier::create);
     }
 
     @Override

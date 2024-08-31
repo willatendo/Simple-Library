@@ -1,9 +1,10 @@
 package willatendo.simplelibrary.server.event;
 
 import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
 import net.neoforged.neoforge.registries.NewRegistryEvent;
 
-public class NeoforgeNewRegistryRegister implements NewRegistryRegister {
+public final class NeoforgeNewRegistryRegister implements NewRegistryRegister {
     private final NewRegistryEvent event;
 
     public NeoforgeNewRegistryRegister(NewRegistryEvent event) {
@@ -11,7 +12,12 @@ public class NeoforgeNewRegistryRegister implements NewRegistryRegister {
     }
 
     @Override
-    public <T> void register(Registry<T> registry) {
+    @Deprecated
+    public <T> void register(Registry<T> registry, ResourceKey<Registry<T>> name) {
         this.event.register(registry);
+    }
+
+    public <T> void register(Registry<T> registry) {
+        this.register(registry, null);
     }
 }

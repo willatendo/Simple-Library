@@ -12,7 +12,6 @@ import willatendo.simplelibrary.server.util.SimpleUtils;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class EnumExtender implements Runnable {
     @Override

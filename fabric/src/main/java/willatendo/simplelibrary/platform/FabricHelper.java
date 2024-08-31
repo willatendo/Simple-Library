@@ -9,6 +9,7 @@ import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.MappedRegistry;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -41,7 +42,7 @@ import java.util.function.Supplier;
 public class FabricHelper implements ModloaderHelper {
     @Override
     public <T> Supplier<EntityDataSerializer<Holder<T>>> registerDataSerializer(String id, StreamCodec<RegistryFriendlyByteBuf, Holder<T>> streamCodec) {
-        EntityDataSerializer entityDataSerializer = EntityDataSerializer.forValueType(streamCodec);
+        EntityDataSerializer<Holder<T>> entityDataSerializer = EntityDataSerializer.forValueType(streamCodec);
         EntityDataSerializers.registerSerializer(entityDataSerializer);
         return () -> entityDataSerializer;
     }
@@ -70,9 +71,7 @@ public class FabricHelper implements ModloaderHelper {
         if (fireImmune) {
             builder.fireImmune();
         }
-        if (!immuneTo.isEmpty()) {
-            builder.immuneTo(immuneTo.get());
-        }
+        immuneTo.ifPresent(builder::immuneTo);
         return builder.build();
     }
 
@@ -83,7 +82,7 @@ public class FabricHelper implements ModloaderHelper {
 
     @Override
     public <T> Registry<T> createRegistry(ResourceKey<Registry<T>> resourceKey, SimpleRegistryBuilder simpleRegistryBuilder) {
-        FabricRegistryBuilder fabricRegistryBuilder = FabricRegistryBuilder.createSimple(resourceKey);
+        FabricRegistryBuilder<T, MappedRegistry<T>> fabricRegistryBuilder = FabricRegistryBuilder.createSimple(resourceKey);
         if (simpleRegistryBuilder.isSynced()) {
             fabricRegistryBuilder.attribute(RegistryAttribute.SYNCED);
         }

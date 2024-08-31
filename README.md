@@ -3,7 +3,7 @@
 ## Overview:
 SimpleLibrary is a small library to make modding a little easier and reduce the amount of step. Small little things found in SimpleUtils are ment to reduce hastle across multiple projects.
 
-SimpleLibrary suports FML 1.20.1 and lower and Fabric 1.20.4+
+SimpleLibrary suports Neoforge, Fabric and Forge
 
 ## Installation:
 First add the maven.

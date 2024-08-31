@@ -13,7 +13,7 @@ import willatendo.simplelibrary.server.util.SimpleUtils;
 import java.nio.file.Path;
 import java.util.Optional;
 
-public class NeoforgeResourcePackRegister implements ResourcePackRegister {
+public final class NeoforgeResourcePackRegister implements ResourcePackRegister {
     private final AddPackFindersEvent event;
 
     public NeoforgeResourcePackRegister(AddPackFindersEvent event) {
