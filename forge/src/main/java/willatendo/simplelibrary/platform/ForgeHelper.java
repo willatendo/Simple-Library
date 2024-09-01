@@ -1,15 +1,17 @@
 package willatendo.simplelibrary.platform;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
+import com.mojang.datafixers.util.Pair;
+import com.mojang.serialization.Lifecycle;
+import net.minecraft.core.*;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.TagKey;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -27,13 +29,17 @@ import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryBuilder;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import willatendo.simplelibrary.ForgeSimpleLibrary;
 import willatendo.simplelibrary.server.menu.ExtendedMenuSupplier;
 import willatendo.simplelibrary.server.util.SimpleRegistryBuilder;
 
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 public class ForgeHelper implements ModloaderHelper {
     @Override
@@ -81,8 +87,178 @@ public class ForgeHelper implements ModloaderHelper {
             registryBuilder.disableSync();
         }
         DeferredRegister<T> deferredRegister = DeferredRegister.create(resourceKey, resourceKey.location().getNamespace());
-        deferredRegister.makeRegistry(() -> registryBuilder);
-        return (Registry<T>) BuiltInRegistries.REGISTRY.get(deferredRegister.getRegistryKey().location());
+        Supplier<IForgeRegistry<T>> iForgeRegistry = deferredRegister.makeRegistry(() -> registryBuilder);
+        return new Registry<T>() {
+            @Override
+            public ResourceKey<? extends Registry<T>> key() {
+                return iForgeRegistry.get().getRegistryKey();
+            }
+
+            @Nullable
+            @Override
+            public ResourceLocation getKey(T t) {
+                return iForgeRegistry.get().getKey(t);
+            }
+
+            @Override
+            public Optional<ResourceKey<T>> getResourceKey(T t) {
+                return Optional.empty();
+            }
+
+            @Override
+            public int getId(@Nullable T t) {
+                return 0;
+            }
+
+            @Nullable
+            @Override
+            public T get(@Nullable ResourceKey<T> resourceKey) {
+                return null;
+            }
+
+            @Nullable
+            @Override
+            public T get(@Nullable ResourceLocation resourceLocation) {
+                return null;
+            }
+
+            @Override
+            public Optional<RegistrationInfo> registrationInfo(ResourceKey<T> resourceKey) {
+                return Optional.empty();
+            }
+
+            @Override
+            public Lifecycle registryLifecycle() {
+                return null;
+            }
+
+            @Override
+            public Optional<Holder.Reference<T>> getAny() {
+                return Optional.empty();
+            }
+
+            @Override
+            public Set<ResourceLocation> keySet() {
+                return Set.of();
+            }
+
+            @Override
+            public Set<Map.Entry<ResourceKey<T>, T>> entrySet() {
+                return Set.of();
+            }
+
+            @Override
+            public Set<ResourceKey<T>> registryKeySet() {
+                return Set.of();
+            }
+
+            @Override
+            public Optional<Holder.Reference<T>> getRandom(RandomSource randomSource) {
+                return Optional.empty();
+            }
+
+            @Override
+            public boolean containsKey(ResourceLocation resourceLocation) {
+                return false;
+            }
+
+            @Override
+            public boolean containsKey(ResourceKey<T> resourceKey) {
+                return false;
+            }
+
+            @Override
+            public Registry<T> freeze() {
+                return null;
+            }
+
+            @Override
+            public Holder.Reference<T> createIntrusiveHolder(T t) {
+                return null;
+            }
+
+            @Override
+            public Optional<Holder.Reference<T>> getHolder(int i) {
+                return Optional.empty();
+            }
+
+            @Override
+            public Optional<Holder.Reference<T>> getHolder(ResourceLocation resourceLocation) {
+                return Optional.empty();
+            }
+
+            @Override
+            public Optional<Holder.Reference<T>> getHolder(ResourceKey<T> resourceKey) {
+                return Optional.empty();
+            }
+
+            @Override
+            public Holder<T> wrapAsHolder(T t) {
+                return null;
+            }
+
+            @Override
+            public Stream<Holder.Reference<T>> holders() {
+                return Stream.empty();
+            }
+
+            @Override
+            public Optional<HolderSet.Named<T>> getTag(TagKey<T> tagKey) {
+                return Optional.empty();
+            }
+
+            @Override
+            public HolderSet.Named<T> getOrCreateTag(TagKey<T> tagKey) {
+                return null;
+            }
+
+            @Override
+            public Stream<Pair<TagKey<T>, HolderSet.Named<T>>> getTags() {
+                return Stream.empty();
+            }
+
+            @Override
+            public Stream<TagKey<T>> getTagNames() {
+                return Stream.empty();
+            }
+
+            @Override
+            public void resetTags() {
+
+            }
+
+            @Override
+            public void bindTags(Map<TagKey<T>, List<Holder<T>>> map) {
+
+            }
+
+            @Override
+            public HolderOwner<T> holderOwner() {
+                return null;
+            }
+
+            @Override
+            public HolderLookup.RegistryLookup<T> asLookup() {
+                return null;
+            }
+
+            @Nullable
+            @Override
+            public T byId(int i) {
+                return null;
+            }
+
+            @Override
+            public int size() {
+                return 0;
+            }
+
+            @NotNull
+            @Override
+            public Iterator<T> iterator() {
+                return iForgeRegistry.get().iterator();
+            }
+        };
     }
 
     @Override
