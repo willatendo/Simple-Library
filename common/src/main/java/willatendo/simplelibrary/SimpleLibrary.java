@@ -4,7 +4,7 @@ import willatendo.simplelibrary.server.SimpleBuiltInRegistries;
 import willatendo.simplelibrary.server.block.entity.SimpleBlockEntityTypes;
 import willatendo.simplelibrary.server.entity.SimpleBoatTypes;
 import willatendo.simplelibrary.server.entity.SimpleEntityTypes;
-import willatendo.simplelibrary.server.event.SimpleRegistryRegister;
+import willatendo.simplelibrary.server.event.registry.SimpleRegistryRegister;
 
 public class SimpleLibrary {
     public static void onInitialize(SimpleRegistryRegister simpleRegistryRegister) {

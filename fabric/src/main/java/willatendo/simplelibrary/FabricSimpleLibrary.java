@@ -2,7 +2,7 @@ package willatendo.simplelibrary;
 
 import net.fabricmc.api.ModInitializer;
 import willatendo.simplelibrary.server.entity.SimpleEntityDataSerializers;
-import willatendo.simplelibrary.server.event.FabricSimpleRegistryRegister;
+import willatendo.simplelibrary.server.event.registry.FabricSimpleRegistryRegister;
 
 public class FabricSimpleLibrary implements ModInitializer {
     @Override

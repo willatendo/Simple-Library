@@ -3,7 +3,7 @@ package willatendo.simplelibrary.server.registry;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import willatendo.simplelibrary.server.event.RegisterRegister;
+import willatendo.simplelibrary.server.event.registry.RegisterRegister;
 
 import java.util.*;
 import java.util.function.Function;

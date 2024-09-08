@@ -5,7 +5,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import willatendo.simplelibrary.server.entity.SimpleEntityDataSerializers;
-import willatendo.simplelibrary.server.event.NeoforgeSimpleRegistryRegister;
+import willatendo.simplelibrary.server.event.registry.NeoforgeSimpleRegistryRegister;
 import willatendo.simplelibrary.server.registry.NeoForgeRegister;
 import willatendo.simplelibrary.server.registry.SimpleRegistry;
 import willatendo.simplelibrary.server.util.SimpleUtils;

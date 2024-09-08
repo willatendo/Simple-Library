@@ -5,7 +5,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
 import willatendo.simplelibrary.server.entity.SimpleEntityDataSerializers;
-import willatendo.simplelibrary.server.event.ForgeSimpleRegistryRegister;
+import willatendo.simplelibrary.server.event.registry.ForgeSimpleRegistryRegister;
 import willatendo.simplelibrary.server.registry.ForgeRegister;
 import willatendo.simplelibrary.server.registry.SimpleRegistry;
 import willatendo.simplelibrary.server.util.SimpleUtils;

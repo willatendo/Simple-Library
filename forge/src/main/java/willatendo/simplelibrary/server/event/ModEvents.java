@@ -5,6 +5,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.NewRegistryEvent;
 import willatendo.simplelibrary.server.SimpleBuiltInRegistries;
 import willatendo.simplelibrary.server.SimpleRegistries;
+import willatendo.simplelibrary.server.event.registry.ForgeNewRegistryRegister;
 import willatendo.simplelibrary.server.util.SimpleUtils;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = SimpleUtils.SIMPLE_ID)
