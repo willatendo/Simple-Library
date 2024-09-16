@@ -18,7 +18,7 @@ public class FabricCreativeModeTabModification implements CreativeModeTabModific
         this.items.forEach((creativeModeTab, itemLikes) -> ItemGroupEvents.modifyEntriesEvent(creativeModeTab).register(fabricItemGroupEntries -> {
             if (creativeModeTab == CreativeModeTabs.OP_BLOCKS && fabricItemGroupEntries.shouldShowOpRestrictedItems()) {
                 itemLikes.forEach(fabricItemGroupEntries::accept);
-            } else {
+            } else if(creativeModeTab != CreativeModeTabs.OP_BLOCKS) {
                 itemLikes.forEach(fabricItemGroupEntries::accept);
             }
         }));

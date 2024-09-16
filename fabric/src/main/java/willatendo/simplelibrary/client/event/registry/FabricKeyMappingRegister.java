@@ -1,4 +1,4 @@
-package willatendo.simplelibrary.client.event;
+package willatendo.simplelibrary.client.event.registry;
 
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.KeyMapping;

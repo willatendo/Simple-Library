@@ -1,4 +1,4 @@
-package willatendo.simplelibrary.client.event;
+package willatendo.simplelibrary.client.event.registry;
 
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.gui.screens.Screen;

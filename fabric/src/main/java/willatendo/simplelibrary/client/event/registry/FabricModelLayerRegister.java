@@ -1,4 +1,4 @@
-package willatendo.simplelibrary.client.event;
+package willatendo.simplelibrary.client.event.registry;
 
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.minecraft.client.model.geom.ModelLayerLocation;

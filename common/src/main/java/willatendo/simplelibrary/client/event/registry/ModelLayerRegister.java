@@ -1,4 +1,4 @@
-package willatendo.simplelibrary.client.event;
+package willatendo.simplelibrary.client.event.registry;
 
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import willatendo.simplelibrary.client.LayerDefinitionProvider;

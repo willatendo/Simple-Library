@@ -1,13 +1,13 @@
-package willatendo.simplelibrary.client.event;
+package willatendo.simplelibrary.client.event.registry;
 
 import net.minecraft.client.model.geom.ModelLayerLocation;
-import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import willatendo.simplelibrary.client.LayerDefinitionProvider;
 
-public class ForgeModelLayerRegister implements ModelLayerRegister {
+public final class NeoforgeModelLayerRegister implements ModelLayerRegister {
     private final EntityRenderersEvent.RegisterLayerDefinitions event;
 
-    public ForgeModelLayerRegister(EntityRenderersEvent.RegisterLayerDefinitions event) {
+    public NeoforgeModelLayerRegister(EntityRenderersEvent.RegisterLayerDefinitions event) {
         this.event = event;
     }
 

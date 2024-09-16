@@ -5,6 +5,8 @@ import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import willatendo.simplelibrary.client.SimpleLibraryClient;
+import willatendo.simplelibrary.client.event.registry.ForgeModelLayerRegister;
+import willatendo.simplelibrary.client.event.registry.ForgeModelRegister;
 import willatendo.simplelibrary.server.util.SimpleUtils;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = SimpleUtils.SIMPLE_ID, value = Dist.CLIENT)

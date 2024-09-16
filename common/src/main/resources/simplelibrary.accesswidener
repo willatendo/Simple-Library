@@ -9,3 +9,5 @@ accessible method net/minecraft/world/level/biome/Biome$ClimateSettings <init> (
 
 accessible field net/minecraft/world/entity/vehicle/Boat lastYd D
 accessible field net/minecraft/world/entity/vehicle/Boat status Lnet/minecraft/world/entity/vehicle/Boat$Status;
+accessible field net/minecraft/stats/RecipeBookSettings TAG_FIELDS Ljava/util/Map;
+mutable field net/minecraft/stats/RecipeBookSettings TAG_FIELDS Ljava/util/Map;
