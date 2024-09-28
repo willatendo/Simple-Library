@@ -24,11 +24,12 @@ import willatendo.simplelibrary.server.menu.ExtendedMenuSupplier;
 import willatendo.simplelibrary.server.util.SimpleRegistryBuilder;
 import willatendo.simplelibrary.server.util.SimpleUtils;
 
+import java.nio.file.Path;
 import java.util.Optional;
 import java.util.function.Supplier;
 
 public interface ModloaderHelper {
-    public static final ModloaderHelper INSTANCE = SimpleUtils.loadModloaderHelper(ModloaderHelper.class);
+    ModloaderHelper INSTANCE = SimpleUtils.loadModloaderHelper(ModloaderHelper.class);
 
     // Simple Library ONLY
     <T> Supplier<EntityDataSerializer<Holder<T>>> registerDataSerializer(String id, StreamCodec<RegistryFriendlyByteBuf, Holder<T>> streamCodec);
@@ -38,6 +39,8 @@ public interface ModloaderHelper {
     boolean isDevEnviroment();
 
     boolean isModLoaded(String modId);
+
+    Path getConfigPath();
 
     CreativeModeTab.Builder createCreativeModeTab();
 

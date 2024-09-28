@@ -36,6 +36,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import willatendo.simplelibrary.server.menu.ExtendedMenuSupplier;
 import willatendo.simplelibrary.server.util.SimpleRegistryBuilder;
 
+import java.nio.file.Path;
 import java.util.Optional;
 import java.util.function.Supplier;
 
@@ -55,6 +56,11 @@ public class FabricHelper implements ModloaderHelper {
     @Override
     public boolean isModLoaded(String modId) {
         return FabricLoader.getInstance().isModLoaded(modId);
+    }
+
+    @Override
+    public Path getConfigPath() {
+        return FabricLoader.getInstance().getConfigDir();
     }
 
     @Override
