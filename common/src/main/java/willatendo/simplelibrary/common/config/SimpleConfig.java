@@ -39,6 +39,19 @@ public final class SimpleConfig {
         this.addConfigValue(identifier, new IntegerConfigValue(value, comments));
     }
 
+    public <T> T getValue(String identifier) {
+        if (this.configValues.containsKey(identifier)) {
+            return (T) this.configValues.get(identifier).getValue();
+        } else {
+            if (this.defaultValues.containsKey(identifier)) {
+                return (T) this.defaultValues.get(identifier).getValue();
+            } else {
+                SimpleUtils.SIMPLE_LOGGER.error("Cannot find value for key {}!", identifier);
+                return null;
+            }
+        }
+    }
+
     public boolean create() {
         if (!this.file.exists()) {
             try {
@@ -95,12 +108,10 @@ public final class SimpleConfig {
             if (configValueType == ConfigValueType.BOOLEAN) {
                 boolean value = (boolean) configValue.parse(stringArray[1]);
                 this.configValues.replace(key, new BooleanConfigValue(value, comments));
-                SimpleUtils.SIMPLE_LOGGER.info(key + " " + value);
             }
             if (configValueType == ConfigValueType.INTEGER) {
                 int value = (int) configValue.parse(stringArray[1]);
                 this.configValues.replace(key, new IntegerConfigValue(value, comments));
-                SimpleUtils.SIMPLE_LOGGER.info(key + " " + value);
             }
         });
     }
