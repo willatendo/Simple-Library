@@ -6,6 +6,6 @@ import net.minecraft.client.gui.screens.inventory.MenuAccess;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 
-public interface MenuScreenRegister {
+public interface MenuScreenRegistry {
     <M extends AbstractContainerMenu, U extends Screen & MenuAccess<M>> void addMenuScreen(MenuType<? extends M> menuType, MenuScreens.ScreenConstructor<M, U> screenConstructor);
 }

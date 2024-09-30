@@ -8,7 +8,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 
-public class ForgeModelRegister implements ModelRegister {
+public final class ForgeModelRegister implements ModelRegistry {
     private final EntityRenderersEvent.RegisterRenderers event;
 
     public ForgeModelRegister(EntityRenderersEvent.RegisterRenderers event) {

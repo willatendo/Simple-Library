@@ -10,7 +10,7 @@ import willatendo.simplelibrary.server.registry.SimpleHolder;
 import java.util.List;
 import java.util.function.Function;
 
-public class ForgeRecipeBookCategoriesRegistry implements RecipeBookCategoriesRegistry {
+public final class ForgeRecipeBookCategoriesRegistry implements RecipeBookCategoriesRegistry {
     private final RegisterRecipeBookCategoriesEvent event;
 
     public ForgeRecipeBookCategoriesRegistry(RegisterRecipeBookCategoriesEvent event) {

@@ -7,7 +7,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
-public class ForgeMenuScreenRegister implements MenuScreenRegister {
+public final class ForgeMenuScreenRegister implements MenuScreenRegistry {
     private final FMLClientSetupEvent event;
 
     public ForgeMenuScreenRegister(FMLClientSetupEvent event) {

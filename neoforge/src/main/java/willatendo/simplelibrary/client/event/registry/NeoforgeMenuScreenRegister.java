@@ -7,7 +7,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 
-public final class NeoforgeMenuScreenRegister implements MenuScreenRegister {
+public final class NeoforgeMenuScreenRegister implements MenuScreenRegistry {
     private final RegisterMenuScreensEvent event;
 
     public NeoforgeMenuScreenRegister(RegisterMenuScreensEvent event) {

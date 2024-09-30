@@ -3,7 +3,7 @@ package willatendo.simplelibrary.client.event.registry;
 import net.minecraft.client.KeyMapping;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 
-public class ForgeKeyMappingRegister implements KeyMappingRegister {
+public final class ForgeKeyMappingRegister implements KeyMappingRegistry {
     private final RegisterKeyMappingsEvent event;
 
     public ForgeKeyMappingRegister(RegisterKeyMappingsEvent event) {

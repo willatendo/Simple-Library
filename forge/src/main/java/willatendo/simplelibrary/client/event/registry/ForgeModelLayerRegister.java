@@ -4,7 +4,7 @@ import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import willatendo.simplelibrary.client.LayerDefinitionProvider;
 
-public class ForgeModelLayerRegister implements ModelLayerRegister {
+public final class ForgeModelLayerRegister implements ModelLayerRegistry {
     private final EntityRenderersEvent.RegisterLayerDefinitions event;
 
     public ForgeModelLayerRegister(EntityRenderersEvent.RegisterLayerDefinitions event) {
