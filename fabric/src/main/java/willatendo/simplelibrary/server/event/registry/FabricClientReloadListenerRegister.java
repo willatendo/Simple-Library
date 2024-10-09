@@ -11,7 +11,7 @@ import net.minecraft.util.profiling.ProfilerFiller;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
-public class FabricClientReloadListenerRegister implements ClientReloadListenerRegister {
+public final class FabricClientReloadListenerRegister implements ClientReloadListenerRegister {
     @Override
     public void register(ResourceLocation id, PreparableReloadListener preparableReloadListener) {
         ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new IdentifiableResourceReloadListener() {

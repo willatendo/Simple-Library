@@ -18,7 +18,6 @@ public final class SimpleConfig {
 
     public SimpleConfig(String name, ConfigType configType) {
         this.name = name;
-        SimpleUtils.SIMPLE_LOGGER.info("{}", CONFIG_DIRECTORY);
         this.file = new File(CONFIG_DIRECTORY, name + "-" + configType.getName() + ".toml");
     }
 

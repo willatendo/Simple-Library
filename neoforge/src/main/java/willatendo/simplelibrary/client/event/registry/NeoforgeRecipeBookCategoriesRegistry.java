@@ -10,7 +10,7 @@ import willatendo.simplelibrary.server.registry.SimpleHolder;
 import java.util.List;
 import java.util.function.Function;
 
-public class NeoforgeRecipeBookCategoriesRegistry implements RecipeBookCategoriesRegistry {
+public final class NeoforgeRecipeBookCategoriesRegistry implements RecipeBookCategoriesRegistry {
     private final RegisterRecipeBookCategoriesEvent event;
 
     public NeoforgeRecipeBookCategoriesRegistry(RegisterRecipeBookCategoriesEvent event) {
