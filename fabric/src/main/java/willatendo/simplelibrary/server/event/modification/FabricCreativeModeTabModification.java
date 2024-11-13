@@ -11,14 +11,14 @@ import org.apache.commons.compress.utils.Lists;
 import java.util.List;
 import java.util.Map;
 
-public class FabricCreativeModeTabModification implements CreativeModeTabModification {
+public final class FabricCreativeModeTabModification implements CreativeModeTabModification {
     private final Map<ResourceKey<CreativeModeTab>, List<ItemLike>> items = Maps.newHashMap();
 
     public void build() {
         this.items.forEach((creativeModeTab, itemLikes) -> ItemGroupEvents.modifyEntriesEvent(creativeModeTab).register(fabricItemGroupEntries -> {
             if (creativeModeTab == CreativeModeTabs.OP_BLOCKS && fabricItemGroupEntries.shouldShowOpRestrictedItems()) {
                 itemLikes.forEach(fabricItemGroupEntries::accept);
-            } else if(creativeModeTab != CreativeModeTabs.OP_BLOCKS) {
+            } else if (creativeModeTab != CreativeModeTabs.OP_BLOCKS) {
                 itemLikes.forEach(fabricItemGroupEntries::accept);
             }
         }));

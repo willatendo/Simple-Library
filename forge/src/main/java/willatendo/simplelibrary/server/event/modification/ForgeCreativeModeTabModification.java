@@ -6,7 +6,7 @@ import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 
-public class ForgeCreativeModeTabModification implements CreativeModeTabModification {
+public final class ForgeCreativeModeTabModification implements CreativeModeTabModification {
     private final BuildCreativeModeTabContentsEvent event;
 
     public ForgeCreativeModeTabModification(BuildCreativeModeTabContentsEvent event) {
