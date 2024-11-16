@@ -6,7 +6,7 @@ import net.minecraftforge.event.village.VillagerTradesEvent;
 
 import java.util.List;
 
-public class ForgeVillagerTradeModification implements VillagerTradeModification {
+public final class ForgeVillagerTradeModification implements VillagerTradeModification {
     private final VillagerTradesEvent event;
 
     public ForgeVillagerTradeModification(VillagerTradesEvent event) {

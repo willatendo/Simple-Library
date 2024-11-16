@@ -4,8 +4,6 @@ import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
-import willatendo.simplelibrary.common.config.SimpleConfig;
-import willatendo.simplelibrary.server.CommonConfigRegister;
 import willatendo.simplelibrary.server.entity.SimpleEntityDataSerializers;
 import willatendo.simplelibrary.server.event.registry.ForgeSimpleRegistryRegister;
 import willatendo.simplelibrary.server.registry.ForgeRegister;

@@ -12,6 +12,8 @@ import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.Blocks;
+import org.apache.commons.lang3.function.TriFunction;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,7 +42,7 @@ public abstract class SimpleRecipeProvider extends RecipeProvider {
         this.recipeBuilders.put(name, recipeBuilder);
     }
 
-    public void shaped(String name, RecipeCategory recipeCategory, String group, ItemLike output, int outputCount, PatternBuilder patternBuilder, IngredientBuilder... ingredientBuilders) {
+    public void shaped(String name, UnlockMethod unlockMethod, RecipeCategory recipeCategory, String group, ItemLike output, int outputCount, PatternBuilder patternBuilder, IngredientBuilder... ingredientBuilders) {
         ShapedRecipeBuilder shapedRecipeBuilder;
         if (outputCount > 1) {
             shapedRecipeBuilder = ShapedRecipeBuilder.shaped(recipeCategory, output, outputCount);
@@ -59,42 +61,74 @@ public abstract class SimpleRecipeProvider extends RecipeProvider {
             char symbol = ingredientBuilder.getSymbol();
             shapedRecipeBuilder.define(symbol, ingredient);
 
-            if (ingredientBuilder.isMain() || ingredientBuilders.length < 2) {
-                ingredientBuilder.createRequires(shapedRecipeBuilder);
-            }
+
         }
+        unlockMethod.apply(ingredientBuilders, output, shapedRecipeBuilder);
+
         this.recipeBuilders.put(name != null ? name : this.toName(output), shapedRecipeBuilder);
     }
 
+    public void shaped(String name, RecipeCategory recipeCategory, String group, ItemLike output, int outputCount, PatternBuilder patternBuilder, IngredientBuilder... ingredientBuilders) {
+        this.shaped(name, UnlockMethod.ACQUIRE_INGREDIENT, recipeCategory, group, output, outputCount, patternBuilder, ingredientBuilders);
+    }
+
+    public void shaped(UnlockMethod unlockMethod, RecipeCategory recipeCategory, String group, ItemLike output, int outputCount, PatternBuilder patternBuilder, IngredientBuilder... ingredientBuilders) {
+        this.shaped(null, unlockMethod, recipeCategory, group, output, outputCount, patternBuilder, ingredientBuilders);
+    }
+
     public void shaped(RecipeCategory recipeCategory, String group, ItemLike output, int outputCount, PatternBuilder patternBuilder, IngredientBuilder... ingredientBuilders) {
-        this.shaped(null, recipeCategory, group, output, outputCount, patternBuilder, ingredientBuilders);
+        this.shaped(UnlockMethod.ACQUIRE_INGREDIENT, recipeCategory, group, output, outputCount, patternBuilder, ingredientBuilders);
+    }
+
+    public void shaped(String name, UnlockMethod unlockMethod, RecipeCategory recipeCategory, String group, ItemLike output, PatternBuilder patternBuilder, IngredientBuilder... ingredientBuilders) {
+        this.shaped(name, unlockMethod, recipeCategory, group, output, 1, patternBuilder, ingredientBuilders);
     }
 
     public void shaped(String name, RecipeCategory recipeCategory, String group, ItemLike output, PatternBuilder patternBuilder, IngredientBuilder... ingredientBuilders) {
-        this.shaped(name, recipeCategory, group, output, 1, patternBuilder, ingredientBuilders);
+        this.shaped(name, UnlockMethod.ACQUIRE_INGREDIENT, recipeCategory, group, output, 1, patternBuilder, ingredientBuilders);
+    }
+
+    public void shaped(UnlockMethod unlockMethod, RecipeCategory recipeCategory, String group, ItemLike output, PatternBuilder patternBuilder, IngredientBuilder... ingredientBuilders) {
+        this.shaped(unlockMethod, recipeCategory, group, output, 1, patternBuilder, ingredientBuilders);
     }
 
     public void shaped(RecipeCategory recipeCategory, String group, ItemLike output, PatternBuilder patternBuilder, IngredientBuilder... ingredientBuilders) {
-        this.shaped(null, recipeCategory, group, output, 1, patternBuilder, ingredientBuilders);
+        this.shaped(UnlockMethod.ACQUIRE_INGREDIENT, recipeCategory, group, output, 1, patternBuilder, ingredientBuilders);
     }
 
-    public void shaped(String name, RecipeCategory recipeCategory, ItemLike output, int outputCount, PatternBuilder patternBuilder, IngredientBuilder... ingredientBuilders) {
+    public void shaped(String name, UnlockMethod unlockMethod, RecipeCategory recipeCategory, ItemLike output, int outputCount, PatternBuilder patternBuilder, IngredientBuilder... ingredientBuilders) {
         this.shaped(name, recipeCategory, null, output, outputCount, patternBuilder, ingredientBuilders);
     }
 
+    public void shaped(String name, RecipeCategory recipeCategory, ItemLike output, int outputCount, PatternBuilder patternBuilder, IngredientBuilder... ingredientBuilders) {
+        this.shaped(name, UnlockMethod.ACQUIRE_INGREDIENT, recipeCategory, output, outputCount, patternBuilder, ingredientBuilders);
+    }
+
+    public void shaped(UnlockMethod unlockMethod, RecipeCategory recipeCategory, ItemLike output, int outputCount, PatternBuilder patternBuilder, IngredientBuilder... ingredientBuilders) {
+        this.shaped(null, unlockMethod, recipeCategory, output, outputCount, patternBuilder, ingredientBuilders);
+    }
+
     public void shaped(RecipeCategory recipeCategory, ItemLike output, int outputCount, PatternBuilder patternBuilder, IngredientBuilder... ingredientBuilders) {
-        this.shaped(null, recipeCategory, null, output, outputCount, patternBuilder, ingredientBuilders);
+        this.shaped(UnlockMethod.ACQUIRE_INGREDIENT, recipeCategory, output, outputCount, patternBuilder, ingredientBuilders);
+    }
+
+    public void shaped(UnlockMethod unlockMethod, String name, RecipeCategory recipeCategory, ItemLike output, PatternBuilder patternBuilder, IngredientBuilder... ingredientBuilders) {
+        this.shaped(name, recipeCategory, output, 1, patternBuilder, ingredientBuilders);
     }
 
     public void shaped(String name, RecipeCategory recipeCategory, ItemLike output, PatternBuilder patternBuilder, IngredientBuilder... ingredientBuilders) {
-        this.shaped(name, recipeCategory, null, output, 1, patternBuilder, ingredientBuilders);
+        this.shaped(UnlockMethod.ACQUIRE_INGREDIENT, name, recipeCategory, output, patternBuilder, ingredientBuilders);
+    }
+
+    public void shaped(UnlockMethod unlockMethod, RecipeCategory recipeCategory, ItemLike output, PatternBuilder patternBuilder, IngredientBuilder... ingredientBuilders) {
+        this.shaped(recipeCategory, output, 1, patternBuilder, ingredientBuilders);
     }
 
     public void shaped(RecipeCategory recipeCategory, ItemLike output, PatternBuilder patternBuilder, IngredientBuilder... ingredientBuilders) {
-        this.shaped(null, recipeCategory, null, output, 1, patternBuilder, ingredientBuilders);
+        this.shaped(UnlockMethod.ACQUIRE_INGREDIENT, recipeCategory, output, 1, patternBuilder, ingredientBuilders);
     }
 
-    public void shapeless(String name, RecipeCategory recipeCategory, String group, ItemLike output, int outputCount, IngredientBuilder... ingredientBuilders) {
+    public void shapeless(String name, UnlockMethod unlockMethod, RecipeCategory recipeCategory, String group, ItemLike output, int outputCount, IngredientBuilder... ingredientBuilders) {
         ShapelessRecipeBuilder shapelessRecipeBuilder;
         if (outputCount > 1) {
             shapelessRecipeBuilder = ShapelessRecipeBuilder.shapeless(recipeCategory, output, outputCount);
@@ -108,40 +142,69 @@ public abstract class SimpleRecipeProvider extends RecipeProvider {
             Ingredient ingredient = ingredientBuilder.getIngredient();
             int count = ingredientBuilder.getCount();
             shapelessRecipeBuilder.requires(ingredient, count);
-
-            if (ingredientBuilder.isMain() || ingredientBuilders.length < 2) {
-                ingredientBuilder.createRequires(shapelessRecipeBuilder);
-            }
         }
+        unlockMethod.apply(ingredientBuilders, output, shapelessRecipeBuilder);
         this.recipeBuilders.put(name != null ? name : this.toName(output), shapelessRecipeBuilder);
     }
 
+    public void shapeless(String name, RecipeCategory recipeCategory, String group, ItemLike output, int outputCount, IngredientBuilder... ingredientBuilders) {
+        this.shapeless(name, UnlockMethod.ACQUIRE_INGREDIENT, recipeCategory, group, output, outputCount, ingredientBuilders);
+    }
+
+    public void shapeless(UnlockMethod unlockMethod, RecipeCategory recipeCategory, String group, ItemLike output, int outputCount, IngredientBuilder... ingredientBuilders) {
+        this.shapeless(null, unlockMethod, recipeCategory, group, output, outputCount, ingredientBuilders);
+    }
+
     public void shapeless(RecipeCategory recipeCategory, String group, ItemLike output, int outputCount, IngredientBuilder... ingredientBuilders) {
-        this.shapeless(null, recipeCategory, group, output, outputCount, ingredientBuilders);
+        this.shapeless(UnlockMethod.ACQUIRE_INGREDIENT, recipeCategory, group, output, outputCount, ingredientBuilders);
+    }
+
+    public void shapeless(String name, UnlockMethod unlockMethod, RecipeCategory recipeCategory, String group, ItemLike output, IngredientBuilder... ingredientBuilders) {
+        this.shapeless(name, unlockMethod, recipeCategory, group, output, 1, ingredientBuilders);
     }
 
     public void shapeless(String name, RecipeCategory recipeCategory, String group, ItemLike output, IngredientBuilder... ingredientBuilders) {
-        this.shapeless(name, recipeCategory, group, output, 1, ingredientBuilders);
+        this.shapeless(name, UnlockMethod.ACQUIRE_INGREDIENT, recipeCategory, group, output, 1, ingredientBuilders);
+    }
+
+    public void shapeless(UnlockMethod unlockMethod, RecipeCategory recipeCategory, String group, ItemLike output, IngredientBuilder... ingredientBuilders) {
+        this.shapeless(unlockMethod, recipeCategory, group, output, 1, ingredientBuilders);
     }
 
     public void shapeless(RecipeCategory recipeCategory, String group, ItemLike output, IngredientBuilder... ingredientBuilders) {
-        this.shapeless(recipeCategory, group, output, 1, ingredientBuilders);
+        this.shapeless(UnlockMethod.ACQUIRE_INGREDIENT, recipeCategory, group, output, ingredientBuilders);
+    }
+
+    public void shapeless(UnlockMethod unlockMethod, String name, RecipeCategory recipeCategory, ItemLike output, IngredientBuilder... ingredientBuilders) {
+        this.shapeless(name, unlockMethod, recipeCategory, null, output, 1, ingredientBuilders);
     }
 
     public void shapeless(String name, RecipeCategory recipeCategory, ItemLike output, IngredientBuilder... ingredientBuilders) {
-        this.shapeless(name, recipeCategory, null, output, 1, ingredientBuilders);
+        this.shapeless(name, recipeCategory, output, 1, ingredientBuilders);
+    }
+
+    public void shapeless(UnlockMethod unlockMethod, RecipeCategory recipeCategory, ItemLike output, IngredientBuilder... ingredientBuilders) {
+        this.shapeless(unlockMethod, recipeCategory, null, output, 1, ingredientBuilders);
     }
 
     public void shapeless(RecipeCategory recipeCategory, ItemLike output, IngredientBuilder... ingredientBuilders) {
-        this.shapeless(recipeCategory, null, output, 1, ingredientBuilders);
+        this.shapeless(UnlockMethod.ACQUIRE_INGREDIENT, recipeCategory, output, ingredientBuilders);
+    }
+
+    public void shapeless(UnlockMethod unlockMethod, String name, RecipeCategory recipeCategory, ItemLike output, int count, IngredientBuilder... ingredientBuilders) {
+        this.shapeless(name, unlockMethod, recipeCategory, null, output, count, ingredientBuilders);
     }
 
     public void shapeless(String name, RecipeCategory recipeCategory, ItemLike output, int count, IngredientBuilder... ingredientBuilders) {
-        this.shapeless(name, recipeCategory, null, output, count, ingredientBuilders);
+        this.shapeless(name, UnlockMethod.ACQUIRE_INGREDIENT, recipeCategory, null, output, count, ingredientBuilders);
+    }
+
+    public void shapeless(UnlockMethod unlockMethod, RecipeCategory recipeCategory, ItemLike output, int count, IngredientBuilder... ingredientBuilders) {
+        this.shapeless(unlockMethod, recipeCategory, null, output, count, ingredientBuilders);
     }
 
     public void shapeless(RecipeCategory recipeCategory, ItemLike output, int count, IngredientBuilder... ingredientBuilders) {
-        this.shapeless(recipeCategory, null, output, count, ingredientBuilders);
+        this.shapeless(UnlockMethod.ACQUIRE_INGREDIENT, recipeCategory, output, count, ingredientBuilders);
     }
 
     public void smelting(String group, ItemLike output, ItemLike input, float experience, int time) {
@@ -282,6 +345,36 @@ public abstract class SimpleRecipeProvider extends RecipeProvider {
         });
     }
 
+    public enum UnlockMethod {
+        ACQUIRE_INGREDIENT((ingredientBuilders, output, recipeBuilder) -> {
+            for (IngredientBuilder ingredientBuilder : ingredientBuilders) {
+                if (ingredientBuilder.isMain() || ingredientBuilders.length < 2) {
+                    ingredientBuilder.createRequires(recipeBuilder);
+                    break;
+                }
+            }
+            return true;
+        }),
+        IN_WATER((ingredientBuilders, output, recipeBuilder) -> {
+            recipeBuilder.unlockedBy("in_water", RecipeProvider.insideOf(Blocks.WATER));
+            return true;
+        }),
+        CRAFT((ingredientBuilders, output, recipeBuilder) -> {
+            recipeBuilder.unlockedBy(RecipeProvider.getHasName(output), RecipeProvider.has(output));
+            return true;
+        });
+
+        private final TriFunction<IngredientBuilder[], ItemLike, RecipeBuilder, Boolean> createUnlock;
+
+        UnlockMethod(TriFunction<IngredientBuilder[], ItemLike, RecipeBuilder, Boolean> createUnlock) {
+            this.createUnlock = createUnlock;
+        }
+
+        public void apply(IngredientBuilder[] ingredientBuilders, ItemLike output, RecipeBuilder recipeBuilder) {
+            this.createUnlock.apply(ingredientBuilders, output, recipeBuilder);
+        }
+    }
+
     public static final class PatternBuilder {
         private final String[] pattern;
 
@@ -325,7 +418,7 @@ public abstract class SimpleRecipeProvider extends RecipeProvider {
         }
 
         public IngredientBuilder requires(TagKey<Item> itemLikeRequirement, String requires) {
-            return this.main(null, itemTagKeyRequirement, requires);
+            return this.main(null, this.itemTagKeyRequirement, requires);
         }
 
         public IngredientBuilder requires() {
