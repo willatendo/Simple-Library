@@ -14,3 +14,6 @@ mutable field net/minecraft/stats/RecipeBookSettings TAG_FIELDS Ljava/util/Map;
 accessible field net/minecraft/world/item/AxeItem STRIPPABLES Ljava/util/Map;
 mutable field net/minecraft/world/item/AxeItem STRIPPABLES Ljava/util/Map;
 accessible field net/minecraft/world/entity/ai/behavior/GiveGiftToHero GIFTS Ljava/util/Map;
+accessible field net/minecraft/world/level/levelgen/structure/pools/StructureTemplatePool rawTemplates Ljava/util/List;
+mutable field net/minecraft/world/level/levelgen/structure/pools/StructureTemplatePool rawTemplates Ljava/util/List;
+accessible field net/minecraft/world/level/levelgen/structure/pools/StructureTemplatePool templates Lit/unimi/dsi/fastutil/objects/ObjectArrayList;
