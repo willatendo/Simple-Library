@@ -1,6 +1,6 @@
 package willatendo.simplelibrary.client;
 
-import org.apache.commons.compress.utils.Lists;
+import com.google.common.collect.Lists;
 import willatendo.simplelibrary.common.config.ConfigType;
 import willatendo.simplelibrary.common.config.SimpleConfig;
 

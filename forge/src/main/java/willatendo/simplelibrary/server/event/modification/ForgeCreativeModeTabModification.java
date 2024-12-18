@@ -3,6 +3,8 @@ package willatendo.simplelibrary.server.event.modification;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 
@@ -21,6 +23,20 @@ public final class ForgeCreativeModeTabModification implements CreativeModeTabMo
             } else if (this.event.getTabKey() != CreativeModeTabs.OP_BLOCKS) {
                 this.event.accept(itemLike);
             }
+        }
+    }
+
+    @Override
+    public void addBefore(ResourceKey<CreativeModeTab> creativeModeTab, ItemLike add, ItemLike before) {
+        if (this.event.getTabKey() == creativeModeTab) {
+            this.event.getEntries().putBefore(new ItemStack(before), new ItemStack(add), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+        }
+    }
+
+    @Override
+    public void addAfter(ResourceKey<CreativeModeTab> creativeModeTab, ItemLike add, ItemLike after) {
+        if (this.event.getTabKey() == creativeModeTab) {
+            this.event.getEntries().putAfter(new ItemStack(after), new ItemStack(add), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
         }
     }
 }

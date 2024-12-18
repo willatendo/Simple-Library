@@ -1,7 +1,7 @@
 package willatendo.simplelibrary.common.config;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import org.apache.commons.compress.utils.Lists;
 import willatendo.simplelibrary.platform.ModloaderHelper;
 import willatendo.simplelibrary.server.util.SimpleUtils;
 
