@@ -15,6 +15,7 @@ java {
 
 repositories {
     mavenCentral()
+
     exclusiveContent {
         forRepository {
             maven {
@@ -24,6 +25,7 @@ repositories {
         }
         filter { includeGroupAndSubgroups('org.spongepowered') }
     }
+
     exclusiveContent {
         forRepositories(
                 maven {
@@ -37,10 +39,13 @@ repositories {
         )
         filter { includeGroup('org.parchmentmc.data') }
     }
+
     maven {
         name = 'BlameJared'
         url = 'https://maven.blamejared.com'
     }
+
+    maven { url = "https://jitpack.io" }
 }
 
 ['apiElements', 'runtimeElements', 'sourcesElements', 'javadocElements'].each { variant ->

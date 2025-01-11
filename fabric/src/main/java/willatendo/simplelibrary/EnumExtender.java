@@ -17,8 +17,8 @@ public class EnumExtender implements Runnable {
     @Override
     public void run() {
         switch (FabricLoader.getInstance().getEnvironmentType()) {
-            case CLIENT -> loadClient();
-            case SERVER -> loadServer();
+            case CLIENT -> EnumExtender.loadClient();
+            case SERVER -> EnumExtender.loadServer();
         }
     }
 
@@ -33,12 +33,8 @@ public class EnumExtender implements Runnable {
 
         List<EnumExtenderInitializer> enumExtenderInitializers = FabricLoader.getInstance().getEntrypoints(SimpleUtils.SIMPLE_ID + ":enum_initializer", EnumExtenderInitializer.class);
         enumExtenderInitializers.forEach(enumExtenderInitializer -> {
-            enumExtenderInitializer.getRecipeBookTypes().forEach(name -> {
-                recipeBookTypeAdder.addEnum(name.toUpperCase());
-            });
-            enumExtenderInitializer.getRecipeBookCategories().forEach(extendedRecipeBookCategory -> {
-                recipeBookCategoriesAdder.addEnum(extendedRecipeBookCategory.name().toUpperCase(), () -> new Object[]{Arrays.stream(extendedRecipeBookCategory.items()).map(itemKey -> BuiltInRegistries.ITEM.get(ResourceLocation.parse(itemKey))).map(ItemStack::new).toArray(ItemStack[]::new)});
-            });
+            enumExtenderInitializer.getRecipeBookTypes().forEach(name -> recipeBookTypeAdder.addEnum(name.toUpperCase()));
+            enumExtenderInitializer.getRecipeBookCategories().forEach(extendedRecipeBookCategory -> recipeBookCategoriesAdder.addEnum(extendedRecipeBookCategory.name().toUpperCase(), () -> new Object[]{Arrays.stream(extendedRecipeBookCategory.items()).map(itemKey -> BuiltInRegistries.ITEM.get(ResourceLocation.parse(itemKey))).map(ItemStack::new).toArray(ItemStack[]::new)}));
         });
 
         recipeBookTypeAdder.build();
@@ -51,9 +47,7 @@ public class EnumExtender implements Runnable {
         EnumAdder recipeBookTypeAdder = ClassTinkerers.enumBuilder(recipeBookType);
 
         List<EnumExtenderInitializer> enumExtenderInitializers = FabricLoader.getInstance().getEntrypoints(SimpleUtils.SIMPLE_ID + ":enum_initializer", EnumExtenderInitializer.class);
-        enumExtenderInitializers.forEach(enumExtenderInitializer -> enumExtenderInitializer.getRecipeBookTypes().forEach(name -> {
-            recipeBookTypeAdder.addEnum(name);
-        }));
+        enumExtenderInitializers.forEach(enumExtenderInitializer -> enumExtenderInitializer.getRecipeBookTypes().forEach(name -> recipeBookTypeAdder.addEnum(name.toUpperCase())));
 
         recipeBookTypeAdder.build();
     }
