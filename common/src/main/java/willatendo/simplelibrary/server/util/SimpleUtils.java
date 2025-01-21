@@ -9,6 +9,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
@@ -91,8 +92,8 @@ public final class SimpleUtils {
         return ModloaderHelper.INSTANCE.createParticleType(serverPlayer);
     }
 
-    public static void openContainer(BlockEntity blockEntity, BlockPos blockPos, ServerPlayer serverPlayer) {
-        ModloaderHelper.INSTANCE.openContainer(blockEntity, blockPos, serverPlayer);
+    public static void openContainer(MenuProvider menuProvider, BlockPos blockPos, ServerPlayer serverPlayer) {
+        ModloaderHelper.INSTANCE.openContainer(menuProvider, blockPos, serverPlayer);
     }
 
     // Creative Mode Tab Helpers

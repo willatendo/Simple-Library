@@ -106,21 +106,25 @@ public class FabricHelper implements ModloaderHelper {
     }
 
     @Override
-    public void openContainer(BlockEntity blockEntity, BlockPos blockPos, ServerPlayer serverPlayer) {
+    public void openContainer(MenuProvider menuProvider, BlockPos blockPos, ServerPlayer serverPlayer) {
         serverPlayer.openMenu(new ExtendedScreenHandlerFactory<BlockPos>() {
             @Override
             public BlockPos getScreenOpeningData(ServerPlayer serverPlayer1) {
-                return blockEntity.getBlockPos();
+                if (menuProvider instanceof BlockEntity blockEntity) {
+                    return blockEntity.getBlockPos();
+                } else {
+                    return blockPos;
+                }
             }
 
             @Override
             public Component getDisplayName() {
-                return ((MenuProvider) blockEntity).getDisplayName();
+                return menuProvider.getDisplayName();
             }
 
             @Override
             public AbstractContainerMenu createMenu(int windowId, Inventory inventory, Player player) {
-                return ((MenuProvider) blockEntity).createMenu(windowId, inventory, player);
+                return menuProvider.createMenu(windowId, inventory, player);
             }
         });
     }

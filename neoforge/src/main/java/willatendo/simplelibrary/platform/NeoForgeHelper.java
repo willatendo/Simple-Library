@@ -99,7 +99,7 @@ public class NeoForgeHelper implements ModloaderHelper {
     }
 
     @Override
-    public void openContainer(BlockEntity blockEntity, BlockPos blockPos, ServerPlayer serverPlayer) {
-        serverPlayer.openMenu((MenuProvider) blockEntity, blockPos);
+    public void openContainer(MenuProvider menuProvider, BlockPos blockPos, ServerPlayer serverPlayer) {
+        serverPlayer.openMenu(menuProvider, blockPos);
     }
 }

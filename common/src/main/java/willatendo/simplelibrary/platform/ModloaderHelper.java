@@ -9,6 +9,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
@@ -19,7 +20,6 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import willatendo.simplelibrary.server.menu.ExtendedMenuSupplier;
 import willatendo.simplelibrary.server.util.SimpleRegistryBuilder;
 import willatendo.simplelibrary.server.util.SimpleUtils;
@@ -58,5 +58,5 @@ public interface ModloaderHelper {
 
     SimpleParticleType createParticleType(boolean overrideLimiter);
 
-    void openContainer(BlockEntity blockEntity, BlockPos blockPos, ServerPlayer serverPlayer);
+    void openContainer(MenuProvider menuProvider, BlockPos blockPos, ServerPlayer serverPlayer);
 }
