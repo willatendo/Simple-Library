@@ -2,6 +2,7 @@ package willatendo.simplelibrary.data;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;
@@ -9,6 +10,7 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 import willatendo.simplelibrary.server.util.SimpleUtils;
@@ -100,5 +102,13 @@ public abstract class SimpleLanguageProvider extends LanguageProvider {
 
     public void addDesc(Block block, String name) {
         this.add(block.getDescriptionId() + ".desc", name);
+    }
+
+    public void add(GameRules.Key<?> key, String translation) {
+        this.add("gamerule." + key.getId(), translation);
+    }
+
+    public void addStat(ResourceLocation stat, String name) {
+        this.add("stat." + stat.getNamespace() + "." + stat.getPath(), name);
     }
 }

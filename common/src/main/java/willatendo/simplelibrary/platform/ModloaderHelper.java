@@ -21,6 +21,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.block.Block;
 import willatendo.simplelibrary.server.menu.ExtendedMenuSupplier;
+import willatendo.simplelibrary.server.util.Platform;
 import willatendo.simplelibrary.server.util.SimpleRegistryBuilder;
 import willatendo.simplelibrary.server.util.SimpleUtils;
 
@@ -35,6 +36,8 @@ public interface ModloaderHelper {
     <T> Supplier<EntityDataSerializer<Holder<T>>> registerDataSerializer(String id, StreamCodec<RegistryFriendlyByteBuf, Holder<T>> streamCodec);
 
     // Internal Use
+
+    Platform getPlatform();
 
     boolean isDevEnviroment();
 

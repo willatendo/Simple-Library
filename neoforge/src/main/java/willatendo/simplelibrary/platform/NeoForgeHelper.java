@@ -20,7 +20,6 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.fml.loading.FMLPaths;
@@ -29,6 +28,7 @@ import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
 import net.neoforged.neoforge.registries.RegistryBuilder;
 import willatendo.simplelibrary.NeoforgeSimpleLibrary;
 import willatendo.simplelibrary.server.menu.ExtendedMenuSupplier;
+import willatendo.simplelibrary.server.util.Platform;
 import willatendo.simplelibrary.server.util.SimpleRegistryBuilder;
 
 import java.nio.file.Path;
@@ -39,6 +39,11 @@ public class NeoForgeHelper implements ModloaderHelper {
     @Override
     public <T> Supplier<EntityDataSerializer<Holder<T>>> registerDataSerializer(String id, StreamCodec<RegistryFriendlyByteBuf, Holder<T>> streamCodec) {
         return NeoforgeSimpleLibrary.ENTITY_DATA_SERIALIZER.register(id, () -> EntityDataSerializer.forValueType(streamCodec));
+    }
+
+    @Override
+    public Platform getPlatform() {
+        return Platform.NEOFORGE;
     }
 
     @Override

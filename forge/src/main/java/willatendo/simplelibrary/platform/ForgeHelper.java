@@ -36,6 +36,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import willatendo.simplelibrary.ForgeSimpleLibrary;
 import willatendo.simplelibrary.server.menu.ExtendedMenuSupplier;
+import willatendo.simplelibrary.server.util.Platform;
 import willatendo.simplelibrary.server.util.SimpleRegistryBuilder;
 
 import java.nio.file.Path;
@@ -47,6 +48,11 @@ public class ForgeHelper implements ModloaderHelper {
     @Override
     public <T> Supplier<EntityDataSerializer<Holder<T>>> registerDataSerializer(String id, StreamCodec<RegistryFriendlyByteBuf, Holder<T>> streamCodec) {
         return ForgeSimpleLibrary.ENTITY_DATA_SERIALIZER.register(id, () -> EntityDataSerializer.forValueType(streamCodec));
+    }
+
+    @Override
+    public Platform getPlatform() {
+        return Platform.FORGE;
     }
 
     @Override

@@ -2,8 +2,11 @@ package willatendo.simplelibrary.data;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
+import net.minecraft.data.models.ItemModelGenerators;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
@@ -17,16 +20,24 @@ public abstract class SimpleItemModelProvider extends ItemModelProvider {
         super(packOutput, modId, existingFileHelper);
     }
 
+    private ResourceLocation get(Item item) {
+        return BuiltInRegistries.ITEM.getKey(item);
+    }
+
+    private ResourceLocation get(Block block) {
+        return BuiltInRegistries.BLOCK.getKey(block);
+    }
+
     public ItemModelBuilder handheldItem(Item item) {
-        return this.handheldItem(Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item)), ResourceLocation.fromNamespaceAndPath(BuiltInRegistries.ITEM.getKey(item).getNamespace(), "item/" + BuiltInRegistries.ITEM.getKey(item).getPath()));
+        return this.handheldItem(Objects.requireNonNull(this.get(item)), ResourceLocation.fromNamespaceAndPath(this.get(item).getNamespace(), "item/" + this.get(item).getPath()));
     }
 
     public ItemModelBuilder handheldItem(Item item, ResourceLocation texture) {
-        return this.handheldItem(Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item)), texture);
+        return this.handheldItem(Objects.requireNonNull(this.get(item)), texture);
     }
 
     public ItemModelBuilder basicItem(Item item, ResourceLocation texture) {
-        return this.basicItem(Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item)), texture);
+        return this.basicItem(Objects.requireNonNull(this.get(item)), texture);
     }
 
     public ItemModelBuilder basicItem(ResourceLocation item, ResourceLocation texture) {
@@ -38,11 +49,11 @@ public abstract class SimpleItemModelProvider extends ItemModelProvider {
     }
 
     public ItemModelBuilder handheldItem(Item item, ResourceLocation[] textures) {
-        return this.handheldItem(Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item)), textures);
+        return this.handheldItem(Objects.requireNonNull(this.get(item)), textures);
     }
 
     public ItemModelBuilder basicItem(Item item, ResourceLocation[] textures) {
-        return this.basicItem(Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item)), textures);
+        return this.basicItem(Objects.requireNonNull(this.get(item)), textures);
     }
 
     public ItemModelBuilder basicItem(ResourceLocation item, ResourceLocation[] textures) {
@@ -62,7 +73,7 @@ public abstract class SimpleItemModelProvider extends ItemModelProvider {
     }
 
     public ItemModelBuilder spawnEggItem(Item item) {
-        return this.spawnEggItem(Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item)));
+        return this.spawnEggItem(Objects.requireNonNull(this.get(item)));
     }
 
     public ItemModelBuilder spawnEggItem(ResourceLocation item) {
@@ -70,16 +81,25 @@ public abstract class SimpleItemModelProvider extends ItemModelProvider {
     }
 
     public void basicBlock(Block block) {
-        this.getBuilder(BuiltInRegistries.BLOCK.getKey(block).getPath()).parent(new ModelFile.UncheckedModelFile(this.modLoc("block/" + BuiltInRegistries.BLOCK.getKey(block).getPath())));
+        this.getBuilder(this.get(block).getPath()).parent(new ModelFile.UncheckedModelFile(this.modLoc("block/" + this.get(block).getPath())));
     }
 
-    public void basicBlock(Block block, String blockModel) {
-        this.getBuilder(BuiltInRegistries.BLOCK.getKey(block).getPath()).parent(new ModelFile.UncheckedModelFile(this.modLoc("block/" + blockModel)));
+    public void basicBlock(Block block, ResourceLocation blockModel) {
+        this.getBuilder(this.get(block).getPath()).parent(new ModelFile.UncheckedModelFile(blockModel));
     }
 
-    public void armorItem(Item item, String type) {
-        ResourceLocation id = BuiltInRegistries.ITEM.getKey(item);
-        String name = id.getPath();
-        this.basicItem(item).override().model(this.withExistingParent(name + "_quartz_trim", this.mcLoc("generated")).texture("layer0", ResourceLocation.fromNamespaceAndPath(id.getNamespace(), "item/" + name)).texture("layer1", this.mcLoc("trims/items/" + type + "_trim_quartz"))).predicate(this.mcLoc("trim_type"), 0.1F).end().override().model(this.withExistingParent(name + "_iron_darker_trim", this.mcLoc("generated")).texture("layer0", ResourceLocation.fromNamespaceAndPath(id.getNamespace(), "item/" + name)).texture("layer1", this.mcLoc("trims/items/" + type + "_trim_iron_darker"))).predicate(this.mcLoc("trim_type"), 0.2F).end().override().model(this.withExistingParent(name + "_netherite_trim", this.mcLoc("generated")).texture("layer0", ResourceLocation.fromNamespaceAndPath(id.getNamespace(), "item/" + name)).texture("layer1", this.mcLoc("trims/items/" + type + "_trim_netherite"))).predicate(this.mcLoc("trim_type"), 0.3F).end().override().model(this.withExistingParent(name + "_redstone_trim", this.mcLoc("generated")).texture("layer0", ResourceLocation.fromNamespaceAndPath(id.getNamespace(), "item/" + name)).texture("layer1", this.mcLoc("trims/items/" + type + "_trim_redstone"))).predicate(this.mcLoc("trim_type"), 0.4F).end().override().model(this.withExistingParent(name + "_copper_trim", this.mcLoc("generated")).texture("layer0", ResourceLocation.fromNamespaceAndPath(id.getNamespace(), "item/" + name)).texture("layer1", this.mcLoc("trims/items/" + type + "_trim_copper"))).predicate(this.mcLoc("trim_type"), 0.5F).end().override().model(this.withExistingParent(name + "_gold_trim", this.mcLoc("generated")).texture("layer0", ResourceLocation.fromNamespaceAndPath(id.getNamespace(), "item/" + name)).texture("layer1", this.mcLoc("trims/items/" + type + "_trim_gold"))).predicate(this.mcLoc("trim_type"), 0.6F).end().override().model(this.withExistingParent(name + "_emerald_trim", this.mcLoc("generated")).texture("layer0", ResourceLocation.fromNamespaceAndPath(id.getNamespace(), "item/" + name)).texture("layer1", this.mcLoc("trims/items/" + type + "_trim_emerald"))).predicate(this.mcLoc("trim_type"), 0.7F).end().override().model(this.withExistingParent(name + "_diamond_trim", this.mcLoc("generated")).texture("layer0", ResourceLocation.fromNamespaceAndPath(id.getNamespace(), "item/" + name)).texture("layer1", this.mcLoc("trims/items/" + type + "_trim_diamond"))).predicate(this.mcLoc("trim_type"), 0.8F).end().override().model(this.withExistingParent(name + "_lapis_trim", this.mcLoc("generated")).texture("layer0", ResourceLocation.fromNamespaceAndPath(id.getNamespace(), "item/" + name)).texture("layer1", this.mcLoc("trims/items/" + type + "_trim_lapis"))).predicate(this.mcLoc("trim_type"), 0.9F).end().override().model(this.withExistingParent(name + "_amethyst_trim", this.mcLoc("generated")).texture("layer0", ResourceLocation.fromNamespaceAndPath(id.getNamespace(), "item/" + name)).texture("layer1", this.mcLoc("trims/items/" + type + "_trim_amethyst"))).predicate(this.mcLoc("trim_type"), 1.0F).end();
+    public void entityRendererItem(Item item, ResourceLocation particle) {
+        this.getBuilder(this.get(item).getPath()).parent(new ModelFile.UncheckedModelFile("builtin/entity")).texture("particle", particle).transforms().transform(ItemDisplayContext.GUI).rotation(30.0F, 135.0F, 0.0F).translation(0.0F, 0.0F, 0.0F).scale(0.625F, 0.625F, 0.625F).end().transform(ItemDisplayContext.GROUND).rotation(0.0F, 0.0F, 0.0F).translation(0.0F, 3.0F, 0.0F).scale(0.25F, 0.25F, 0.25F).end().transform(ItemDisplayContext.HEAD).rotation(0.0F, 180.0F, 0.0F).translation(0.0F, 0.0F, 0.0F).scale(1.0F, 1.0F, 1.0F).end().transform(ItemDisplayContext.FIXED).rotation(0.0F, 0.0F, 0.0F).translation(0.0F, 3.0F, 0.0F).scale(0.5F, 0.5F, 0.5F).end().transform(ItemDisplayContext.THIRD_PERSON_RIGHT_HAND).rotation(75.0F, 135.0F, 0.0F).translation(0.0F, 2.5F, 0.0F).scale(0.375F, 0.375F, 0.375F).end().transform(ItemDisplayContext.FIRST_PERSON_RIGHT_HAND).rotation(0.0F, 135.0F, 0.0F).translation(0.0F, 0.0F, 0.0F).scale(0.4F, 0.4F, 0.4F).end();
+    }
+
+    public void armorItem(ArmorItem armorItem) {
+        ItemModelBuilder itemModelBuilder = this.basicItem(armorItem);
+        ItemModelGenerators.GENERATED_TRIM_MODELS.forEach(trimModelData -> this.addTrim(itemModelBuilder, this.get(armorItem), armorItem, trimModelData));
+    }
+
+    private void addTrim(ItemModelBuilder itemModelBuilder, ResourceLocation id, ArmorItem armorItem, ItemModelGenerators.TrimModelData trimModelData) {
+        String trimName = trimModelData.name(armorItem.getMaterial());
+        ResourceLocation s = ResourceLocation.withDefaultNamespace(armorItem.getType().getName() + "_trim_" + trimName).withPath("trims/items/");
+        itemModelBuilder.override().model(this.withExistingParent(id.getPath() + "_" + trimName + "_trim", this.mcLoc("generated")).texture("layer0", ResourceLocation.fromNamespaceAndPath(id.getNamespace(), "item/" + id.getPath())).texture("layer1", s)).predicate(this.mcLoc("trim_type"), trimModelData.itemModelIndex()).end();
     }
 }

@@ -34,6 +34,7 @@ import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import willatendo.simplelibrary.server.menu.ExtendedMenuSupplier;
+import willatendo.simplelibrary.server.util.Platform;
 import willatendo.simplelibrary.server.util.SimpleRegistryBuilder;
 
 import java.nio.file.Path;
@@ -46,6 +47,11 @@ public class FabricHelper implements ModloaderHelper {
         EntityDataSerializer<Holder<T>> entityDataSerializer = EntityDataSerializer.forValueType(streamCodec);
         EntityDataSerializers.registerSerializer(entityDataSerializer);
         return () -> entityDataSerializer;
+    }
+
+    @Override
+    public Platform getPlatform() {
+        return Platform.FABRIC;
     }
 
     @Override
