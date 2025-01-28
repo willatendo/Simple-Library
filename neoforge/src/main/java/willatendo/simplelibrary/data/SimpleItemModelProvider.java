@@ -99,7 +99,7 @@ public abstract class SimpleItemModelProvider extends ItemModelProvider {
 
     private void addTrim(ItemModelBuilder itemModelBuilder, ResourceLocation id, ArmorItem armorItem, ItemModelGenerators.TrimModelData trimModelData) {
         String trimName = trimModelData.name(armorItem.getMaterial());
-        ResourceLocation s = ResourceLocation.withDefaultNamespace(armorItem.getType().getName() + "_trim_" + trimName).withPath("trims/items/");
+        ResourceLocation s = ResourceLocation.withDefaultNamespace(armorItem.getType().getName() + "_trim_" + trimName).withPrefix("trims/items/");
         itemModelBuilder.override().model(this.withExistingParent(id.getPath() + "_" + trimName + "_trim", this.mcLoc("generated")).texture("layer0", ResourceLocation.fromNamespaceAndPath(id.getNamespace(), "item/" + id.getPath())).texture("layer1", s)).predicate(this.mcLoc("trim_type"), trimModelData.itemModelIndex()).end();
     }
 }
