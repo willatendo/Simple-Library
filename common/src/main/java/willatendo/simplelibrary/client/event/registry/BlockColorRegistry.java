@@ -9,6 +9,6 @@ public interface BlockColorRegistry {
     void registerBlockColor(BlockColor blockColor, Block... blocks);
 
     default void registerLeavesColor(Block... blocks) {
-        this.registerBlockColor((blockState, blockAndTintGetter, blockPos, tintIndex) -> blockAndTintGetter != null && blockPos != null ? BiomeColors.getAverageFoliageColor(blockAndTintGetter, blockPos) : FoliageColor.getDefaultColor(), blocks);
+        this.registerBlockColor((blockState, blockAndTintGetter, blockPos, tintIndex) -> blockAndTintGetter != null && blockPos != null ? BiomeColors.getAverageFoliageColor(blockAndTintGetter, blockPos) : -12012264, blocks);
     }
 }

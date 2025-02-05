@@ -42,9 +42,9 @@ public interface StructurePoolModification {
     }
 
     default void add(Registry<StructureTemplatePool> templatePoolRegistry, Registry<StructureProcessorList> processorListRegistry, ResourceLocation poolRL, String nbtPieceRL, int weight) {
-        Holder.Reference<StructureProcessorList> empty = processorListRegistry.getHolderOrThrow(EMPTY_PROCESSOR_LIST_KEY);
+        Holder.Reference<StructureProcessorList> empty = processorListRegistry.getOrThrow(EMPTY_PROCESSOR_LIST_KEY);
 
-        StructureTemplatePool structureTemplatePool = templatePoolRegistry.get(poolRL);
+        StructureTemplatePool structureTemplatePool = templatePoolRegistry.getValue(poolRL);
         if (structureTemplatePool == null) {
             return;
         }

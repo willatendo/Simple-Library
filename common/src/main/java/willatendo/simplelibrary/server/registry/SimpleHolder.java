@@ -36,7 +36,7 @@ public class SimpleHolder<T> implements Holder<T>, Supplier<T> {
     }
 
     protected Registry<T> getRegistry() {
-        return (Registry<T>) BuiltInRegistries.REGISTRY.get(this.holderKey.registry());
+        return (Registry<T>) BuiltInRegistries.REGISTRY.getValue(this.holderKey.registry());
     }
 
     protected final void bind(boolean throwOnMissingRegistry) {
@@ -46,7 +46,7 @@ public class SimpleHolder<T> implements Holder<T>, Supplier<T> {
 
         Registry<T> registry = this.getRegistry();
         if (registry != null) {
-            this.holder = registry.getHolder(this.holderKey).orElse(null);
+            this.holder = registry.get(this.holderKey).orElse(null);
         } else if (throwOnMissingRegistry) {
             throw new IllegalStateException("Registry not present for " + this + ": " + this.holderKey.registry());
         }

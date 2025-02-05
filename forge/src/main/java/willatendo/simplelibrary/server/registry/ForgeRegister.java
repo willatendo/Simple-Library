@@ -6,8 +6,6 @@ import willatendo.simplelibrary.server.event.registry.ForgeRegisterRegister;
 
 public final class ForgeRegister {
     public static void register(IEventBus iEventBus, SimpleRegistry<?> simpleRegistry) {
-        iEventBus.<RegisterEvent>addListener(registryEvent -> {
-            simpleRegistry.addEntries(new ForgeRegisterRegister(registryEvent));
-        });
+        iEventBus.<RegisterEvent>addListener(registryEvent -> simpleRegistry.addEntries(new ForgeRegisterRegister(registryEvent)));
     }
 }

@@ -15,11 +15,11 @@ public final class FabricStructurePoolModification implements StructurePoolModif
 
     @Override
     public Registry<StructureTemplatePool> getTemplatePoolRegistry() {
-        return this.minecraftServer.registryAccess().registry(Registries.TEMPLATE_POOL).orElseThrow();
+        return this.minecraftServer.registryAccess().lookupOrThrow(Registries.TEMPLATE_POOL);
     }
 
     @Override
     public Registry<StructureProcessorList> getProcessorListRegistry() {
-        return this.minecraftServer.registryAccess().registry(Registries.PROCESSOR_LIST).orElseThrow();
+        return this.minecraftServer.registryAccess().lookupOrThrow(Registries.PROCESSOR_LIST);
     }
 }

@@ -15,7 +15,7 @@ public class SimpleDataMapProvider extends DataMapProvider {
     }
 
     @Override
-    protected void gather() {
+    protected void gather(HolderLookup.Provider provider) {
         for (DataMapEntry dataMapEntry : this.dataMapEntries) {
             dataMapEntry.addAll(this.builder(dataMapEntry.getDataMapType()));
         }

@@ -9,7 +9,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.data.LanguageProvider;
@@ -28,10 +27,6 @@ public abstract class SimpleLanguageProvider extends LanguageProvider {
     }
 
     public void add(Item key, String name) {
-        this.add(key.getDescriptionId(), name);
-    }
-
-    public void add(ItemStack key, String name) {
         this.add(key.getDescriptionId(), name);
     }
 

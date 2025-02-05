@@ -7,8 +7,6 @@ accessible class net/minecraft/client/gui/screens/MenuScreens$ScreenConstructor
 accessible method net/minecraft/world/inventory/AbstractContainerMenu moveItemStackTo (Lnet/minecraft/world/item/ItemStack;IIZ)Z
 accessible method net/minecraft/world/level/biome/Biome$ClimateSettings <init> (ZFLnet/minecraft/world/level/biome/Biome$TemperatureModifier;F)V
 
-accessible field net/minecraft/world/entity/vehicle/Boat lastYd D
-accessible field net/minecraft/world/entity/vehicle/Boat status Lnet/minecraft/world/entity/vehicle/Boat$Status;
 accessible field net/minecraft/stats/RecipeBookSettings TAG_FIELDS Ljava/util/Map;
 mutable field net/minecraft/stats/RecipeBookSettings TAG_FIELDS Ljava/util/Map;
 accessible field net/minecraft/world/item/AxeItem STRIPPABLES Ljava/util/Map;
