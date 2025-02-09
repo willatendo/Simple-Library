@@ -20,6 +20,9 @@
     ],
     "client": [
       "willatendo.simplelibrary.client.SimpleLibraryFabricClient"
+    ],
+    "mm:early_risers": [
+      "willatendo.simplelibrary.EnumExtender"
     ]
   },
   "depends": {
