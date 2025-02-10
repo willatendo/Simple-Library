@@ -14,7 +14,7 @@ public final class FabricIdModification implements IdModification {
 
     @Override
     public <T> void updateId(Registry<T> registry, ResourceLocation oldId, Supplier<T> remap) {
-        // Coming soon
+        registry.addAlias(oldId, this.getId(registry, remap.get()));
     }
 
     @Override
