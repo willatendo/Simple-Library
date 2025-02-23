@@ -11,9 +11,11 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
 public final class FabricClientReloadListenerRegister implements ClientReloadListenerRegister {
+    private final ResourceManagerHelper resourceManagerHelper = ResourceManagerHelper.get(PackType.CLIENT_RESOURCES);
+
     @Override
     public void register(ResourceLocation id, PreparableReloadListener preparableReloadListener) {
-        ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new IdentifiableResourceReloadListener() {
+        this.resourceManagerHelper.registerReloadListener(new IdentifiableResourceReloadListener() {
             @Override
             public ResourceLocation getFabricId() {
                 return id;
