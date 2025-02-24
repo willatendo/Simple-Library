@@ -15,14 +15,24 @@ public abstract class SimpleItemModelGenerator {
     protected final ItemModelGenerators itemModelGenerators;
     protected final ItemModelOutput itemModelOutput;
     protected final BiConsumer<ResourceLocation, ModelInstance> modelOutput;
+    private final String modId;
 
-    public SimpleItemModelGenerator(ItemModelGenerators itemModelGenerators) {
+    public SimpleItemModelGenerator(ItemModelGenerators itemModelGenerators, String modId) {
         this.itemModelGenerators = itemModelGenerators;
         this.itemModelOutput = itemModelGenerators.itemModelOutput;
         this.modelOutput = itemModelGenerators.modelOutput;
+        this.modId = modId;
     }
 
     public abstract void run();
+
+    protected ResourceLocation modLocation(String path) {
+        return ResourceLocation.fromNamespaceAndPath(this.modId, path);
+    }
+
+    protected ResourceLocation mcLocation(String path) {
+        return ResourceLocation.withDefaultNamespace(path);
+    }
 
     // Basic Providers
     protected void generatedItem(Item item) {

@@ -24,15 +24,25 @@ public abstract class SimpleBlockModelGenerator {
     protected final ItemModelOutput itemModelOutput;
     protected final Consumer<BlockStateGenerator> blockStateOutput;
     protected final BiConsumer<ResourceLocation, ModelInstance> modelOutput;
+    private final String modId;
 
-    public SimpleBlockModelGenerator(BlockModelGenerators blockModelGenerators) {
+    public SimpleBlockModelGenerator(BlockModelGenerators blockModelGenerators, String modId) {
         this.blockModelGenerators = blockModelGenerators;
         this.itemModelOutput = blockModelGenerators.itemModelOutput;
         this.blockStateOutput = blockModelGenerators.blockStateOutput;
         this.modelOutput = blockModelGenerators.modelOutput;
+        this.modId = modId;
     }
 
     public abstract void run();
+
+    protected ResourceLocation modLocation(String path) {
+        return ResourceLocation.fromNamespaceAndPath(this.modId, path);
+    }
+
+    protected ResourceLocation mcLocation(String path) {
+        return ResourceLocation.withDefaultNamespace(path);
+    }
 
     // Basic Providers
     protected void createBlockFamilies(Stream<BlockFamily> blockFamilies) {
