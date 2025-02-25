@@ -55,7 +55,7 @@ public abstract class SimpleBlockModelGenerator {
     }
 
     protected void createPlantWithDefaultItem(Block block, Block pottedBlock, SimpleBlockModelGenerator.PlantType plantType) {
-        this.blockModelGenerators.registerSimpleItemModel(block.asItem(), plantType.createItemModel(this.blockModelGenerators, block));
+        this.registerSimpleItemModel(block.asItem(), plantType.createItemModel(this.blockModelGenerators, block));
         this.createPlant(block, pottedBlock, plantType);
     }
 
@@ -74,6 +74,50 @@ public abstract class SimpleBlockModelGenerator {
     protected void createCrossBlock(Block block, SimpleBlockModelGenerator.PlantType plantType, TextureMapping textureMapping) {
         ResourceLocation resourcelocation = plantType.getCross().create(block, textureMapping, blockModelGenerators.modelOutput);
         this.block(BlockModelGenerators.createSimpleBlock(block, resourcelocation));
+    }
+
+    public void createDoor(Block doorBlock) {
+        TextureMapping textureMapping = TextureMapping.door(doorBlock);
+        ResourceLocation bottomLeftModel = SimpleModelTemplates.cutout(ModelTemplates.DOOR_BOTTOM_LEFT).create(doorBlock, textureMapping, this.modelOutput);
+        ResourceLocation bottomLeftOpenModel = SimpleModelTemplates.cutout(ModelTemplates.DOOR_BOTTOM_LEFT_OPEN).create(doorBlock, textureMapping, this.modelOutput);
+        ResourceLocation bottomRightModel = SimpleModelTemplates.cutout(ModelTemplates.DOOR_BOTTOM_RIGHT).create(doorBlock, textureMapping, this.modelOutput);
+        ResourceLocation bottomRightOpenModel = SimpleModelTemplates.cutout(ModelTemplates.DOOR_BOTTOM_RIGHT_OPEN).create(doorBlock, textureMapping, this.modelOutput);
+        ResourceLocation topLeftModel = SimpleModelTemplates.cutout(ModelTemplates.DOOR_TOP_LEFT).create(doorBlock, textureMapping, this.modelOutput);
+        ResourceLocation topLeftOpenModel = SimpleModelTemplates.cutout(ModelTemplates.DOOR_TOP_LEFT_OPEN).create(doorBlock, textureMapping, this.modelOutput);
+        ResourceLocation topRightModel = SimpleModelTemplates.cutout(ModelTemplates.DOOR_TOP_RIGHT).create(doorBlock, textureMapping, this.modelOutput);
+        ResourceLocation topRightOpenModel = SimpleModelTemplates.cutout(ModelTemplates.DOOR_TOP_RIGHT_OPEN).create(doorBlock, textureMapping, this.modelOutput);
+        this.registerSimpleFlatItemModel(doorBlock.asItem());
+        this.block(BlockModelGenerators.createDoor(doorBlock, bottomLeftModel, bottomLeftOpenModel, bottomRightModel, bottomRightOpenModel, topLeftModel, topLeftOpenModel, topRightModel, topRightOpenModel));
+    }
+
+    public void createOrientableTrapdoor(Block orientableTrapdoorBlock) {
+        TextureMapping textureMapping = TextureMapping.defaultTexture(orientableTrapdoorBlock);
+        ResourceLocation topModel = SimpleModelTemplates.cutout(ModelTemplates.ORIENTABLE_TRAPDOOR_TOP).create(orientableTrapdoorBlock, textureMapping, this.modelOutput);
+        ResourceLocation bottomModel = SimpleModelTemplates.cutout(ModelTemplates.ORIENTABLE_TRAPDOOR_BOTTOM).create(orientableTrapdoorBlock, textureMapping, this.modelOutput);
+        ResourceLocation openModel = SimpleModelTemplates.cutout(ModelTemplates.ORIENTABLE_TRAPDOOR_OPEN).create(orientableTrapdoorBlock, textureMapping, this.modelOutput);
+        this.block(BlockModelGenerators.createOrientableTrapdoor(orientableTrapdoorBlock, topModel, bottomModel, openModel));
+        this.registerSimpleItemModel(orientableTrapdoorBlock, bottomModel);
+    }
+
+    public void createTrapdoor(Block trapdoorBlock) {
+        TextureMapping textureMapping = TextureMapping.defaultTexture(trapdoorBlock);
+        ResourceLocation topModel = SimpleModelTemplates.cutout(ModelTemplates.TRAPDOOR_TOP).create(trapdoorBlock, textureMapping, this.modelOutput);
+        ResourceLocation bottomModel = SimpleModelTemplates.cutout(ModelTemplates.TRAPDOOR_BOTTOM).create(trapdoorBlock, textureMapping, this.modelOutput);
+        ResourceLocation openModel = SimpleModelTemplates.cutout(ModelTemplates.TRAPDOOR_OPEN).create(trapdoorBlock, textureMapping, this.modelOutput);
+        this.block(BlockModelGenerators.createTrapdoor(trapdoorBlock, topModel, bottomModel, openModel));
+        this.registerSimpleItemModel(trapdoorBlock, bottomModel);
+    }
+
+    public void registerSimpleFlatItemModel(Item item) {
+        this.registerSimpleItemModel(item, this.blockModelGenerators.createFlatItemModel(item));
+    }
+
+    public void registerSimpleItemModel(Block block, ResourceLocation model) {
+        this.itemModelOutput.accept(block.asItem(), ItemModelUtils.plainModel(model));
+    }
+
+    public void registerSimpleItemModel(Item item, ResourceLocation model) {
+        this.itemModelOutput.accept(item, ItemModelUtils.plainModel(model));
     }
 
     protected void block(BlockStateGenerator blockStateGenerator) {
@@ -219,15 +263,15 @@ public abstract class SimpleBlockModelGenerator {
         }
 
         public SimpleBlockModelGenerator.BlockFamilyProvider door(Block doorBlock) {
-            SimpleBlockModelGenerator.this.blockModelGenerators.createDoor(doorBlock);
+            SimpleBlockModelGenerator.this.createDoor(doorBlock);
             return this;
         }
 
         public void trapdoor(Block trapdoorBlock) {
             if (SimpleBlockModelGenerator.this.blockModelGenerators.nonOrientableTrapdoor.contains(trapdoorBlock)) {
-                SimpleBlockModelGenerator.this.blockModelGenerators.createTrapdoor(trapdoorBlock);
+                SimpleBlockModelGenerator.this.createTrapdoor(trapdoorBlock);
             } else {
-                SimpleBlockModelGenerator.this.blockModelGenerators.createOrientableTrapdoor(trapdoorBlock);
+                SimpleBlockModelGenerator.this.createOrientableTrapdoor(trapdoorBlock);
             }
         }
 

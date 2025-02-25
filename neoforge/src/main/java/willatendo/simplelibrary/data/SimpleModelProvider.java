@@ -53,7 +53,11 @@ public class SimpleModelProvider extends ModelProvider {
 
     @Override
     protected void registerModels(BlockModelGenerators blockModelGenerators, ItemModelGenerators itemModelGenerators) {
-        this.simpleItemModelGenerator.apply(itemModelGenerators).run();
-        this.simpleBlockModelGeneratorFunction.apply(blockModelGenerators).run();
+        if (this.simpleItemModelGenerator != null) {
+            this.simpleItemModelGenerator.apply(itemModelGenerators).run();
+        }
+        if (this.simpleBlockModelGeneratorFunction != null) {
+            this.simpleBlockModelGeneratorFunction.apply(blockModelGenerators).run();
+        }
     }
 }
