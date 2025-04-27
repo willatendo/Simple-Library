@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-public class SimpleModelProvider extends ModelProvider {
+public final class SimpleModelProvider extends ModelProvider {
     private final Function<ItemModelGenerators, SimpleItemModelGenerator> simpleItemModelGenerator;
     private final Function<BlockModelGenerators, SimpleBlockModelGenerator> simpleBlockModelGeneratorFunction;
     private final List<? extends Holder<Block>> forBlocks;

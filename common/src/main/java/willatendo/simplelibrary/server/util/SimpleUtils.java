@@ -208,15 +208,15 @@ public final class SimpleUtils {
     }
 
     public static Boolean never(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos, EntityType<?> entityType) {
-        return (boolean) false;
+        return false;
     }
 
     public static Boolean always(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos, EntityType<?> entityType) {
-        return (boolean) true;
+        return true;
     }
 
     public static Boolean ocelotOrParrot(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos, EntityType<?> entityType) {
-        return (boolean) (entityType == EntityType.OCELOT || entityType == EntityType.PARROT);
+        return (entityType == EntityType.OCELOT || entityType == EntityType.PARROT);
     }
 
     public static boolean always(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos) {

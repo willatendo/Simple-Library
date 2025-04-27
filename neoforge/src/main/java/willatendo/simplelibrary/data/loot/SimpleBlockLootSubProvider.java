@@ -21,4 +21,12 @@ public abstract class SimpleBlockLootSubProvider extends BlockLootSubProvider {
     protected Iterable<Block> getKnownBlocks() {
         return BuiltInRegistries.BLOCK.stream().filter(block -> this.modId.equals(BuiltInRegistries.BLOCK.getKey(block).getNamespace())).collect(Collectors.toSet());
     }
+
+    public void dropNone(Block block) {
+        this.add(block, BlockLootSubProvider.noDrop());
+    }
+
+    public void dropSelfSlab(Block block) {
+        this.add(block, this::createSlabItemTable);
+    }
 }

@@ -12,7 +12,7 @@ import willatendo.simplelibrary.server.util.SimpleUtils;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
-public class SimpleLootTableProvider extends LootTableProvider {
+public final class SimpleLootTableProvider extends LootTableProvider {
     public SimpleLootTableProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries, SubProviderEntry... subProviderEntries) {
         super(packOutput, Set.of(), SimpleUtils.toList(subProviderEntries), registries);
     }

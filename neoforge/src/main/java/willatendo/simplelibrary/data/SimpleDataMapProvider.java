@@ -6,7 +6,7 @@ import net.neoforged.neoforge.common.data.DataMapProvider;
 
 import java.util.concurrent.CompletableFuture;
 
-public class SimpleDataMapProvider extends DataMapProvider {
+public final class SimpleDataMapProvider extends DataMapProvider {
     private final DataMapEntry[] dataMapEntries;
 
     public SimpleDataMapProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries, DataMapEntry... dataMapEntries) {

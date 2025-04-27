@@ -10,8 +10,8 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class SimpleRegistry<T> {
-    private final ResourceKey<? extends Registry<T>> registryKey;
-    private final String modId;
+    protected final ResourceKey<? extends Registry<T>> registryKey;
+    protected final String modId;
 
     private final Map<SimpleHolder<? extends T>, Supplier<? extends T>> entries = new LinkedHashMap<>();
     private final Set<SimpleHolder<? extends T>> entriesView = Collections.unmodifiableSet(this.entries.keySet());
@@ -20,7 +20,35 @@ public class SimpleRegistry<T> {
         return new SimpleRegistry<>(registryKey, modId);
     }
 
-    private SimpleRegistry(ResourceKey<? extends Registry<T>> registryKey, String modId) {
+    public static ParticleRegistry createParticle(String modId) {
+        return new ParticleRegistry(modId);
+    }
+
+    public static ItemRegistry createItem(String modId) {
+        return new ItemRegistry(modId);
+    }
+
+    public static BlockRegistry createBlock(String modId) {
+        return new BlockRegistry(modId);
+    }
+
+    public static MenuTypeRegistry createMenuType(String modId) {
+        return new MenuTypeRegistry(modId);
+    }
+
+    public static RecipeBookCategoryRegistry createRecipeBookCategory(String modId) {
+        return new RecipeBookCategoryRegistry(modId);
+    }
+
+    public static VillagerProfessionRegistry createVillagerProfession(String modId) {
+        return new VillagerProfessionRegistry(modId);
+    }
+
+    public static EntityTypeRegistry createEntityType(String modId) {
+        return new EntityTypeRegistry(modId);
+    }
+
+    protected SimpleRegistry(ResourceKey<? extends Registry<T>> registryKey, String modId) {
         this.registryKey = Objects.requireNonNull(registryKey);
         this.modId = Objects.requireNonNull(modId);
     }

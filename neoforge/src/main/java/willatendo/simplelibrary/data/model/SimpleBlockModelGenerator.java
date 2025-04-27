@@ -10,7 +10,9 @@ import net.minecraft.data.BlockFamily;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import willatendo.simplelibrary.data.model.SimpleModelTemplates;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -20,6 +22,7 @@ import java.util.stream.Stream;
 
 public abstract class SimpleBlockModelGenerator {
     public static final Map<BlockFamily.Variant, BiConsumer<SimpleBlockModelGenerator.BlockFamilyProvider, Block>> SHAPE_CONSUMERS = ImmutableMap.<BlockFamily.Variant, BiConsumer<SimpleBlockModelGenerator.BlockFamilyProvider, Block>>builder().put(BlockFamily.Variant.BUTTON, SimpleBlockModelGenerator.BlockFamilyProvider::button).put(BlockFamily.Variant.DOOR, SimpleBlockModelGenerator.BlockFamilyProvider::door).put(BlockFamily.Variant.CHISELED, SimpleBlockModelGenerator.BlockFamilyProvider::fullBlockVariant).put(BlockFamily.Variant.CRACKED, SimpleBlockModelGenerator.BlockFamilyProvider::fullBlockVariant).put(BlockFamily.Variant.CUSTOM_FENCE, SimpleBlockModelGenerator.BlockFamilyProvider::customFence).put(BlockFamily.Variant.FENCE, SimpleBlockModelGenerator.BlockFamilyProvider::fence).put(BlockFamily.Variant.CUSTOM_FENCE_GATE, SimpleBlockModelGenerator.BlockFamilyProvider::customFenceGate).put(BlockFamily.Variant.FENCE_GATE, SimpleBlockModelGenerator.BlockFamilyProvider::fenceGate).put(BlockFamily.Variant.SIGN, SimpleBlockModelGenerator.BlockFamilyProvider::sign).put(BlockFamily.Variant.SLAB, SimpleBlockModelGenerator.BlockFamilyProvider::slab).put(BlockFamily.Variant.STAIRS, SimpleBlockModelGenerator.BlockFamilyProvider::stairs).put(BlockFamily.Variant.PRESSURE_PLATE, SimpleBlockModelGenerator.BlockFamilyProvider::pressurePlate).put(BlockFamily.Variant.TRAPDOOR, SimpleBlockModelGenerator.BlockFamilyProvider::trapdoor).put(BlockFamily.Variant.WALL, SimpleBlockModelGenerator.BlockFamilyProvider::wall).build();
+    private final Map<Block, BlockModelGenerators.BlockStateGeneratorSupplier> fullBlockModelCustomGenerators = new HashMap<>();
     protected final BlockModelGenerators blockModelGenerators;
     protected final ItemModelOutput itemModelOutput;
     protected final Consumer<BlockStateGenerator> blockStateOutput;
@@ -32,6 +35,8 @@ public abstract class SimpleBlockModelGenerator {
         this.blockStateOutput = blockModelGenerators.blockStateOutput;
         this.modelOutput = blockModelGenerators.modelOutput;
         this.modId = modId;
+
+        this.blockModelGenerators.fullBlockModelCustomGenerators = this.fullBlockModelCustomGenerators;
     }
 
     public abstract void run();
@@ -44,6 +49,10 @@ public abstract class SimpleBlockModelGenerator {
         return ResourceLocation.withDefaultNamespace(path);
     }
 
+    protected void addFullBlockModelCustom(Block block, BlockModelGenerators.BlockStateGeneratorSupplier blockStateGeneratorSupplier) {
+        this.fullBlockModelCustomGenerators.put(block, blockStateGeneratorSupplier);
+    }
+
     // Basic Providers
     protected void createBlockFamilies(Stream<BlockFamily> blockFamilies) {
         blockFamilies.filter(BlockFamily::shouldGenerateModel).forEach(blockFamily -> this.family(blockFamily.getBaseBlock()).generateFor(blockFamily));
@@ -52,6 +61,10 @@ public abstract class SimpleBlockModelGenerator {
     protected SimpleBlockModelGenerator.BlockFamilyProvider family(Block baseBlock) {
         TexturedModel texturedModel = this.blockModelGenerators.texturedModels.getOrDefault(baseBlock, TexturedModel.CUBE.get(baseBlock));
         return new SimpleBlockModelGenerator.BlockFamilyProvider(texturedModel.getMapping()).fullBlock(baseBlock, texturedModel.getTemplate());
+    }
+
+    public void createTrivialCube(Block block) {
+        this.blockModelGenerators.createTrivialBlock(block, TexturedModel.CUBE);
     }
 
     protected void createPlantWithDefaultItem(Block block, Block pottedBlock, SimpleBlockModelGenerator.PlantType plantType) {
