@@ -1,8 +1,8 @@
 package willatendo.simplelibrary.network.util;
 
 import net.minecraft.network.FriendlyByteBuf;
-import willatendo.simplelibrary.network.SimplePacket;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
-public interface ForgeDecoder {
-    <T extends SimplePacket> T decode(FriendlyByteBuf friendlyByteBuf);
+public interface ForgeDecoder<T extends CustomPacketPayload> {
+    T decode(FriendlyByteBuf friendlyByteBuf);
 }

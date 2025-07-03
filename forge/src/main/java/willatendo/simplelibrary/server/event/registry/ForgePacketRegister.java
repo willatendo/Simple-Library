@@ -9,7 +9,6 @@ import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.SimpleChannel;
 import willatendo.simplelibrary.client.event.registry.ClientToServerPacketRegister;
 import willatendo.simplelibrary.network.PacketSupplier;
-import willatendo.simplelibrary.network.SimplePacket;
 import willatendo.simplelibrary.network.util.ForgeDecoder;
 import willatendo.simplelibrary.network.util.ForgeEncoder;
 
@@ -25,8 +24,8 @@ public final class ForgePacketRegister implements ClientToServerPacketRegister, 
     }
 
     @Override
-    public <T extends SimplePacket> void registerForgeClientToServer(Class<T> simplePacket, ForgeEncoder forgeEncoder, ForgeDecoder forgeDecoder, PacketSupplier<T> packetSupplier) {
-        this.simpleChannel.messageBuilder(simplePacket, NetworkDirection.PLAY_TO_SERVER).encoder((simplePacketIn, registryFriendlyByteBuf) -> forgeEncoder.encode(registryFriendlyByteBuf)).decoder(forgeDecoder::decode).consumerMainThread((simplePacketIn, context) -> context.enqueueWork(() -> packetSupplier.handle(simplePacketIn, context.getSender())));
+    public <T extends CustomPacketPayload> void registerForgeClientToServer(Class<T> customPacketPayload, ForgeEncoder forgeEncoder, ForgeDecoder<T> forgeDecoder, PacketSupplier<T> packetSupplier) {
+        this.simpleChannel.messageBuilder(customPacketPayload, NetworkDirection.PLAY_TO_SERVER).encoder((simplePacketIn, registryFriendlyByteBuf) -> forgeEncoder.encode(registryFriendlyByteBuf)).decoder(forgeDecoder::decode).consumerMainThread((simplePacketIn, context) -> context.enqueueWork(() -> packetSupplier.handle(simplePacketIn, context.getSender())));
     }
 
     @Override
@@ -34,7 +33,7 @@ public final class ForgePacketRegister implements ClientToServerPacketRegister, 
     }
 
     @Override
-    public <T extends SimplePacket> void registerForgeServerToClient(Class<T> simplePacket, ForgeEncoder forgeEncoder, ForgeDecoder forgeDecoder, PacketSupplier<T> packetSupplier) {
-        this.simpleChannel.messageBuilder(simplePacket, NetworkDirection.PLAY_TO_CLIENT).encoder((simplePacketIn, registryFriendlyByteBuf) -> forgeEncoder.encode(registryFriendlyByteBuf)).decoder(forgeDecoder::decode).consumerMainThread((simplePacketIn, context) -> context.enqueueWork(() -> packetSupplier.handle(simplePacketIn, context.getSender())));
+    public <T extends CustomPacketPayload> void registerForgeServerToClient(Class<T> customPacketPayload, ForgeEncoder forgeEncoder, ForgeDecoder<T> forgeDecoder, PacketSupplier<T> packetSupplier) {
+        this.simpleChannel.messageBuilder(customPacketPayload, NetworkDirection.PLAY_TO_CLIENT).encoder((simplePacketIn, registryFriendlyByteBuf) -> forgeEncoder.encode(registryFriendlyByteBuf)).decoder(forgeDecoder::decode).consumerMainThread((simplePacketIn, context) -> context.enqueueWork(() -> packetSupplier.handle(simplePacketIn, context.getSender())));
     }
 }
