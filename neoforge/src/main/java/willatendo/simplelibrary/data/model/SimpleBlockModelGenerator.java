@@ -10,7 +10,6 @@ import net.minecraft.data.BlockFamily;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import willatendo.simplelibrary.data.model.SimpleModelTemplates;
 
 import java.util.HashMap;
 import java.util.HashSet;
