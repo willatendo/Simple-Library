@@ -15,12 +15,6 @@
   "icon": "${mod_id}_icon.png",
   "environment": "*",
   "entrypoints": {
-    "main": [
-      "willatendo.simplelibrary.FabricSimpleLibrary"
-    ],
-    "client": [
-      "willatendo.simplelibrary.client.SimpleLibraryFabricClient"
-    ],
     "mm:early_risers": [
       "willatendo.simplelibrary.EnumExtender"
     ]

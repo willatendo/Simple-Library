@@ -3,8 +3,6 @@ package willatendo.simplelibrary.server.event.modification;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 
-import java.util.function.Supplier;
-
 public final class FabricIdModification implements IdModification {
     private final String modId;
 
@@ -13,8 +11,8 @@ public final class FabricIdModification implements IdModification {
     }
 
     @Override
-    public <T> void updateId(Registry<T> registry, ResourceLocation oldId, Supplier<T> remap) {
-        registry.addAlias(oldId, this.getId(registry, remap.get()));
+    public <T> void updateId(Registry<T> registry, ResourceLocation oldId, ResourceLocation newId) {
+        registry.addAlias(oldId, newId);
     }
 
     @Override

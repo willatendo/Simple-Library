@@ -39,27 +39,27 @@ public abstract class SimpleLanguageProvider extends LanguageProvider {
     }
 
     public void add(Item item) {
-        this.add(item, SimpleUtils.autoName(BuiltInRegistries.ITEM.getKey(item).getPath()));
+        this.add(item, SimpleUtils.simpleAutoName(BuiltInRegistries.ITEM.getKey(item).getPath()));
     }
 
     public void add(Block block) {
-        this.add(block, SimpleUtils.autoName(BuiltInRegistries.BLOCK.getKey(block).getPath()));
+        this.add(block, SimpleUtils.simpleAutoName(BuiltInRegistries.BLOCK.getKey(block).getPath()));
     }
 
     public void add(MobEffect mobEffect) {
-        this.add(mobEffect, SimpleUtils.autoName(BuiltInRegistries.MOB_EFFECT.getKey(mobEffect).getPath()));
+        this.add(mobEffect, SimpleUtils.simpleAutoName(BuiltInRegistries.MOB_EFFECT.getKey(mobEffect).getPath()));
     }
 
     public void add(EntityType<?> entityType) {
-        this.add(entityType, SimpleUtils.autoName(BuiltInRegistries.ENTITY_TYPE.getKey(entityType).getPath()));
+        this.add(entityType, SimpleUtils.simpleAutoName(BuiltInRegistries.ENTITY_TYPE.getKey(entityType).getPath()));
     }
 
     public void add(SoundEvent soundEvent) {
-        this.add(soundEvent, SimpleUtils.autoName(BuiltInRegistries.SOUND_EVENT.getKey(soundEvent).getPath()));
+        this.add(soundEvent, SimpleUtils.simpleAutoName(BuiltInRegistries.SOUND_EVENT.getKey(soundEvent).getPath()));
     }
 
     public void add(MenuType menuType) {
-        this.add(menuType, SimpleUtils.autoName(BuiltInRegistries.MENU.getKey(menuType).getPath()));
+        this.add(menuType, SimpleUtils.simpleAutoName(BuiltInRegistries.MENU.getKey(menuType).getPath()));
     }
 
     public void add(String category, String advancement, String title, String desc) {

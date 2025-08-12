@@ -2,6 +2,7 @@ package willatendo.simplelibrary.server.event.modification;
 
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -9,7 +10,15 @@ import net.minecraft.world.level.block.Block;
 import java.util.function.Supplier;
 
 public interface IdModification {
-    <T> void updateId(Registry<T> registry, ResourceLocation oldId, Supplier<T> remap);
+    <T> void updateId(Registry<T> registry, ResourceLocation oldId, ResourceLocation newId);
+
+    default <T> void updateId(Registry<T> registry, ResourceLocation oldId, ResourceKey<T> newId) {
+        this.updateId(registry, oldId, newId.location());
+    }
+
+    default <T> void updateId(Registry<T> registry, ResourceLocation oldId, Supplier<T> remap) {
+        this.updateId(registry, oldId, this.getId(registry, remap.get()));
+    }
 
     ResourceLocation resource(String id);
 

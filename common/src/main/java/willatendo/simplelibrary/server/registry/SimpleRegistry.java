@@ -20,8 +20,8 @@ public class SimpleRegistry<T> {
         return new SimpleRegistry<>(registryKey, modId);
     }
 
-    public static ParticleRegistry createParticle(String modId) {
-        return new ParticleRegistry(modId);
+    public static ParticleTypeRegistry createParticle(String modId) {
+        return new ParticleTypeRegistry(modId);
     }
 
     public static ItemRegistry createItem(String modId) {

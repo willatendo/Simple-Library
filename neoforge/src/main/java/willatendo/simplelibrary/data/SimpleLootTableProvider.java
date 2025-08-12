@@ -7,14 +7,14 @@ import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.ValidationContext;
-import willatendo.simplelibrary.server.util.SimpleUtils;
 
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 public final class SimpleLootTableProvider extends LootTableProvider {
     public SimpleLootTableProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries, SubProviderEntry... subProviderEntries) {
-        super(packOutput, Set.of(), SimpleUtils.toList(subProviderEntries), registries);
+        super(packOutput, Set.of(), List.of(subProviderEntries), registries);
     }
 
     @Override

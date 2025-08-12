@@ -5,10 +5,10 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
-import willatendo.simplelibrary.client.event.registry.ClientToServerPacketRegister;
+import willatendo.simplelibrary.client.event.registry.ClientboundPacketRegister;
 import willatendo.simplelibrary.network.PacketSupplier;
 
-public final class NeoforgePacketRegister implements ClientToServerPacketRegister, ServerToClientPacketRegister {
+public final class NeoforgePacketRegister implements ClientboundPacketRegister, ServerboundPacketRegister {
     private final PayloadRegistrar payloadRegistrar;
 
     public NeoforgePacketRegister(RegisterPayloadHandlersEvent event, String modId, String version) {
@@ -16,12 +16,12 @@ public final class NeoforgePacketRegister implements ClientToServerPacketRegiste
     }
 
     @Override
-    public <T extends CustomPacketPayload> void registerClientToServer(CustomPacketPayload.Type<T> type, StreamCodec<? super RegistryFriendlyByteBuf, T> reader, PacketSupplier<T> packetSupplier) {
+    public <T extends CustomPacketPayload> void registerClientbound(CustomPacketPayload.Type<T> type, StreamCodec<? super RegistryFriendlyByteBuf, T> reader, PacketSupplier<T> packetSupplier) {
         this.payloadRegistrar.playToClient(type, reader, (customPacketPayload, iPayloadContext) -> iPayloadContext.enqueueWork(() -> packetSupplier.handle(customPacketPayload, iPayloadContext.player())));
     }
 
     @Override
-    public <T extends CustomPacketPayload> void registerServerToClient(CustomPacketPayload.Type<T> type, StreamCodec<? super RegistryFriendlyByteBuf, T> reader, PacketSupplier<T> packetSupplier) {
+    public <T extends CustomPacketPayload> void registerServerbound(CustomPacketPayload.Type<T> type, StreamCodec<? super RegistryFriendlyByteBuf, T> reader, PacketSupplier<T> packetSupplier) {
         this.payloadRegistrar.playToServer(type, reader, (customPacketPayload, iPayloadContext) -> iPayloadContext.enqueueWork(() -> packetSupplier.handle(customPacketPayload, iPayloadContext.player())));
     }
 }

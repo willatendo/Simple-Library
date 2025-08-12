@@ -47,4 +47,3 @@ rootProject.name = 'Simple-Library'
 include("common")
 include("fabric")
 include("neoforge")
-include('forge')
