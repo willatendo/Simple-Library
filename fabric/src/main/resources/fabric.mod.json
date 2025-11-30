@@ -15,10 +15,17 @@
   "icon": "${mod_id}_icon.png",
   "environment": "*",
   "entrypoints": {
+    "client": [
+      "willatendo.simplelibrary.client.FabricSimpleLibraryClient"
+    ],
     "mm:early_risers": [
       "willatendo.simplelibrary.EnumExtender"
     ]
   },
+  "mixins": [
+    "simplelibrary.mixins.json",
+    "simplelibrary.fabric.mixins.json"
+  ],
   "depends": {
     "fabricloader": ">=${fabric_loader_version}",
     "fabric-api": "*",

@@ -31,45 +31,43 @@ public final class BlockUtils {
         return blockState -> blockState.getValue(BlockStateProperties.LIT) ? lightLevel : 0;
     }
 
-    private static Function<BlockState, MapColor> waterloggedMapColor(MapColor unwaterloggedMapColor) {
+    public static Function<BlockState, MapColor> waterloggedMapColor(MapColor unwaterloggedMapColor) {
         return blockState -> blockState.getValue(BlockStateProperties.WATERLOGGED) ? MapColor.WATER : unwaterloggedMapColor;
     }
 
-    private static BlockBehaviour.Properties logProperties(MapColor sideColor, MapColor topColor, SoundType sound) {
+    public static BlockBehaviour.Properties logProperties(MapColor sideColor, MapColor topColor, SoundType sound) {
         return BlockBehaviour.Properties.of().mapColor(blockState -> blockState.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? sideColor : topColor).instrument(NoteBlockInstrument.BASS).strength(2.0F).sound(sound).ignitedByLava();
     }
 
-    private static BlockBehaviour.Properties netherStemProperties(MapColor mapColor) {
+    public static BlockBehaviour.Properties netherStemProperties(MapColor mapColor) {
         return BlockBehaviour.Properties.of().mapColor(blockState -> mapColor).instrument(NoteBlockInstrument.BASS).strength(2.0F).sound(SoundType.STEM);
     }
 
-    private static BlockBehaviour.Properties leavesProperties(SoundType sound) {
+    public static BlockBehaviour.Properties leavesProperties(SoundType sound) {
         return BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).strength(0.2F).randomTicks().sound(sound).noOcclusion().isValidSpawn(BlockUtils::ocelotOrParrot).isSuffocating(BlockUtils::never).isViewBlocking(BlockUtils::never).ignitedByLava().pushReaction(PushReaction.DESTROY).isRedstoneConductor(BlockUtils::never);
     }
 
-
-    private static BlockBehaviour.Properties shulkerBoxProperties(MapColor mapColor) {
+    public static BlockBehaviour.Properties shulkerBoxProperties(MapColor mapColor) {
         return BlockBehaviour.Properties.of().mapColor(mapColor).forceSolidOn().strength(2.0F).dynamicShape().noOcclusion().isSuffocating(NOT_CLOSED_SHULKER).isViewBlocking(NOT_CLOSED_SHULKER).pushReaction(PushReaction.DESTROY);
     }
 
-    private static BlockBehaviour.Properties pistonProperties() {
+    public static BlockBehaviour.Properties pistonProperties() {
         return BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(1.5F).isRedstoneConductor(BlockUtils::never).isSuffocating(NOT_EXTENDED_PISTON).isViewBlocking(NOT_EXTENDED_PISTON).pushReaction(PushReaction.BLOCK);
     }
 
-    private static BlockBehaviour.Properties buttonProperties() {
+    public static BlockBehaviour.Properties buttonProperties() {
         return BlockBehaviour.Properties.of().noCollission().strength(0.5F).pushReaction(PushReaction.DESTROY);
     }
 
-    private static BlockBehaviour.Properties flowerPotProperties() {
+    public static BlockBehaviour.Properties flowerPotProperties() {
         return BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY);
     }
 
-    private static BlockBehaviour.Properties candleProperties(MapColor mapColor) {
+    public static BlockBehaviour.Properties candleProperties(MapColor mapColor) {
         return BlockBehaviour.Properties.of().mapColor(mapColor).noOcclusion().strength(0.1F).sound(SoundType.CANDLE).lightLevel(CandleBlock.LIGHT_EMISSION).pushReaction(PushReaction.DESTROY);
     }
 
-    private static BlockBehaviour.Properties wallVariant(Block baseBlock, boolean overrideDescription) {
-        BlockBehaviour.Properties basicProperties = baseBlock.properties();
+    public static BlockBehaviour.Properties wallVariant(Block baseBlock, boolean overrideDescription) {
         BlockBehaviour.Properties properties = BlockBehaviour.Properties.of().overrideLootTable(baseBlock.getLootTable());
         if (overrideDescription) {
             properties = properties.overrideDescription(baseBlock.getDescriptionId());
