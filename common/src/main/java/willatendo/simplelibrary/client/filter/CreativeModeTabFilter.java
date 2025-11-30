@@ -131,7 +131,7 @@ public final class CreativeModeTabFilter {
     }
 
     private void onSwitchCreativeTab(CreativeModeTab creativeModeTab, CreativeModeInventoryScreen screen) {
-        boolean update = creativeModeTab != this.creativeModeTab;
+        boolean update = creativeModeTab == this.creativeModeTab;
         this.scrollUpButton.visible = update;
         this.scrollDownButton.visible = update;
         if (update) {
