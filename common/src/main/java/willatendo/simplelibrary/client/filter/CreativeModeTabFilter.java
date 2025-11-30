@@ -40,12 +40,12 @@ public final class CreativeModeTabFilter {
         this.categories = categories;
     }
 
-    public void modifyWidgetsEvent(Screen screen, Consumer<AbstractWidget> add) {
+    public void modifyWidgetsEvent(Screen screen, Consumer<AbstractWidget> addWidgets) {
         if (screen instanceof CreativeModeInventoryScreen creativeScreen) {
             this.guiLeft = creativeScreen.leftPos;
             this.guiTop = creativeScreen.topPos;
             this.categories.forEach(Filter::loadItems);
-            this.injectWidgets(creativeScreen, add);
+            this.injectWidgets(creativeScreen, addWidgets);
         }
     }
 
@@ -59,7 +59,7 @@ public final class CreativeModeTabFilter {
         }
     }
 
-    public void afterDrawEvent(Screen screen, GuiGraphics guiGraphics, int mouseX, int mouseY) {
+    public void beforeDrawEvent(Screen screen, GuiGraphics guiGraphics, int mouseX, int mouseY) {
         if (screen instanceof CreativeModeInventoryScreen creativeScreen) {
             CreativeModeTab selectedTab = CreativeModeInventoryScreen.selectedTab;
             if (this.lastTab != selectedTab) {
@@ -77,7 +77,7 @@ public final class CreativeModeTabFilter {
         });
     }
 
-    private void injectWidgets(CreativeModeInventoryScreen screen, Consumer<AbstractWidget> add) {
+    private void injectWidgets(CreativeModeInventoryScreen creativeModeInventoryScreen, Consumer<AbstractWidget> addWidgets) {
         this.categories.forEach(category -> {
             FilterButton filterButton = new FilterButton(this.guiLeft - 28, this.guiTop, category, btn -> {
                 if (Screen.hasControlDown() || Screen.hasShiftDown()) {
@@ -86,24 +86,24 @@ public final class CreativeModeTabFilter {
                     this.categories.forEach(c -> c.setEnabled(false));
                     category.setEnabled(true);
                 }
-                this.updateItems(screen);
+                this.updateItems(creativeModeInventoryScreen);
             });
             filterButton.visible = false;
-            add.accept(filterButton);
+            addWidgets.accept(filterButton);
         });
-        add.accept(this.scrollUpButton = new ArrowButton(this.guiLeft - 22, this.guiTop - 12, true, btn -> {
+        addWidgets.accept(this.scrollUpButton = new ArrowButton(this.guiLeft - 22, this.guiTop - 12, true, btn -> {
             if (this.scroll > 0) this.scroll--;
             this.updateWidgets();
         }));
-        add.accept(this.scrollDownButton = new ArrowButton(this.guiLeft - 22, this.guiTop + 127, false, btn -> {
+        addWidgets.accept(this.scrollDownButton = new ArrowButton(this.guiLeft - 22, this.guiTop + 127, false, btn -> {
             if (this.scroll <= this.categories.size() - 4 - 1) this.scroll++;
             this.updateWidgets();
         }));
         this.updateWidgets();
-        this.onSwitchCreativeTab(CreativeModeInventoryScreen.selectedTab, screen);
+        this.onSwitchCreativeTab(CreativeModeInventoryScreen.selectedTab, creativeModeInventoryScreen);
     }
 
-    private void updateItems(CreativeModeInventoryScreen screen) {
+    private void updateItems(CreativeModeInventoryScreen creativeModeInventoryScreen) {
         Set<Item> seenItems = new HashSet<>();
         LinkedHashSet<ItemStack> sortedItemStacks = new LinkedHashSet<>();
         this.creativeModeTab.getDisplayItems().forEach(itemStack -> this.categories.stream().filter(Filter::isEnabled).forEach(category -> {
@@ -113,10 +113,10 @@ public final class CreativeModeTabFilter {
                 seenItems.add(item);
             }
         }));
-        NonNullList<ItemStack> items = screen.getMenu().items;
+        NonNullList<ItemStack> items = creativeModeInventoryScreen.getMenu().items;
         items.clear();
         items.addAll(sortedItemStacks);
-        screen.getMenu().scrollTo(0);
+        creativeModeInventoryScreen.getMenu().scrollTo(0);
     }
 
     private void updateWidgets() {

@@ -12,12 +12,14 @@ import java.util.List;
 public class FabricSimpleLibraryClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
+        Client.init();
+
         ScreenEvents.AFTER_INIT.register((minecraft, screen, scaledWidth, scaledHeight) -> {
             List<AbstractWidget> widgets = Screens.getButtons(screen);
             CreativeModeTabFilter.CREATIVE_MODE_TAB_FILTERS.forEach(creativeModeTabFilter -> creativeModeTabFilter.modifyWidgetsEvent(screen, widgets::add));
         });
 
-        ScreenEvents.BEFORE_INIT.register((client, screen1, scaledWidth, scaledHeight) -> ScreenEvents.afterRender(screen1).register((screen2, guiGraphics, mouseX, mouseY, partialTicks) -> CreativeModeTabFilter.CREATIVE_MODE_TAB_FILTERS.forEach(creativeModeTabFilter -> creativeModeTabFilter.afterDrawEvent(screen1, guiGraphics, mouseX, mouseY))));
+        ScreenEvents.BEFORE_INIT.register((client, screen1, scaledWidth, scaledHeight) -> ScreenEvents.beforeRender(screen1).register((screen2, guiGraphics, mouseX, mouseY, partialTicks) -> CreativeModeTabFilter.CREATIVE_MODE_TAB_FILTERS.forEach(creativeModeTabFilter -> creativeModeTabFilter.beforeDrawEvent(screen1, guiGraphics, mouseX, mouseY))));
 
         ClientPlayConnectionEvents.DISCONNECT.register((clientPacketListener, minecraft) -> CreativeModeTabFilter.CREATIVE_MODE_TAB_FILTERS.forEach(CreativeModeTabFilter::loggingOutEvent));
     }
