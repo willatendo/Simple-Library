@@ -20,7 +20,7 @@ public class FilterButton extends Button {
         this.filter = filter;
         this.filter.setFilterButton(this);
         ResourceLocation tagId = filter.getFilterTag().location();
-        this.filterTooltip = SimpleUtils.translation(tagId.getNamespace(), "itemGroup.filter", tagId.getPath());
+        this.filterTooltip = SimpleUtils.translation(tagId.getNamespace(), "itemGroup.filter", tagId.getPath().replace("/", "."));
     }
 
     public Component getFilterTooltip() {
