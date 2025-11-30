@@ -21,7 +21,6 @@ import java.util.function.Consumer;
 
 public final class CreativeModeTabFilter {
     public static final List<CreativeModeTabFilter> CREATIVE_MODE_TAB_FILTERS = Lists.newArrayList();
-    public static final List<CreativeModeTab> FILTERED_CREATIVE_MODE_TABS = Lists.newArrayList();
     private final CreativeModeTab creativeModeTab;
     private final List<Filter> categories;
     private AbstractWidget scrollUpButton;
@@ -32,7 +31,6 @@ public final class CreativeModeTabFilter {
     private int scroll;
 
     public static void create(CreativeModeTab creativeModeTab, ImmutableList.Builder<Filter> categories) {
-        FILTERED_CREATIVE_MODE_TABS.add(creativeModeTab);
         CreativeModeTabFilter creativeModeTabFilter = new CreativeModeTabFilter(creativeModeTab, categories.build());
         CREATIVE_MODE_TAB_FILTERS.add(creativeModeTabFilter);
     }
@@ -133,7 +131,7 @@ public final class CreativeModeTabFilter {
     }
 
     private void onSwitchCreativeTab(CreativeModeTab creativeModeTab, CreativeModeInventoryScreen screen) {
-        boolean update = FILTERED_CREATIVE_MODE_TABS.contains(creativeModeTab);
+        boolean update = creativeModeTab != this.creativeModeTab;
         this.scrollUpButton.visible = update;
         this.scrollDownButton.visible = update;
         if (update) {
@@ -146,7 +144,7 @@ public final class CreativeModeTabFilter {
 
     public boolean onMouseScroll(double mouseX, double mouseY, double scroll) {
         CreativeModeTab selectedTab = CreativeModeInventoryScreen.selectedTab;
-        if (!FILTERED_CREATIVE_MODE_TABS.contains(selectedTab)) {
+        if (selectedTab != this.creativeModeTab) {
             return false;
         }
 
