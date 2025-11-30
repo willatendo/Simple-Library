@@ -12,8 +12,6 @@ import java.util.List;
 public class FabricSimpleLibraryClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-        Client.init();
-
         ScreenEvents.AFTER_INIT.register((minecraft, screen, scaledWidth, scaledHeight) -> {
             List<AbstractWidget> widgets = Screens.getButtons(screen);
             CreativeModeTabFilter.CREATIVE_MODE_TAB_FILTERS.forEach(creativeModeTabFilter -> creativeModeTabFilter.modifyWidgetsEvent(screen, widgets::add));
