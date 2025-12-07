@@ -1,19 +1,12 @@
 package willatendo.simplelibrary.client;
 
-import com.google.common.collect.ImmutableList;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Blocks;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
 import net.neoforged.neoforge.client.event.ScreenEvent;
 import willatendo.simplelibrary.client.filter.CreativeModeTabFilter;
-import willatendo.simplelibrary.client.filter.Filter;
 
 @EventBusSubscriber(Dist.CLIENT)
 public class NeoforgeSimpleLibraryClient {

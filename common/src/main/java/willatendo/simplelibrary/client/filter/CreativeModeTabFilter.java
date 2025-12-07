@@ -72,8 +72,6 @@ public final class CreativeModeTabFilter {
             if (this.lastTab != selectedTab) {
                 this.onSwitchCreativeTab(selectedTab, creativeModeInventoryScreen);
                 this.lastTab = selectedTab;
-            } else if (this.creativeModeTab == selectedTab) {
-                this.updateItems(creativeModeInventoryScreen);
             }
             this.drawFilterTabTooltips(guiGraphics, mouseX, mouseY);
         }
