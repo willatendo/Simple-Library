@@ -9,15 +9,11 @@ import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
 import net.minecraft.core.NonNullList;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.apache.commons.compress.utils.Lists;
-import willatendo.simplelibrary.server.util.SimpleUtils;
 
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.function.Consumer;
 
 public final class CreativeModeTabFilter {
@@ -117,13 +113,10 @@ public final class CreativeModeTabFilter {
     }
 
     void updateItems(CreativeModeInventoryScreen creativeModeInventoryScreen) {
-        Set<Item> seenItems = new HashSet<>();
         LinkedHashSet<ItemStack> sortedItemStacks = new LinkedHashSet<>();
         this.creativeModeTab.getDisplayItems().forEach(itemStack -> this.categories.stream().filter(Filter::isEnabled).forEach(category -> {
-            Item item = itemStack.getItem();
-            if (!seenItems.contains(item) && itemStack.is(category.getFilterTag())) {
+            if (itemStack.is(category.getFilterTag())) {
                 sortedItemStacks.add(itemStack.copy());
-                seenItems.add(item);
             }
         }));
         NonNullList<ItemStack> items = creativeModeInventoryScreen.getMenu().items;

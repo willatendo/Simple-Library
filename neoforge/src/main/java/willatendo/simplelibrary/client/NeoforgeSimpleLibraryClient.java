@@ -10,6 +10,21 @@ import willatendo.simplelibrary.client.filter.CreativeModeTabFilter;
 
 @EventBusSubscriber(Dist.CLIENT)
 public class NeoforgeSimpleLibraryClient {
+    /* Testing Only
+    @SubscribeEvent
+    public static void screenEvent_Init_Post(FMLClientSetupEvent event) {
+        ImmutableList.Builder<Filter> filters = ImmutableList.builder();
+        filters.add(
+                new Filter(ItemTags.HEAD_ARMOR, new ItemStack(Items.TURTLE_HELMET)),
+                new Filter(ItemTags.CHEST_ARMOR, new ItemStack(Items.DIAMOND_CHESTPLATE)),
+                new Filter(ItemTags.LEG_ARMOR, new ItemStack(Items.NETHERITE_LEGGINGS)),
+                new Filter(ItemTags.FOOT_ARMOR, new ItemStack(Items.GOLDEN_BOOTS)),
+                new Filter(ItemTags.ARROWS, new ItemStack(Items.ARROW))
+        );
+        CreativeModeTabFilter.create(BuiltInRegistries.CREATIVE_MODE_TAB.get(CreativeModeTabs.COMBAT).get().value(), filters);
+    }
+    */
+
     @SubscribeEvent
     public static void screenEvent_Init_Post(ScreenEvent.Init.Post event) {
         CreativeModeTabFilter.CREATIVE_MODE_TAB_FILTERS.forEach(creativeModeTabFilter -> creativeModeTabFilter.modifyWidgetsEvent(event.getScreen(), event::addListener));
