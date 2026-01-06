@@ -48,6 +48,10 @@ public class SimpleRegistry<T> {
         return new EntityTypeRegistry(modId);
     }
 
+    public static CreativeModeTabRegistry createCreativeModeTab(String modId) {
+        return new CreativeModeTabRegistry(modId);
+    }
+
     protected SimpleRegistry(ResourceKey<? extends Registry<T>> registryKey, String modId) {
         this.registryKey = Objects.requireNonNull(registryKey);
         this.modId = Objects.requireNonNull(modId);

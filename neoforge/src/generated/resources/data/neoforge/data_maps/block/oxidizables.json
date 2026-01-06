@@ -1,7 +1,0 @@
-{
-  "values": {
-    "minecraft:chain": {
-      "next_oxidation_stage": "minecraft:acacia_door"
-    }
-  }
-}
