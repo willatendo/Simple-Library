@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "ca.willatendo.simplelibrary.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "CreativeModeInventoryScreenMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

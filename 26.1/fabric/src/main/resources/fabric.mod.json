@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "id": "${mod_id}",
+  "version": "${version}",
+  "name": "${mod_name}",
+  "description": "${description}",
+  "authors": [
+    "${mod_author}"
+  ],
+  "contact": {
+    "homepage": "${homepage}",
+    "sources": "${issue_tracker}"
+  },
+  "entrypoints": {
+    "main": [
+      "ca.willatendo.simplelibrary.FabricSimpleLibraryMod"
+    ],
+    "client": [
+      "ca.willatendo.simplelibrary.client.FabricSimpleLibraryClient"
+    ],
+    "mm:early_risers": [
+      "ca.willatendo.simplelibrary.EnumExtender"
+    ]
+  },
+  "mixins": [
+    "simplelibrary.fabric.mixins.json",
+    "simplelibrary.mixins.json"
+  ],
+  "license": "${license}",
+  "icon": "${mod_id}_icon.png",
+  "environment": "*",
+  "depends": {
+    "fabricloader": ">=${fabric_loader_version}",
+    "fabric-api": "*",
+    "minecraft": "~${minecraft_version}",
+    "java": ">=${java_version}"
+  }
+}
+  

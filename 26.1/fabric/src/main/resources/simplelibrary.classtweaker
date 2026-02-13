@@ -1,0 +1,40 @@
+classTweaker v1 named
+
+transitive-inject-interface net/minecraft/core/Holder ca/willatendo/simplelibrary/injects/HolderExtension
+transitive-inject-interface net/minecraft/core/HolderLookup$Provider ca/willatendo/simplelibrary/injects/HolderLookupProviderAccessor
+transitive-inject-interface net/minecraft/core/Registry ca/willatendo/simplelibrary/injects/RegistryExtension
+transitive-inject-interface net/minecraft/util/random/WeightedList$Builder ca/willatendo/simplelibrary/injects/WeightedListBuilderAccessor
+transitive-inject-interface net/minecraft/world/level/biome/Biome ca/willatendo/simplelibrary/injects/BiomeAccessor
+transitive-inject-interface net/minecraft/world/level/biome/MobSpawnSettings ca/willatendo/simplelibrary/injects/MobSpawnSettingsAccessor
+
+accessible field net/minecraft/client/gui/screens/inventory/AbstractContainerScreen leftPos I
+accessible field net/minecraft/client/gui/screens/inventory/AbstractContainerScreen topPos I
+accessible field net/minecraft/client/gui/screens/inventory/CreativeModeInventoryScreen selectedTab Lnet/minecraft/world/item/CreativeModeTab;
+accessible field net/minecraft/resources/RegistryOps lookupProvider Lnet/minecraft/resources/RegistryOps$RegistryInfoLookup;
+accessible field net/minecraft/server/level/ServerPlayer server Lnet/minecraft/server/MinecraftServer;
+accessible field net/minecraft/world/entity/SpawnPlacements DATA_BY_TYPE Ljava/util/Map;
+accessible field net/minecraft/world/item/crafting/RecipeManager recipes Lnet/minecraft/world/item/crafting/RecipeMap;
+accessible field net/minecraft/world/level/biome/BiomeGenerationSettings$PlainBuilder carvers Ljava/util/List;
+accessible field net/minecraft/world/level/biome/BiomeGenerationSettings$PlainBuilder features Ljava/util/List;
+accessible field net/minecraft/world/level/biome/BiomeSpecialEffects$Builder waterColor Ljava/util/OptionalInt;
+accessible field net/minecraft/world/level/biome/BiomeSpecialEffects$Builder foliageColorOverride Ljava/util/Optional;
+accessible field net/minecraft/world/level/biome/BiomeSpecialEffects$Builder dryFoliageColorOverride Ljava/util/Optional;
+accessible field net/minecraft/world/level/biome/BiomeSpecialEffects$Builder grassColorOverride Ljava/util/Optional;
+accessible field net/minecraft/world/level/biome/BiomeSpecialEffects$Builder grassColorModifier Lnet/minecraft/world/level/biome/BiomeSpecialEffects$GrassColorModifier;
+accessible field net/minecraft/world/level/biome/MobSpawnSettings$Builder spawners Ljava/util/Map;
+accessible field net/minecraft/world/level/biome/MobSpawnSettings$Builder mobSpawnCosts Ljava/util/Map;
+accessible field net/minecraft/world/level/biome/MobSpawnSettings$Builder creatureGenerationProbability F
+accessible field net/minecraft/world/level/levelgen/structure/pools/StructureTemplatePool rawTemplates Ljava/util/List;
+mutable field net/minecraft/world/level/levelgen/structure/pools/StructureTemplatePool rawTemplates Ljava/util/List;
+accessible field net/minecraft/world/level/levelgen/structure/pools/StructureTemplatePool templates Lit/unimi/dsi/fastutil/objects/ObjectArrayList;
+
+accessible method net/minecraft/world/inventory/AbstractContainerMenu moveItemStackTo (Lnet/minecraft/world/item/ItemStack;IIZ)Z
+accessible method net/minecraft/world/level/biome/BiomeGenerationSettings$PlainBuilder addFeatureStepsUpTo (I)V
+accessible method net/minecraft/util/random/WeightedList <init> (Ljava/util/List;)V
+accessible method net/minecraft/resources/RegistryOps <init> (Lcom/mojang/serialization/DynamicOps;Lnet/minecraft/resources/RegistryOps$RegistryInfoLookup;)V
+
+accessible class net/minecraft/client/particle/ParticleResources$SpriteParticleRegistration
+accessible class net/minecraft/world/level/biome/Biome$BiomeGenerationSettings
+accessible class net/minecraft/world/level/biome/Biome$BiomeSpecialEffects
+accessible class net/minecraft/world/level/biome/Biome$ClimateSettings
+accessible class net/minecraft/world/level/biome/Biome$MobSpawnSettings
