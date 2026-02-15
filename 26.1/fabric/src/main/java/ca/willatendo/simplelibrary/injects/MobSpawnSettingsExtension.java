@@ -5,7 +5,7 @@ import net.minecraft.world.entity.MobCategory;
 
 import java.util.Set;
 
-public interface MobSpawnSettingsAccessor {
+public interface MobSpawnSettingsExtension {
     default Set<MobCategory> getSpawnerTypes() {
         return Set.of();
     }

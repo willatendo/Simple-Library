@@ -6,7 +6,7 @@ import net.minecraft.util.random.WeightedList;
 import java.util.Collection;
 import java.util.function.Predicate;
 
-public interface WeightedListBuilderAccessor<E> {
+public interface WeightedListBuilderExtension<E> {
     default WeightedList.Builder<E> addAll(WeightedList<E> values) {
         return this.addAll(values.unwrap());
     }

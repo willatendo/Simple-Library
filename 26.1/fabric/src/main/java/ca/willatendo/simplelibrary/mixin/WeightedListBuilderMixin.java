@@ -1,6 +1,6 @@
 package ca.willatendo.simplelibrary.mixin;
 
-import ca.willatendo.simplelibrary.injects.WeightedListBuilderAccessor;
+import ca.willatendo.simplelibrary.injects.WeightedListBuilderExtension;
 import net.minecraft.util.random.Weighted;
 import net.minecraft.util.random.WeightedList;
 import org.spongepowered.asm.mixin.Mixin;
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 @Mixin(WeightedList.Builder.class)
-public class WeightedListBuilderMixin<E> implements WeightedListBuilderAccessor<E> {
+public class WeightedListBuilderMixin<E> implements WeightedListBuilderExtension<E> {
     private final List<Weighted<E>> result = new ArrayList<>();
 
     @Inject(at = @At("HEAD"), method = "add", cancellable = true)

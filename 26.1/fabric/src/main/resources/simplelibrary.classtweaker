@@ -1,11 +1,10 @@
 classTweaker v1 named
 
 transitive-inject-interface net/minecraft/core/Holder ca/willatendo/simplelibrary/injects/HolderExtension
-transitive-inject-interface net/minecraft/core/HolderLookup$Provider ca/willatendo/simplelibrary/injects/HolderLookupProviderAccessor
-transitive-inject-interface net/minecraft/core/Registry ca/willatendo/simplelibrary/injects/RegistryExtension
-transitive-inject-interface net/minecraft/util/random/WeightedList$Builder ca/willatendo/simplelibrary/injects/WeightedListBuilderAccessor
-transitive-inject-interface net/minecraft/world/level/biome/Biome ca/willatendo/simplelibrary/injects/BiomeAccessor
-transitive-inject-interface net/minecraft/world/level/biome/MobSpawnSettings ca/willatendo/simplelibrary/injects/MobSpawnSettingsAccessor
+transitive-inject-interface net/minecraft/core/HolderLookup$Provider ca/willatendo/simplelibrary/injects/HolderLookupProviderExtension
+transitive-inject-interface net/minecraft/util/random/WeightedList$Builder ca/willatendo/simplelibrary/injects/WeightedListBuilderExtension
+transitive-inject-interface net/minecraft/world/level/biome/Biome ca/willatendo/simplelibrary/injects/BiomeExtension
+transitive-inject-interface net/minecraft/world/level/biome/MobSpawnSettings ca/willatendo/simplelibrary/injects/MobSpawnSettingsExtension
 
 accessible field net/minecraft/client/gui/screens/inventory/AbstractContainerScreen leftPos I
 accessible field net/minecraft/client/gui/screens/inventory/AbstractContainerScreen topPos I
@@ -34,7 +33,4 @@ accessible method net/minecraft/util/random/WeightedList <init> (Ljava/util/List
 accessible method net/minecraft/resources/RegistryOps <init> (Lcom/mojang/serialization/DynamicOps;Lnet/minecraft/resources/RegistryOps$RegistryInfoLookup;)V
 
 accessible class net/minecraft/client/particle/ParticleResources$SpriteParticleRegistration
-accessible class net/minecraft/world/level/biome/Biome$BiomeGenerationSettings
-accessible class net/minecraft/world/level/biome/Biome$BiomeSpecialEffects
 accessible class net/minecraft/world/level/biome/Biome$ClimateSettings
-accessible class net/minecraft/world/level/biome/Biome$MobSpawnSettings

@@ -16,8 +16,9 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 import net.fabricmc.fabric.api.object.builder.v1.world.poi.PointOfInterestHelper;
-import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
-import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
+import net.fabricmc.fabric.api.resource.v1.DataResourceLoader;
+import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
+import net.fabricmc.fabric.api.resource.v1.pack.PackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.core.Registry;
@@ -30,6 +31,7 @@ import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FireBlock;
@@ -96,7 +98,16 @@ public record FabricModInit(String modId) implements ModInit {
 
         eventListener.registerBuiltInResourcePacks((modId, resourcePackName) -> {
             Optional<ModContainer> modContainer = FabricLoader.getInstance().getModContainer(modId);
-            ResourceManagerHelper.registerBuiltinResourcePack(CoreUtils.resource(modId, resourcePackName), modContainer.get(), CoreUtils.translation(modId, "resourcePack", resourcePackName + ".name"), ResourcePackActivationType.NORMAL);
+            ResourceLoader.registerBuiltinPack(CoreUtils.resource(modId, resourcePackName), modContainer.get(), CoreUtils.translation(modId, "resourcePack", resourcePackName + ".name"), PackActivationType.NORMAL);
+        });
+
+        DataResourceLoader dataResourceLoader = DataResourceLoader.get();
+        eventListener.registerServerReloadListener(new EventListener.ServerReloadListenerRegister() {
+            @Override
+            public <T extends PreparableReloadListener> T apply(Identifier identifier, T preparableReloadListener) {
+                dataResourceLoader.registerReloader(identifier, preparableReloadListener);
+                return preparableReloadListener;
+            }
         });
 
         eventListener.registerSpawnPlacements(SpawnPlacements::register);

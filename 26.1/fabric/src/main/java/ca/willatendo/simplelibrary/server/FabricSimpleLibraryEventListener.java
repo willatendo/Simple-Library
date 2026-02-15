@@ -50,16 +50,6 @@ public record FabricSimpleLibraryEventListener() implements EventListener {
             FabricSimpleLibraryEventListener.ensureProperSync(biome.modifiableBiomeInfo().applyBiomeModifiers(biomeHolder, biomeModifiers, registries), biomeHolder, registry);
 
             MobSpawnSettings mobSpawnSettings = biome.getMobSettings();
-            /*
-            mobSpawnSettings.getSpawnerTypes().forEach(category -> {
-                mobSpawnSettings.getMobs(category).unwrap().forEach(data -> {
-                    if (SpawnPlacements.DATA_BY_TYPE.containsKey(data.value().type())) {
-                        return;
-                    }
-                });
-            });
-             */
-
             for (MobCategory mobCategory : mobSpawnSettings.getSpawnerTypes()) {
                 for (Weighted<MobSpawnSettings.SpawnerData> spawnerData : mobSpawnSettings.getMobs(mobCategory).unwrap()) {
                     if (spawnerData.value().type().getCategory() != mobCategory) {

@@ -6,16 +6,20 @@ import ca.willatendo.simplelibrary.network.PacketRegistryListener;
 import ca.willatendo.simplelibrary.network.PacketSupplier;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.Registry;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.network.syncher.EntityDataSerializer;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.ReloadableServerResources;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
+import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.SpawnPlacementType;
@@ -28,6 +32,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProc
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
+import net.neoforged.neoforge.event.AddServerReloadListenersEvent;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
@@ -44,6 +49,7 @@ import net.neoforged.neoforge.registries.NewRegistryEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
 
 import java.util.Arrays;
+import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
 public record NeoforgeModInit(String modId, String packetVersion, IEventBus iEventBus) implements ModInit {
@@ -100,17 +106,17 @@ public record NeoforgeModInit(String modId, String packetVersion, IEventBus iEve
             }
         }));
 
-        this.iEventBus.addListener(NewRegistryEvent.class, newRegistryEvent -> eventListener.registerNewRegistries(new EventListener.NewRegistryRegister() {
-            @Override
-            public <T> void apply(Registry<T> registry) {
-                newRegistryEvent.register(registry);
-            }
-        }));
+        this.iEventBus.addListener(NewRegistryEvent.class, newRegistryEvent -> eventListener.registerNewRegistries(newRegistryEvent::register));
 
         this.iEventBus.addListener(AddPackFindersEvent.class, addPackFindersEvent -> eventListener.registerBuiltInResourcePacks((modId, resourcePackName) -> addPackFindersEvent.addPackFinders(CoreUtils.resource(modId, "resourcepacks." + resourcePackName), PackType.CLIENT_RESOURCES, CoreUtils.translation("resourcePack", modId, resourcePackName + ".name"), PackSource.BUILT_IN, false, Pack.Position.TOP)));
 
-        this.iEventBus.addListener(RegisterPayloadHandlersEvent.class, registerPayloadHandlersEvent -> {
-        });
+        this.iEventBus.addListener(AddServerReloadListenersEvent.class, addServerReloadListenersEvent -> eventListener.registerServerReloadListener(new EventListener.ServerReloadListenerRegister() {
+            @Override
+            public <T extends PreparableReloadListener> T apply(Identifier identifier, T preparableReloadListener) {
+                addServerReloadListenersEvent.addListener(identifier, preparableReloadListener);
+                return preparableReloadListener;
+            }
+        }));
 
         this.iEventBus.addListener(RegisterSpawnPlacementsEvent.class, registerSpawnPlacementsEvent -> eventListener.registerSpawnPlacements(new EventListener.SpawnPlacementRegister() {
             @Override

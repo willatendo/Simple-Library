@@ -7,12 +7,15 @@ import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.ReloadableServerResources;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
@@ -26,6 +29,7 @@ import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
 
 import java.util.List;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -36,6 +40,9 @@ public interface EventListener {
     // Registry
 
     default void registerAttributes(EventListener.AttributeRegister attributeRegister) {
+    }
+
+    default void registerBuiltInResourcePacks(EventListener.BuiltInResourcePackRegister builtInResourcePackRegister) {
     }
 
     default void registerCommands(EventListener.CommandRegister commandRegister) {
@@ -53,7 +60,7 @@ public interface EventListener {
     default void registerPOI(EventListener.POIRegister poiRegister) {
     }
 
-    default void registerBuiltInResourcePacks(EventListener.BuiltInResourcePackRegister builtInResourcePackRegister) {
+    default void registerServerReloadListener(EventListener.ServerReloadListenerRegister serverReloadListenerRegister) {
     }
 
     default void registerSpawnPlacements(EventListener.SpawnPlacementRegister spawnPlacementRegister) {
@@ -92,6 +99,11 @@ public interface EventListener {
     }
 
     @FunctionalInterface
+    interface BuiltInResourcePackRegister {
+        void apply(String modId, String resourcePackName);
+    }
+
+    @FunctionalInterface
     interface CommandRegister {
         void apply(CommandRegisterInformation commandRegisterInformation);
     }
@@ -118,8 +130,8 @@ public interface EventListener {
     }
 
     @FunctionalInterface
-    interface BuiltInResourcePackRegister {
-        void apply(String modId, String resourcePackName);
+    interface ServerReloadListenerRegister {
+        <T extends PreparableReloadListener> T apply(Identifier identifier, T preparableReloadListener);
     }
 
     @FunctionalInterface

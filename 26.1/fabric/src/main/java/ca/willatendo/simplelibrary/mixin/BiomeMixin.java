@@ -1,6 +1,6 @@
 package ca.willatendo.simplelibrary.mixin;
 
-import ca.willatendo.simplelibrary.injects.BiomeAccessor;
+import ca.willatendo.simplelibrary.injects.BiomeExtension;
 import ca.willatendo.simplelibrary.server.biome_modifier.ModifiableBiomeInfo;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeGenerationSettings;
@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Biome.class)
-public class BiomeMixin implements BiomeAccessor {
+public class BiomeMixin implements BiomeExtension {
     @Shadow
     @Final
     private Biome.ClimateSettings climateSettings;

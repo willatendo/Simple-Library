@@ -1,6 +1,6 @@
 package ca.willatendo.simplelibrary.mixin;
 
-import ca.willatendo.simplelibrary.injects.MobSpawnSettingsAccessor;
+import ca.willatendo.simplelibrary.injects.MobSpawnSettingsExtension;
 import net.minecraft.util.random.WeightedList;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Mixin(MobSpawnSettings.class)
-public class MobSpawnSettingsMixin implements MobSpawnSettingsAccessor {
+public class MobSpawnSettingsMixin implements MobSpawnSettingsExtension {
     @Shadow
     @Final
     private Map<MobCategory, WeightedList<MobSpawnSettings.SpawnerData>> spawners;
