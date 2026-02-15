@@ -36,8 +36,7 @@ public abstract class SimpleBlockModelGenerator {
         this.modelOutput = blockModelGenerators.modelOutput;
         this.modId = modId;
 
-        BlockModelGenerators.FULL_BLOCK_MODEL_CUSTOM_GENERATORS.clear();
-        BlockModelGenerators.FULL_BLOCK_MODEL_CUSTOM_GENERATORS.putAll(this.fullBlockModelCustomGenerators);
+        BlockModelGenerators.FULL_BLOCK_MODEL_CUSTOM_GENERATORS = this.fullBlockModelCustomGenerators;
     }
 
     public abstract void run();
