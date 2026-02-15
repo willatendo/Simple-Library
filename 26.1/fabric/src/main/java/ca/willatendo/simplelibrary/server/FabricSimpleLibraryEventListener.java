@@ -45,7 +45,6 @@ public record FabricSimpleLibraryEventListener() implements EventListener {
         Registry<Biome> registry = registries.lookupOrThrow(Registries.BIOME);
         registry.listElements().forEach(biomeHolder -> {
             Biome biome = biomeHolder.value();
-            SimpleCoreUtils.LOGGER.info("{}", biomeModifiers);
 
             FabricSimpleLibraryEventListener.ensureProperSync(biome.modifiableBiomeInfo().applyBiomeModifiers(biomeHolder, biomeModifiers, registries), biomeHolder, registry);
 

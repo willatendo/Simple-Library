@@ -2,6 +2,7 @@ package ca.willatendo.simplelibrary.server;
 
 import ca.willatendo.simplelibrary.core.registry.SimpleRegistry;
 import ca.willatendo.simplelibrary.core.utils.CoreUtils;
+import ca.willatendo.simplelibrary.core.utils.SimpleCoreUtils;
 import ca.willatendo.simplelibrary.network.PacketRegistryListener;
 import ca.willatendo.simplelibrary.network.PacketSupplier;
 import com.mojang.serialization.Codec;
@@ -184,6 +185,8 @@ public record NeoforgeModInit(String modId, String packetVersion, IEventBus iEve
                     }
                 });
             });
+        } else {
+            SimpleCoreUtils.LOGGER.error("Cannot register packets: did not supply mod id and packet versions!");
         }
     }
 }

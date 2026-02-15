@@ -90,19 +90,19 @@ public final class ModifiableBiomeInfo {
             }
 
             public ClimateSettingsBuilder getClimateSettings() {
-                return climateSettings;
+                return this.climateSettings;
             }
 
             public BiomeSpecialEffectsBuilder getSpecialEffects() {
-                return effects;
+                return this.effects;
             }
 
             public BiomeGenerationSettingsBuilder getGenerationSettings() {
-                return generationSettings;
+                return this.generationSettings;
             }
 
             public MobSpawnSettingsBuilder getMobSpawnSettings() {
-                return mobSpawnSettings;
+                return this.mobSpawnSettings;
             }
         }
     }
