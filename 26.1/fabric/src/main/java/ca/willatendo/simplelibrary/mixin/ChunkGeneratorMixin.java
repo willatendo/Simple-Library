@@ -26,7 +26,6 @@ public class ChunkGeneratorMixin implements ChunkGeneratorExtension {
     @Final
     protected BiomeSource biomeSource;
     @Shadow
-    @Final
     private Supplier<List<FeatureSorter.StepFeatureData>> featuresPerStep;
     @Shadow
     @Final
@@ -34,7 +33,7 @@ public class ChunkGeneratorMixin implements ChunkGeneratorExtension {
 
     @Redirect(at = @At(value = "FIELD", target = "Lnet/minecraft/world/level/chunk/ChunkGenerator;featuresPerStep:Ljava/util/function/Supplier;", opcode = Opcodes.PUTFIELD), method = "<init>(Lnet/minecraft/world/level/biome/BiomeSource;Ljava/util/function/Function;)V")
     private void init(ChunkGenerator chunkGenerator, Supplier<List<FeatureSorter.StepFeatureData>> featuresPerStep) {
-        chunkGenerator.featuresPerStep = Lazy.of(() -> FeatureSorter.buildFeaturesPerStep(List.copyOf(biomeSource.possibleBiomes()), biomeHolder -> generationSettingsGetter.apply(biomeHolder).features(), true));
+        chunkGenerator.featuresPerStep = Lazy.of(() -> FeatureSorter.buildFeaturesPerStep(List.copyOf(this.biomeSource.possibleBiomes()), biomeHolder -> this.generationSettingsGetter.apply(biomeHolder).features(), true));
     }
 
 

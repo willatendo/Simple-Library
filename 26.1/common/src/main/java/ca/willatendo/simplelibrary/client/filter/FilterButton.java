@@ -10,8 +10,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 
 public class FilterButton extends Button {
-    private static final Identifier SELECTED_FILTER_TAB = SimpleCoreUtils.resource("filter_tab_selected");
-    private static final Identifier UNSELECTED_FILTER_TAB = SimpleCoreUtils.resource("filter_tab_unselected");
+    private static final Identifier SELECTED_FILTER_TAB = SimpleCoreUtils.resource("container/creative_inventory/filter_tab_selected");
+    private static final Identifier UNSELECTED_FILTER_TAB = SimpleCoreUtils.resource("container/creative_inventory/filter_tab_unselected");
 
     private final Filter filter;
     private final Component filterTooltip;

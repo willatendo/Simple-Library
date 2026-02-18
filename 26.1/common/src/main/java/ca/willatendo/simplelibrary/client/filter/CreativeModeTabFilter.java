@@ -178,7 +178,6 @@ public final class CreativeModeTabFilter {
         for (Filter category : this.categories) {
             FilterButton filterButton = category.getFilterButton();
             if (filterButton != null && filterButton.visible && filterButton.isHovered()) {
-                //guiGraphics.renderTooltip(Minecraft.getInstance().font, filterButton.getFilterTooltip(), mouseX, mouseY);
                 guiGraphics.setTooltipForNextFrame(filterButton.getFilterTooltip(), mouseX, mouseY);
                 return;
             }
