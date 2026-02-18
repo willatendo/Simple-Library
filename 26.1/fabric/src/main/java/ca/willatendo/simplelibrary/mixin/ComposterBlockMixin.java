@@ -1,6 +1,5 @@
 package ca.willatendo.simplelibrary.mixin;
 
-import ca.willatendo.simplelibrary.core.utils.SimpleCoreUtils;
 import ca.willatendo.simplelibrary.server.data_maps.SimpleLibraryDataMaps;
 import ca.willatendo.simplelibrary.server.data_maps.buillt_in.Compostable;
 import it.unimi.dsi.fastutil.objects.Object2FloatMap;

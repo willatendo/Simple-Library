@@ -29,7 +29,8 @@ public abstract class WorkAtComposterMixin {
     @Final
     private static List<Item> COMPOSTABLE_ITEMS;
 
-    public abstract void spawnComposterFillEffects(ServerLevel level, BlockState preState, BlockPos pos, BlockState postState);
+    @Shadow
+    abstract void spawnComposterFillEffects(ServerLevel level, BlockState preState, BlockPos pos, BlockState postState);
 
     @Inject(at = @At("HEAD"), method = "compostItems", cancellable = true)
     private void compostItems(ServerLevel serverLevel, Villager villager, GlobalPos globalPos, BlockState preBlockState, CallbackInfo ci) {

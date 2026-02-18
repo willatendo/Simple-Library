@@ -1,7 +1,5 @@
 package ca.willatendo.simplelibrary.server;
 
-import ca.willatendo.simplelibrary.core.utils.CoreUtils;
-import ca.willatendo.simplelibrary.core.utils.SimpleCoreUtils;
 import ca.willatendo.simplelibrary.server.data_maps.SimpleLibraryDataMaps;
 import ca.willatendo.simplelibrary.server.data_maps.buillt_in.MonsterRoomMob;
 import ca.willatendo.simplelibrary.server.event.DataMapEvents;
