@@ -1,11 +1,14 @@
 package ca.willatendo.simplelibrary.server;
 
 import ca.willatendo.simplelibrary.core.registry.SimpleLibraryRegistries;
+import ca.willatendo.simplelibrary.core.utils.CoreUtils;
 import ca.willatendo.simplelibrary.core.utils.SimpleCoreUtils;
 import ca.willatendo.simplelibrary.mixin.MappedRegistryAccessor;
 import ca.willatendo.simplelibrary.network.clientbound.ClientboundRecipeContentPacket;
 import ca.willatendo.simplelibrary.network.utils.NetworkUtils;
 import ca.willatendo.simplelibrary.server.biome_modifier.BiomeModifier;
+import ca.willatendo.simplelibrary.server.data_maps.DataMapLoader;
+import ca.willatendo.simplelibrary.server.event.TagEvents;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistrationInfo;
 import net.minecraft.core.Registry;
@@ -13,6 +16,7 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.ReloadableServerResources;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.random.Weighted;
 import net.minecraft.world.entity.EntityType;
@@ -25,6 +29,17 @@ import java.util.List;
 import java.util.Optional;
 
 public record FabricSimpleLibraryEventListener() implements EventListener {
+    private static DataMapLoader DATA_MAP_LOADER;
+
+    @Override
+    public void commonSetup() {
+        TagEvents.UPDATE_TAGS.register((provider, fromClientPacket, isIntegratedServerConnection) -> {
+            if (!fromClientPacket) {
+                DATA_MAP_LOADER.apply();
+            }
+        });
+    }
+
     @Override
     public void registerDynamicRegistries(DynamicRegistryRegister dynamicRegistryRegister) {
         dynamicRegistryRegister.apply(SimpleLibraryRegistries.BIOME_MODIFIERS, BiomeModifier.DIRECT_CODEC);
@@ -36,8 +51,14 @@ public record FabricSimpleLibraryEventListener() implements EventListener {
     }
 
     @Override
+    public void registerServerReloadListener(ServerReloadListenerRegister serverReloadListenerRegister) {
+        ReloadableServerResources reloadableServerResources = serverReloadListenerRegister.getServerResources();
+        serverReloadListenerRegister.apply(CoreUtils.resource("neoforge", "data_maps"), DATA_MAP_LOADER = new DataMapLoader(reloadableServerResources.getConditionContext(), reloadableServerResources.getConditionContext().registryAccess()));
+    }
+
+    @Override
     public void serverAboutToStartEvent(MinecraftServer minecraftServer) {
-        ServerLifecycleHooks.handleServerStopped(minecraftServer);
+        ServerLifecycleHooks.handleServerAboutToStart(minecraftServer);
 
         RegistryAccess registries = minecraftServer.registryAccess();
         List<BiomeModifier> biomeModifiers = registries.lookupOrThrow(SimpleLibraryRegistries.BIOME_MODIFIERS).listElements().map(Holder::value).toList();
@@ -60,6 +81,12 @@ public record FabricSimpleLibraryEventListener() implements EventListener {
                 }
             }
         });
+        registries.lookupOrThrow(Registries.LEVEL_STEM).forEach(levelStem -> levelStem.generator().refreshFeaturesPerStep());
+    }
+
+    @Override
+    public void serverStoppedEvent(MinecraftServer minecraftServer) {
+        ServerLifecycleHooks.handleServerStopped(minecraftServer);
     }
 
     private static <T> void ensureProperSync(boolean modified, Holder.Reference<T> holder, Registry<T> registry) {

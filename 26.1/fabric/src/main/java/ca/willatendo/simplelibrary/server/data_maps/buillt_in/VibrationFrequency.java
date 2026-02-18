@@ -1,0 +1,9 @@
+package ca.willatendo.simplelibrary.server.data_maps.buillt_in;
+
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+
+public record VibrationFrequency(int frequency) {
+    public static final Codec<VibrationFrequency> FREQUENCY_CODEC = Codec.intRange(1, 15).xmap(VibrationFrequency::new, VibrationFrequency::frequency);
+    public static final Codec<VibrationFrequency> CODEC = Codec.withAlternative(RecordCodecBuilder.create(instance -> instance.group(Codec.intRange(1, 15).fieldOf("frequency").forGetter(VibrationFrequency::frequency)).apply(instance, VibrationFrequency::new)), FREQUENCY_CODEC);
+}

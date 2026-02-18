@@ -7,7 +7,6 @@ import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.resources.Identifier;
@@ -29,7 +28,6 @@ import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
 
 import java.util.List;
-import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -129,9 +127,10 @@ public interface EventListener {
         Supplier<PoiType> apply(String id, Supplier<PoiType> poiType);
     }
 
-    @FunctionalInterface
     interface ServerReloadListenerRegister {
         <T extends PreparableReloadListener> T apply(Identifier identifier, T preparableReloadListener);
+
+        ReloadableServerResources getServerResources();
     }
 
     @FunctionalInterface

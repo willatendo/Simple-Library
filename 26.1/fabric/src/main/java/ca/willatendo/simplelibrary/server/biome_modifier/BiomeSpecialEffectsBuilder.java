@@ -1,8 +1,8 @@
 package ca.willatendo.simplelibrary.server.biome_modifier;
 
-import java.util.Optional;
-
 import net.minecraft.world.level.biome.BiomeSpecialEffects;
+
+import java.util.Optional;
 
 // Modified from Neoforge
 public final class BiomeSpecialEffectsBuilder extends BiomeSpecialEffects.Builder {

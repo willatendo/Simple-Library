@@ -7,7 +7,6 @@ import ca.willatendo.simplelibrary.network.PacketRegistryListener;
 import ca.willatendo.simplelibrary.network.PacketSupplier;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.Registry;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -50,7 +49,6 @@ import net.neoforged.neoforge.registries.NewRegistryEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
 
 import java.util.Arrays;
-import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
 public record NeoforgeModInit(String modId, String packetVersion, IEventBus iEventBus) implements ModInit {
@@ -116,6 +114,11 @@ public record NeoforgeModInit(String modId, String packetVersion, IEventBus iEve
             public <T extends PreparableReloadListener> T apply(Identifier identifier, T preparableReloadListener) {
                 addServerReloadListenersEvent.addListener(identifier, preparableReloadListener);
                 return preparableReloadListener;
+            }
+
+            @Override
+            public ReloadableServerResources getServerResources() {
+                return addServerReloadListenersEvent.getServerResources();
             }
         }));
 

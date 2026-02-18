@@ -7,11 +7,32 @@
     "client.MinecraftMixin"
   ],
   "mixins": [
+    "AxeItemMixin",
     "BiomeMixin",
+    "ChunkGeneratorMixin",
+    "ClientConfigurationPacketListenerImplMixin",
+    "ClientPacketListenerMixin",
+    "ComposterBlockMixin",
+    "FeatureFlagRegistryMixin",
+    "FeatureFlagsMixin",
+    "GiveGiftToHeroMixin",
+    "HolderLookupRegistryLookupDelegateMixin",
+    "HolderReferenceMixin",
+    "HoneycombItemMixin",
     "LightningBoltMixin",
     "MappedRegistryAccessor",
+    "MappedRegistryMixin",
+    "MinecraftServerMixin",
     "MobSpawnSettingsMixin",
-    "WeightedListBuilderMixin"
+    "MonsterRoomFeatureMixin",
+    "ParrotMixin",
+    "ReloadableServerResourcesMixin",
+    "VibrationSystemMixin",
+    "VillagerHostilesSensorMixin",
+    "VillagerTypeMixin",
+    "WeatheringCopperMixin",
+    "WeightedListBuilderMixin",
+    "WorkAtComposterMixin"
   ],
   "injectors": {
     "defaultRequire": 1

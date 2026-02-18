@@ -3,10 +3,11 @@ package ca.willatendo.simplelibrary.server.data_maps;
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
-import java.util.Optional;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
+
+import java.util.Optional;
 
 // Modified from Neoforge
 @FunctionalInterface

@@ -1,7 +1,6 @@
 package ca.willatendo.simplelibrary.client;
 
 import ca.willatendo.simplelibrary.client.event.SimpleScreenEvents;
-import ca.willatendo.simplelibrary.client.filter.CreativeModeTabFilter;
 import ca.willatendo.simplelibrary.network.PacketRegistryListener;
 import ca.willatendo.simplelibrary.network.PacketSupplier;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;

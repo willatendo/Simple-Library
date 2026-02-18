@@ -7,7 +7,6 @@ public final class FabricSimpleLibraryClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         FabricClientModInit fabricClientModInit = new FabricClientModInit();
-        SimpleLibraryClient.clientModInit(fabricClientModInit);
         fabricClientModInit.packetRegistryListener(new FabricSimpleLibraryPacketRegistryListener());
         fabricClientModInit.clientEventListener(new SimpleLibraryClientEventListener());
     }

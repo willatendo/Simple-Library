@@ -7,9 +7,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.MenuProvider;
+import net.minecraft.world.flag.FeatureFlag;
+import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.RecipeBookType;
@@ -33,6 +36,11 @@ public final class NeoforgeSimpleLibraryPlatformHelper implements SimpleLibraryP
     @Override
     public void sendToClient(ServerPlayer serverPlayer, CustomPacketPayload customPacketPayload) {
         PacketDistributor.sendToPlayer(serverPlayer, customPacketPayload);
+    }
+
+    @Override
+    public FeatureFlag getFeatureFlag(Identifier identifier) {
+        return FeatureFlags.REGISTRY.getFlag(identifier);
     }
 
     @Override

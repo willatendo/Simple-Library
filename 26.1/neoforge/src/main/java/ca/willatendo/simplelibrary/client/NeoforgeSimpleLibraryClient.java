@@ -9,7 +9,6 @@ import net.neoforged.fml.common.Mod;
 public final class NeoforgeSimpleLibraryClient {
     public NeoforgeSimpleLibraryClient(IEventBus iEventBus) {
         NeoforgeClientModInit neoforgeClientModInit = new NeoforgeClientModInit(iEventBus);
-        SimpleLibraryClient.clientModInit(neoforgeClientModInit);
         neoforgeClientModInit.clientEventListener(new SimpleLibraryClientEventListener());
     }
 }

@@ -4,6 +4,6 @@ import ca.willatendo.simplelibrary.server.biome_modifier.ModifiableBiomeInfo;
 
 public interface BiomeExtension {
     default ModifiableBiomeInfo modifiableBiomeInfo() {
-        return null;
+        throw new RuntimeException("This has not been registered correctly! " + this.getClass());
     }
 }

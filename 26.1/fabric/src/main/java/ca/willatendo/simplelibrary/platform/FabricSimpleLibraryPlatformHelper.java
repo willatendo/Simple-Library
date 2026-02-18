@@ -18,11 +18,14 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.flag.FeatureFlag;
+import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.RecipeBookType;
@@ -46,6 +49,11 @@ public final class FabricSimpleLibraryPlatformHelper implements SimpleLibraryPla
     @Override
     public void sendToClient(ServerPlayer serverPlayer, CustomPacketPayload customPacketPayload) {
         ServerPlayNetworking.send(serverPlayer, customPacketPayload);
+    }
+
+    @Override
+    public FeatureFlag getFeatureFlag(Identifier identifier) {
+        return FeatureFlags.REGISTRY.getFlag(identifier);
     }
 
     @Override

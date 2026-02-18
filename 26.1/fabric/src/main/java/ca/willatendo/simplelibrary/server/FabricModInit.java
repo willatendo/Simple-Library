@@ -5,7 +5,9 @@ import ca.willatendo.simplelibrary.core.registry.SimpleRegistry;
 import ca.willatendo.simplelibrary.core.utils.CoreUtils;
 import ca.willatendo.simplelibrary.network.PacketRegistryListener;
 import ca.willatendo.simplelibrary.network.PacketSupplier;
+import ca.willatendo.simplelibrary.server.event.AddReloadListenersEvent;
 import ca.willatendo.simplelibrary.server.event.LightingBoltEvent;
+import ca.willatendo.simplelibrary.server.utils.WrappedStateAwareListener;
 import com.mojang.serialization.Codec;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.Event;
@@ -16,7 +18,6 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 import net.fabricmc.fabric.api.object.builder.v1.world.poi.PointOfInterestHelper;
-import net.fabricmc.fabric.api.resource.v1.DataResourceLoader;
 import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
 import net.fabricmc.fabric.api.resource.v1.pack.PackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
@@ -31,6 +32,7 @@ import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.ReloadableServerResources;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.level.block.Blocks;
@@ -101,14 +103,18 @@ public record FabricModInit(String modId) implements ModInit {
             ResourceLoader.registerBuiltinPack(CoreUtils.resource(modId, resourcePackName), modContainer.get(), CoreUtils.translation(modId, "resourcePack", resourcePackName + ".name"), PackActivationType.NORMAL);
         });
 
-        DataResourceLoader dataResourceLoader = DataResourceLoader.get();
-        eventListener.registerServerReloadListener(new EventListener.ServerReloadListenerRegister() {
+        AddReloadListenersEvent.EVENT.register((preparableReloadListeners, context, reloadableServerResources) -> eventListener.registerServerReloadListener(new EventListener.ServerReloadListenerRegister() {
             @Override
             public <T extends PreparableReloadListener> T apply(Identifier identifier, T preparableReloadListener) {
-                dataResourceLoader.registerReloader(identifier, preparableReloadListener);
+                preparableReloadListeners.add(new WrappedStateAwareListener(identifier, preparableReloadListener));
                 return preparableReloadListener;
             }
-        });
+
+            @Override
+            public ReloadableServerResources getServerResources() {
+                return reloadableServerResources;
+            }
+        }));
 
         eventListener.registerSpawnPlacements(SpawnPlacements::register);
 

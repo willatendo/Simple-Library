@@ -1,9 +1,10 @@
 package ca.willatendo.simplelibrary.server.conditions;
 
+import org.apache.commons.lang3.Validate;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import org.apache.commons.lang3.Validate;
 
 // Modified from Neoforge
 public record WithConditions<A>(List<ICondition> conditions, A carrier) {
