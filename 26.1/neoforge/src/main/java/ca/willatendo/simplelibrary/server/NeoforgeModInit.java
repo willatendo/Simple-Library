@@ -31,6 +31,7 @@ import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
 import net.neoforged.neoforge.event.AddServerReloadListenersEvent;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
@@ -67,6 +68,7 @@ public record NeoforgeModInit(String modId, String packetVersion, IEventBus iEve
 
     @Override
     public void eventListener(EventListener eventListener) {
+        IEventBus iEventBus = NeoForge.EVENT_BUS;
         this.iEventBus.addListener(FMLCommonSetupEvent.class, fmlCommonSetupEvent -> {
             eventListener.commonSetup();
             eventListener.modifyFlammables((FireBlock) Blocks.FIRE);
@@ -76,7 +78,7 @@ public record NeoforgeModInit(String modId, String packetVersion, IEventBus iEve
 
         this.iEventBus.addListener(EntityAttributeCreationEvent.class, entityAttributeCreationEvent -> eventListener.registerAttributes(entityAttributeCreationEvent::put));
 
-        this.iEventBus.addListener(RegisterCommandsEvent.class, registerCommandsEvent -> eventListener.registerCommands(commandRegisterInformation -> commandRegisterInformation.register(registerCommandsEvent.getDispatcher(), registerCommandsEvent.getBuildContext(), registerCommandsEvent.getCommandSelection())));
+        iEventBus.addListener(RegisterCommandsEvent.class, registerCommandsEvent -> eventListener.registerCommands(commandRegisterInformation -> commandRegisterInformation.register(registerCommandsEvent.getDispatcher(), registerCommandsEvent.getBuildContext(), registerCommandsEvent.getCommandSelection())));
 
         this.iEventBus.addListener(RegisterEvent.class, registerEvent -> {
             registerEvent.register(NeoForgeRegistries.Keys.ENTITY_DATA_SERIALIZERS, registerHelper -> eventListener.registerDataSerializers(new EventListener.DataSerializerRegister() {
@@ -109,7 +111,7 @@ public record NeoforgeModInit(String modId, String packetVersion, IEventBus iEve
 
         this.iEventBus.addListener(AddPackFindersEvent.class, addPackFindersEvent -> eventListener.registerBuiltInResourcePacks((modId, resourcePackName) -> addPackFindersEvent.addPackFinders(CoreUtils.resource(modId, "resourcepacks." + resourcePackName), PackType.CLIENT_RESOURCES, CoreUtils.translation("resourcePack", modId, resourcePackName + ".name"), PackSource.BUILT_IN, false, Pack.Position.TOP)));
 
-        this.iEventBus.addListener(AddServerReloadListenersEvent.class, addServerReloadListenersEvent -> eventListener.registerServerReloadListener(new EventListener.ServerReloadListenerRegister() {
+        iEventBus.addListener(AddServerReloadListenersEvent.class, addServerReloadListenersEvent -> eventListener.registerServerReloadListener(new EventListener.ServerReloadListenerRegister() {
             @Override
             public <T extends PreparableReloadListener> T apply(Identifier identifier, T preparableReloadListener) {
                 addServerReloadListenersEvent.addListener(identifier, preparableReloadListener);
@@ -131,7 +133,7 @@ public record NeoforgeModInit(String modId, String packetVersion, IEventBus iEve
 
         // Modification
 
-        this.iEventBus.addListener(VillagerTradesEvent.class, villagerTradesEvent -> eventListener.modifyVillagerTrades((villagerProfession, level1Trades, level2Trades, level3Trades, level4Trades, level5Trades) -> {
+        iEventBus.addListener(VillagerTradesEvent.class, villagerTradesEvent -> eventListener.modifyVillagerTrades((villagerProfession, level1Trades, level2Trades, level3Trades, level4Trades, level5Trades) -> {
             if (villagerTradesEvent.getType() == villagerProfession) {
                 villagerTradesEvent.getTrades().get(1).addAll(level1Trades);
                 villagerTradesEvent.getTrades().get(2).addAll(level2Trades);
@@ -143,14 +145,14 @@ public record NeoforgeModInit(String modId, String packetVersion, IEventBus iEve
 
         // Events
 
-        this.iEventBus.addListener(EntityStruckByLightningEvent.class, entityStruckByLightningEvent -> {
+        iEventBus.addListener(EntityStruckByLightningEvent.class, entityStruckByLightningEvent -> {
             eventListener.entityStruckByLightningBoltEvent(entityStruckByLightningEvent.getEntity(), entityStruckByLightningEvent.getLightning(), entityStruckByLightningEvent::setCanceled);
         });
 
-        this.iEventBus.addListener(OnDatapackSyncEvent.class, onDatapackSyncEvent -> eventListener.syncDataPackContentsEvent(onDatapackSyncEvent.getPlayer()));
+        iEventBus.addListener(OnDatapackSyncEvent.class, onDatapackSyncEvent -> eventListener.syncDataPackContentsEvent(onDatapackSyncEvent.getPlayer()));
 
-        this.iEventBus.addListener(ServerAboutToStartEvent.class, event -> {
-            MinecraftServer minecraftServer = event.getServer();
+        iEventBus.addListener(ServerAboutToStartEvent.class, serverAboutToStartEvent -> {
+            MinecraftServer minecraftServer = serverAboutToStartEvent.getServer();
             eventListener.serverAboutToStartEvent(minecraftServer);
             eventListener.modifyStructurePools(new EventListener.StructurePoolModification() {
                 @Override
@@ -165,7 +167,7 @@ public record NeoforgeModInit(String modId, String packetVersion, IEventBus iEve
             });
         });
 
-        this.iEventBus.addListener(ServerStoppedEvent.class, serverStoppedEvent -> eventListener.serverStoppedEvent(serverStoppedEvent.getServer()));
+        iEventBus.addListener(ServerStoppedEvent.class, serverStoppedEvent -> eventListener.serverStoppedEvent(serverStoppedEvent.getServer()));
     }
 
     @Override
