@@ -1,5 +1,6 @@
 package ca.willatendo.simplelibrary.server;
 
+import ca.willatendo.simplelibrary.client.event.RegisterRecipeBookSearchCategoriesEvent;
 import ca.willatendo.simplelibrary.core.registry.RegisterFunction;
 import ca.willatendo.simplelibrary.core.registry.SimpleRegistry;
 import ca.willatendo.simplelibrary.core.utils.CoreUtils;
@@ -97,6 +98,8 @@ public record FabricModInit(String modId) implements ModInit {
             PointOfInterestHelper.register(CoreUtils.resource(this.modId, id), poiType.get().maxTickets(), poiType.get().validRange(), poiType.get().matchingStates());
             return poiType;
         });
+
+        RegisterRecipeBookSearchCategoriesEvent.EVENT.register(map -> eventListener.registerRecipeBookSearchCategory((extendedRecipeBookCategory, recipeBookCategories) -> map.put(extendedRecipeBookCategory, Arrays.asList(recipeBookCategories))));
 
         eventListener.registerBuiltInResourcePacks((modId, resourcePackName) -> {
             Optional<ModContainer> modContainer = FabricLoader.getInstance().getModContainer(modId);

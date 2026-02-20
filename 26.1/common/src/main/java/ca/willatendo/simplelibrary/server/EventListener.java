@@ -20,6 +20,8 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.entity.npc.villager.VillagerProfession;
 import net.minecraft.world.entity.npc.villager.VillagerTrades;
+import net.minecraft.world.item.crafting.ExtendedRecipeBookCategory;
+import net.minecraft.world.item.crafting.RecipeBookCategory;
 import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement;
@@ -56,6 +58,9 @@ public interface EventListener {
     }
 
     default void registerPOI(EventListener.POIRegister poiRegister) {
+    }
+
+    default void registerRecipeBookSearchCategory(EventListener.RecipeBookSearchCategoryRegister recipeBookSearchCategoryRegister) {
     }
 
     default void registerServerReloadListener(EventListener.ServerReloadListenerRegister serverReloadListenerRegister) {
@@ -125,6 +130,11 @@ public interface EventListener {
     @FunctionalInterface
     interface POIRegister {
         Supplier<PoiType> apply(String id, Supplier<PoiType> poiType);
+    }
+
+    @FunctionalInterface
+    interface RecipeBookSearchCategoryRegister {
+        void register(ExtendedRecipeBookCategory extendedRecipeBookCategory, RecipeBookCategory[] recipeBookCategories);
     }
 
     interface ServerReloadListenerRegister {

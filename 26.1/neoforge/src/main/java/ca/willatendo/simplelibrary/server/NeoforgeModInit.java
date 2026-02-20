@@ -31,6 +31,7 @@ import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.client.event.RegisterRecipeBookSearchCategoriesEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
 import net.neoforged.neoforge.event.AddServerReloadListenersEvent;
@@ -123,6 +124,10 @@ public record NeoforgeModInit(String modId, String packetVersion, IEventBus iEve
                 return addServerReloadListenersEvent.getServerResources();
             }
         }));
+
+        this.iEventBus.addListener(RegisterRecipeBookSearchCategoriesEvent.class, registerRecipeBookSearchCategoryEvent -> {
+            eventListener.registerRecipeBookSearchCategory(registerRecipeBookSearchCategoryEvent::register);
+        });
 
         this.iEventBus.addListener(RegisterSpawnPlacementsEvent.class, registerSpawnPlacementsEvent -> eventListener.registerSpawnPlacements(new EventListener.SpawnPlacementRegister() {
             @Override
