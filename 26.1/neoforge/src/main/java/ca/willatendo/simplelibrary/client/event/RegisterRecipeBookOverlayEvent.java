@@ -2,7 +2,6 @@ package ca.willatendo.simplelibrary.client.event;
 
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.client.gui.screens.recipebook.OverlayRecipeComponent;
-import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.context.ContextMap;
 import net.minecraft.world.item.crafting.display.RecipeDisplay;
@@ -13,13 +12,13 @@ import java.util.Map;
 import java.util.function.BiFunction;
 
 public class RegisterRecipeBookOverlayEvent extends Event {
-    private final Map<Class<? extends RecipeBookComponent<?>>, Pair<BiFunction<RecipeDisplay, ContextMap, List<OverlayRecipeComponent.OverlayRecipeButton.Pos>>, BiFunction<Boolean, Boolean, Identifier>>> map;
+    private final Map<Identifier, Pair<BiFunction<RecipeDisplay, ContextMap, List<OverlayRecipeComponent.OverlayRecipeButton.Pos>>, BiFunction<Boolean, Boolean, Identifier>>> map;
 
-    public RegisterRecipeBookOverlayEvent(Map<Class<? extends RecipeBookComponent<?>>, Pair<BiFunction<RecipeDisplay, ContextMap, List<OverlayRecipeComponent.OverlayRecipeButton.Pos>>, BiFunction<Boolean, Boolean, Identifier>>> map) {
+    public RegisterRecipeBookOverlayEvent(Map<Identifier, Pair<BiFunction<RecipeDisplay, ContextMap, List<OverlayRecipeComponent.OverlayRecipeButton.Pos>>, BiFunction<Boolean, Boolean, Identifier>>> map) {
         this.map = map;
     }
 
-    public void register(Class<? extends RecipeBookComponent<?>> clazz, Pair<BiFunction<RecipeDisplay, ContextMap, List<OverlayRecipeComponent.OverlayRecipeButton.Pos>>, BiFunction<Boolean, Boolean, Identifier>> pair) {
-        this.map.put(clazz, pair);
+    public void register(Identifier identifier, Pair<BiFunction<RecipeDisplay, ContextMap, List<OverlayRecipeComponent.OverlayRecipeButton.Pos>>, BiFunction<Boolean, Boolean, Identifier>> pair) {
+        this.map.put(identifier, pair);
     }
 }

@@ -4,7 +4,6 @@ import com.mojang.datafixers.util.Pair;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.client.gui.screens.recipebook.OverlayRecipeComponent;
-import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.context.ContextMap;
 import net.minecraft.world.item.crafting.display.RecipeDisplay;
@@ -21,5 +20,5 @@ public interface RegisterRecipeBookOverlayEvent {
         }
     });
 
-    void register(Map<Class<? extends RecipeBookComponent<?>>, Pair<BiFunction<RecipeDisplay, ContextMap, List<OverlayRecipeComponent.OverlayRecipeButton.Pos>>, BiFunction<Boolean, Boolean, Identifier>>> map);
+    void register(Map<Identifier, Pair<BiFunction<RecipeDisplay, ContextMap, List<OverlayRecipeComponent.OverlayRecipeButton.Pos>>, BiFunction<Boolean, Boolean, Identifier>>> map);
 }

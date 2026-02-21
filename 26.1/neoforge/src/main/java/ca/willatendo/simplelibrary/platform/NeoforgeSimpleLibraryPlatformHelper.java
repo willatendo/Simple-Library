@@ -89,7 +89,7 @@ public final class NeoforgeSimpleLibraryPlatformHelper implements SimpleLibraryP
     }
 
     @Override
-    public void registerRecipeBookOverlayEvent(Map<Class<? extends RecipeBookComponent<?>>, Pair<BiFunction<RecipeDisplay, ContextMap, List<OverlayRecipeComponent.OverlayRecipeButton.Pos>>, BiFunction<Boolean, Boolean, Identifier>>> map) {
+    public void registerRecipeBookOverlayEvent(Map<Identifier, Pair<BiFunction<RecipeDisplay, ContextMap, List<OverlayRecipeComponent.OverlayRecipeButton.Pos>>, BiFunction<Boolean, Boolean, Identifier>>> map) {
         NeoForge.EVENT_BUS.post(new RegisterRecipeBookOverlayEvent(map));
     }
 }

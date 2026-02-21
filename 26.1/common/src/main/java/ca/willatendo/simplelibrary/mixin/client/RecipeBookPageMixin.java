@@ -1,6 +1,7 @@
 package ca.willatendo.simplelibrary.mixin.client;
 
 import ca.willatendo.simplelibrary.client.screen.recipe_book.CustomOverlayRecipeComponent;
+import ca.willatendo.simplelibrary.client.screen.recipe_book.IdentifiableRecipeBookComponent;
 import net.minecraft.client.gui.screens.recipebook.*;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -25,6 +26,6 @@ public class RecipeBookPageMixin {
 
     @Redirect(method = "<init>", at = @At(value = "FIELD", target = "Lnet/minecraft/client/gui/screens/recipebook/RecipeBookPage;overlay:Lnet/minecraft/client/gui/screens/recipebook/OverlayRecipeComponent;", opcode = 181))
     private void init(RecipeBookPage recipeBookPage, OverlayRecipeComponent overlayRecipeComponent) {
-        recipeBookPage.overlay = !(this.parent instanceof CraftingRecipeBookComponent || this.parent instanceof FurnaceRecipeBookComponent) ? new CustomOverlayRecipeComponent(RecipeBookPageMixin.slotSelectTime, this.parent) : overlayRecipeComponent;
+        recipeBookPage.overlay = this.parent instanceof IdentifiableRecipeBookComponent identifiableRecipeBookComponent ? new CustomOverlayRecipeComponent(RecipeBookPageMixin.slotSelectTime, this.parent) : overlayRecipeComponent;
     }
 }

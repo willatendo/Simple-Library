@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.function.BiFunction;
 
 public final class CustomOverlayRecipeComponent extends OverlayRecipeComponent {
+    private IdentifiableRecipeBookComponent identifiableRecipeBookComponent;
     private RecipeBookComponent<?> parent;
 
     public CustomOverlayRecipeComponent(SlotSelectTime slotSelectTime, RecipeBookComponent<?> parent) {
@@ -62,7 +63,7 @@ public final class CustomOverlayRecipeComponent extends OverlayRecipeComponent {
             RecipeDisplayEntry recipedisplayentry = flag ? craftable.get(i) : notCraftable.get(i - craftableSize);
             int buttonX = this.x + 4 + 25 * (i % k);
             int buttonY = this.y + 5 + 25 * (i / k);
-            CustomRecipeBooks.getButton((Class<? extends RecipeBookComponent<?>>) this.parent.getClass(), buttonX, buttonY, recipedisplayentry.id(), recipedisplayentry.display(), contextMap, flag, this.recipeButtons, CustomOverlayRecipeComponent.CustomOverlayRecipeButton::new);
+            CustomRecipeBooks.getButton(this.identifiableRecipeBookComponent.getIdentifier(), buttonX, buttonY, recipedisplayentry.id(), recipedisplayentry.display(), contextMap, flag, this.recipeButtons, CustomOverlayRecipeComponent.CustomOverlayRecipeButton::new);
         }
 
         this.lastRecipeClicked = null;

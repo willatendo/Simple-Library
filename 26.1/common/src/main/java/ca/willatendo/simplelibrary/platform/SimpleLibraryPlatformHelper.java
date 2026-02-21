@@ -5,7 +5,6 @@ import ca.willatendo.simplelibrary.platform.utils.PlatformUtils;
 import ca.willatendo.simplelibrary.server.menu.ExtendedMenuSupplier;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.client.gui.screens.recipebook.OverlayRecipeComponent;
-import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -49,5 +48,5 @@ public interface SimpleLibraryPlatformHelper {
 
     void openContainer(MenuProvider menuProvider, BlockPos blockPos, ServerPlayer serverPlayer);
 
-    void registerRecipeBookOverlayEvent(Map<Class<? extends RecipeBookComponent<?>>, Pair<BiFunction<RecipeDisplay, ContextMap, List<OverlayRecipeComponent.OverlayRecipeButton.Pos>>, BiFunction<Boolean, Boolean, Identifier>>> map);
+    void registerRecipeBookOverlayEvent(Map<Identifier, Pair<BiFunction<RecipeDisplay, ContextMap, List<OverlayRecipeComponent.OverlayRecipeButton.Pos>>, BiFunction<Boolean, Boolean, Identifier>>> map);
 }
