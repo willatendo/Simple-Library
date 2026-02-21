@@ -1,6 +1,6 @@
 package ca.willatendo.simplelibrary.server;
 
-import ca.willatendo.simplelibrary.client.event.RegisterRecipeBookSearchCategoriesEvent;
+import ca.willatendo.simplelibrary.server.event.RegisterRecipeBookSearchCategoriesEvent;
 import ca.willatendo.simplelibrary.core.registry.RegisterFunction;
 import ca.willatendo.simplelibrary.core.registry.SimpleRegistry;
 import ca.willatendo.simplelibrary.core.utils.CoreUtils;

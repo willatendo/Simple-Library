@@ -1,4 +1,4 @@
-package ca.willatendo.simplelibrary.mixin;
+package ca.willatendo.simplelibrary.mixin.client;
 
 import ca.willatendo.simplelibrary.client.filter.CreativeModeTabFilter;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;

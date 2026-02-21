@@ -1,5 +1,6 @@
 package ca.willatendo.simplelibrary.client;
 
+import ca.willatendo.simplelibrary.client.event.RegisterRecipeBookOverlayEvent;
 import ca.willatendo.simplelibrary.client.event.SimpleScreenEvents;
 import ca.willatendo.simplelibrary.network.PacketRegistryListener;
 import ca.willatendo.simplelibrary.network.PacketSupplier;
@@ -60,6 +61,8 @@ public record FabricClientModInit() implements ClientModInit {
                 BlockEntityRenderers.register(blockEntityType, blockEntityRendererProvider);
             }
         });
+
+        RegisterRecipeBookOverlayEvent.EVENT.register(map -> clientEventListener.registerRecipeBookOverlay(map::put));
 
         clientEventListener.registerParticleColorExemptions(blocks -> Arrays.stream(blocks).forEach(block -> ParticleRenderEvents.ALLOW_BLOCK_DUST_TINT.register((blockState, clientLevel, blockPos) -> !blockState.is(block))));
 

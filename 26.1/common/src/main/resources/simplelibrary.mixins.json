@@ -3,8 +3,9 @@
   "minVersion": "0.8",
   "package": "ca.willatendo.simplelibrary.mixin",
   "compatibilityLevel": "JAVA_21",
-  "mixins": [
-    "CreativeModeInventoryScreenMixin"
+  "client": [
+    "client.CreativeModeInventoryScreenMixin",
+    "client.RecipeBookPageMixin"
   ],
   "injectors": {
     "defaultRequire": 1

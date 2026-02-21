@@ -1,5 +1,6 @@
 package ca.willatendo.simplelibrary.client;
 
+import ca.willatendo.simplelibrary.client.event.RegisterRecipeBookOverlayEvent;
 import ca.willatendo.simplelibrary.network.PacketRegistryListener;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleProvider;
@@ -50,6 +51,8 @@ public record NeoforgeClientModInit(IEventBus iEventBus) implements ClientModIni
                 }
             });
         });
+
+        neoforgeEventBus.addListener(RegisterRecipeBookOverlayEvent.class, registerRecipeBookOverlayEvent -> clientEventListener.registerRecipeBookOverlay(registerRecipeBookOverlayEvent::register));
 
         this.iEventBus.addListener(RegisterClientExtensionsEvent.class, registerClientExtensionsEvent -> clientEventListener.registerParticleColorExemptions(blocks -> registerClientExtensionsEvent.registerBlock(new IClientBlockExtensions() {
             @Override

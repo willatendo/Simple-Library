@@ -1,4 +1,4 @@
-package ca.willatendo.simplelibrary.client.event;
+package ca.willatendo.simplelibrary.server.event;
 
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;

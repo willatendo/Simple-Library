@@ -9,6 +9,11 @@ import java.util.function.Consumer;
 
 public record SimpleLibraryClientEventListener() implements ClientEventListener {
     @Override
+    public void clientSetup() {
+        CustomRecipeBooks.init();
+    }
+
+    @Override
     public void screenInitPostEvent(Screen screen, Consumer<AbstractWidget> widgets) {
         CreativeModeTabFilter.CREATIVE_MODE_TAB_FILTERS.forEach(creativeModeTabFilter -> creativeModeTabFilter.modifyWidgetsEvent(screen, widgets));
     }

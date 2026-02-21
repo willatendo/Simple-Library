@@ -27,6 +27,14 @@ transitive-accessible field net/minecraft/world/level/biome/BiomeSpecialEffects$
 transitive-accessible field net/minecraft/world/level/biome/MobSpawnSettings$Builder spawners Ljava/util/Map;
 transitive-accessible field net/minecraft/world/level/biome/MobSpawnSettings$Builder mobSpawnCosts Ljava/util/Map;
 transitive-accessible field net/minecraft/world/level/biome/MobSpawnSettings$Builder creatureGenerationProbability F
+transitive-accessible field net/minecraft/client/gui/screens/recipebook/RecipeBookPage overlay Lnet/minecraft/client/gui/screens/recipebook/OverlayRecipeComponent;
+transitive-mutable field net/minecraft/client/gui/screens/recipebook/RecipeBookPage overlay Lnet/minecraft/client/gui/screens/recipebook/OverlayRecipeComponent;
+transitive-accessible field net/minecraft/client/gui/screens/recipebook/OverlayRecipeComponent x I
+transitive-accessible field net/minecraft/client/gui/screens/recipebook/OverlayRecipeComponent y I
+transitive-accessible field net/minecraft/client/gui/screens/recipebook/OverlayRecipeComponent collection Lnet/minecraft/client/gui/screens/recipebook/RecipeCollection;
+transitive-accessible field net/minecraft/client/gui/screens/recipebook/OverlayRecipeComponent isVisible Z
+transitive-accessible field net/minecraft/client/gui/screens/recipebook/OverlayRecipeComponent recipeButtons Ljava/util/List;
+transitive-accessible field net/minecraft/client/gui/screens/recipebook/OverlayRecipeComponent lastRecipeClicked Lnet/minecraft/world/item/crafting/display/RecipeDisplayId;
 transitive-accessible field net/minecraft/world/level/levelgen/structure/pools/StructureTemplatePool rawTemplates Ljava/util/List;
 transitive-mutable field net/minecraft/world/level/levelgen/structure/pools/StructureTemplatePool rawTemplates Ljava/util/List;
 transitive-accessible field net/minecraft/world/level/levelgen/structure/pools/StructureTemplatePool templates Lit/unimi/dsi/fastutil/objects/ObjectArrayList;
@@ -42,3 +50,5 @@ transitive-accessible method net/minecraft/world/level/block/ComposterBlock addI
 
 transitive-accessible class net/minecraft/client/particle/ParticleResources$SpriteParticleRegistration
 transitive-accessible class net/minecraft/world/level/biome/Biome$ClimateSettings
+transitive-accessible class net/minecraft/client/gui/screens/recipebook/OverlayRecipeComponent$OverlayRecipeButton
+transitive-accessible class net/minecraft/client/gui/screens/recipebook/OverlayRecipeComponent$OverlayRecipeButton$Pos

@@ -1,6 +1,6 @@
 package ca.willatendo.simplelibrary.client;
 
-import ca.willatendo.simplelibrary.client.event.RegisterRecipeBookSearchCategoriesEvent;
+import ca.willatendo.simplelibrary.server.event.RegisterRecipeBookSearchCategoriesEvent;
 import com.google.common.collect.Maps;
 import net.minecraft.world.item.crafting.ExtendedRecipeBookCategory;
 import net.minecraft.world.item.crafting.RecipeBookCategory;
