@@ -19,11 +19,10 @@ import java.util.function.BiFunction;
 
 public final class CustomOverlayRecipeComponent extends OverlayRecipeComponent {
     private IdentifiableRecipeBookComponent identifiableRecipeBookComponent;
-    private RecipeBookComponent<?> parent;
 
-    public CustomOverlayRecipeComponent(SlotSelectTime slotSelectTime, RecipeBookComponent<?> parent) {
+    public CustomOverlayRecipeComponent(SlotSelectTime slotSelectTime, IdentifiableRecipeBookComponent identifiableRecipeBookComponent) {
         super(slotSelectTime, false);
-        this.parent = parent;
+        this.identifiableRecipeBookComponent = identifiableRecipeBookComponent;
     }
 
     @Override
