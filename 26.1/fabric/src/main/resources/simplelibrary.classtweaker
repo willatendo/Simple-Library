@@ -1,10 +1,13 @@
 classTweaker v1 named
 
+transitive-inject-interface net/minecraft/client/ClientRecipeBook ca/willatendo/simplelibrary/injects/ClientRecipeBookExtension
 transitive-inject-interface net/minecraft/core/Holder ca/willatendo/simplelibrary/injects/HolderExtension
 transitive-inject-interface net/minecraft/core/HolderLookup$Provider ca/willatendo/simplelibrary/injects/HolderLookupProviderExtension
 transitive-inject-interface net/minecraft/core/HolderLookup$RegistryLookup ca/willatendo/simplelibrary/injects/RegistryLookupExtension
 transitive-inject-interface net/minecraft/util/random/WeightedList$Builder ca/willatendo/simplelibrary/injects/WeightedListBuilderExtension
 transitive-inject-interface net/minecraft/server/ReloadableServerResources ca/willatendo/simplelibrary/injects/ReloadableServerResourcesExtension
+transitive-inject-interface net/minecraft/stats/RecipeBook ca/willatendo/simplelibrary/injects/RecipeBookExtension
+transitive-inject-interface net/minecraft/stats/ServerRecipeBook ca/willatendo/simplelibrary/injects/ServerRecipeBookExtension
 transitive-inject-interface net/minecraft/world/flag/FeatureFlagRegistry ca/willatendo/simplelibrary/injects/FeatureFlagRegistryExtension
 transitive-inject-interface net/minecraft/world/level/biome/Biome ca/willatendo/simplelibrary/injects/BiomeExtension
 transitive-inject-interface net/minecraft/world/level/biome/MobSpawnSettings ca/willatendo/simplelibrary/injects/MobSpawnSettingsExtension
@@ -47,6 +50,7 @@ transitive-accessible method net/minecraft/util/random/WeightedList <init> (Ljav
 transitive-accessible method net/minecraft/resources/RegistryOps <init> (Lcom/mojang/serialization/DynamicOps;Lnet/minecraft/resources/RegistryOps$RegistryInfoLookup;)V
 transitive-accessible method net/minecraft/server/ReloadableServerResources <init> (Lnet/minecraft/core/LayeredRegistryAccess;Lnet/minecraft/core/HolderLookup$Provider;Lnet/minecraft/world/flag/FeatureFlagSet;Lnet/minecraft/commands/Commands$CommandSelection;Ljava/util/List;Lnet/minecraft/server/permissions/PermissionSet;)V
 transitive-accessible method net/minecraft/world/level/block/ComposterBlock addItem (Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/LevelAccessor;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/item/ItemStack;)Lnet/minecraft/world/level/block/state/BlockState;
+transitive-accessible method net/minecraft/stats/RecipeBookSettings$TypeSettings codec (Ljava/lang/String;Ljava/lang/String;)Lcom/mojang/serialization/MapCodec;
 
 transitive-accessible class net/minecraft/client/particle/ParticleResources$SpriteParticleRegistration
 transitive-accessible class net/minecraft/world/level/biome/Biome$ClimateSettings

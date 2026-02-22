@@ -1,6 +1,7 @@
 package ca.willatendo.simplelibrary.platform;
 
 import ca.willatendo.simplelibrary.core.registry.SimpleRegistryBuilder;
+import ca.willatendo.simplelibrary.core.registry.sub.EntityDataSerializerSubRegistry;
 import ca.willatendo.simplelibrary.platform.utils.PlatformUtils;
 import ca.willatendo.simplelibrary.server.menu.ExtendedMenuSupplier;
 import com.mojang.datafixers.util.Pair;
@@ -39,6 +40,8 @@ public interface SimpleLibraryPlatformHelper {
     RecipeBookType getRecipeBookType(String modId, String name);
 
     <T> Registry<T> createRegistry(ResourceKey<Registry<T>> resourceKey, SimpleRegistryBuilder simpleRegistryBuilder);
+
+    EntityDataSerializerSubRegistry createEntityDataSerializerSubRegistry(String modId);
 
     SimpleParticleType createSimpleParticleType(boolean overrideLimiter);
 

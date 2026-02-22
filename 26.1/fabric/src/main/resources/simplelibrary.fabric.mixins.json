@@ -5,7 +5,8 @@
   "compatibilityLevel": "JAVA_21",
   "client": [
     "client.ClientRecipeBookMixin",
-    "client.MinecraftMixin"
+    "client.MinecraftMixin",
+    "client.RecipeBookComponentMixin"
   ],
   "mixins": [
     "AxeItemMixin",
@@ -27,7 +28,9 @@
     "MobSpawnSettingsMixin",
     "MonsterRoomFeatureMixin",
     "ParrotMixin",
+    "RecipeBookMixin",
     "ReloadableServerResourcesMixin",
+    "ServerRecipeBookMixin",
     "VibrationSystemMixin",
     "VillagerHostilesSensorMixin",
     "VillagerTypeMixin",

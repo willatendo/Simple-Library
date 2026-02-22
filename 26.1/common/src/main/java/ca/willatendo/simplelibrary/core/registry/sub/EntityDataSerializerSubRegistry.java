@@ -1,29 +1,24 @@
 package ca.willatendo.simplelibrary.core.registry.sub;
 
-import com.google.common.collect.Maps;
+import ca.willatendo.simplelibrary.platform.SimpleLibraryPlatformHelper;
 import net.minecraft.network.syncher.EntityDataSerializer;
 
-import java.util.Map;
 import java.util.function.Supplier;
 
-public final class EntityDataSerializerSubRegistry {
-    private final Map<String, Supplier<EntityDataSerializer<?>>> entityDataSerializers = Maps.newHashMap();
+public abstract class EntityDataSerializerSubRegistry {
     private final String modId;
 
-    public EntityDataSerializerSubRegistry(String modId) {
-        this.modId = modId;
+    public static EntityDataSerializerSubRegistry create(String modId) {
+        return SimpleLibraryPlatformHelper.INSTANCE.createEntityDataSerializerSubRegistry(modId);
     }
 
-    public Map<String, Supplier<EntityDataSerializer<?>>> getEntityDataSerializers() {
-        return this.entityDataSerializers;
+    protected EntityDataSerializerSubRegistry(String modId) {
+        this.modId = modId;
     }
 
     public String getModId() {
         return this.modId;
     }
 
-    public <T> Supplier<EntityDataSerializer<T>> register(String id, Supplier<EntityDataSerializer<T>> value) {
-        this.entityDataSerializers.put(id, (Supplier) value);
-        return value;
-    }
+    public abstract <T> Supplier<EntityDataSerializer<T>> register(String id, Supplier<EntityDataSerializer<T>> value);
 }

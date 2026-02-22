@@ -4,6 +4,7 @@ import ca.willatendo.simplelibrary.core.registry.RegisterFunction;
 import ca.willatendo.simplelibrary.core.registry.SimpleRegistry;
 import ca.willatendo.simplelibrary.core.registry.sub.EntityDataSerializerSubRegistry;
 import ca.willatendo.simplelibrary.core.utils.CoreUtils;
+import ca.willatendo.simplelibrary.core.utils.SimpleCoreUtils;
 import ca.willatendo.simplelibrary.network.PacketRegistryListener;
 import ca.willatendo.simplelibrary.network.PacketSupplier;
 import ca.willatendo.simplelibrary.server.event.AddReloadListenersEvent;
@@ -59,7 +60,6 @@ public record FabricModInit(String modId) implements ModInit {
 
     @Override
     public void register(EntityDataSerializerSubRegistry entityDataSerializerSubRegistry) {
-        entityDataSerializerSubRegistry.getEntityDataSerializers().forEach((name, entityDataSerializerSupplier) -> FabricTrackedDataRegistry.register(CoreUtils.resource(entityDataSerializerSubRegistry.getModId(), name), entityDataSerializerSupplier.get()));
     }
 
     @Override

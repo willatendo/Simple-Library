@@ -3,6 +3,8 @@ package ca.willatendo.simplelibrary.platform;
 import ca.willatendo.simplelibrary.client.event.RegisterRecipeBookOverlayEvent;
 import ca.willatendo.simplelibrary.core.FabricPlatform;
 import ca.willatendo.simplelibrary.core.registry.SimpleRegistryBuilder;
+import ca.willatendo.simplelibrary.core.registry.sub.EntityDataSerializerSubRegistry;
+import ca.willatendo.simplelibrary.core.registry.sub.FabricEntityDataSerializerSubRegistry;
 import ca.willatendo.simplelibrary.server.menu.ExtendedMenuSupplier;
 import com.chocohead.mm.api.ClassTinkerers;
 import com.mojang.datafixers.util.Pair;
@@ -76,6 +78,11 @@ public final class FabricSimpleLibraryPlatformHelper implements SimpleLibraryPla
             fabricRegistryBuilder.attribute(RegistryAttribute.SYNCED);
         }
         return fabricRegistryBuilder.buildAndRegister();
+    }
+
+    @Override
+    public EntityDataSerializerSubRegistry createEntityDataSerializerSubRegistry(String modId) {
+        return new FabricEntityDataSerializerSubRegistry(modId);
     }
 
     @Override

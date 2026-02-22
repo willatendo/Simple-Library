@@ -3,10 +3,11 @@ package ca.willatendo.simplelibrary.platform;
 import ca.willatendo.simplelibrary.client.event.RegisterRecipeBookOverlayEvent;
 import ca.willatendo.simplelibrary.core.NeoforgePlatform;
 import ca.willatendo.simplelibrary.core.registry.SimpleRegistryBuilder;
+import ca.willatendo.simplelibrary.core.registry.sub.EntityDataSerializerSubRegistry;
+import ca.willatendo.simplelibrary.core.registry.sub.NeoforgeEntityDataSerializerSubRegistry;
 import ca.willatendo.simplelibrary.server.menu.ExtendedMenuSupplier;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.client.gui.screens.recipebook.OverlayRecipeComponent;
-import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -66,6 +67,11 @@ public final class NeoforgeSimpleLibraryPlatformHelper implements SimpleLibraryP
             registryBuilder.sync(true);
         }
         return registryBuilder.create();
+    }
+
+    @Override
+    public EntityDataSerializerSubRegistry createEntityDataSerializerSubRegistry(String modId) {
+        return new NeoforgeEntityDataSerializerSubRegistry(modId);
     }
 
     @Override

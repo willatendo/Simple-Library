@@ -35,7 +35,6 @@ public class ChunkGeneratorMixin implements ChunkGeneratorExtension {
         chunkGenerator.featuresPerStep = Lazy.of(() -> FeatureSorter.buildFeaturesPerStep(List.copyOf(this.biomeSource.possibleBiomes()), biomeHolder -> this.generationSettingsGetter.apply(biomeHolder).features(), true));
     }
 
-
     @Override
     public void refreshFeaturesPerStep() {
         ((Lazy) this.featuresPerStep).invalidate();

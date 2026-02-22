@@ -1,10 +1,15 @@
 package ca.willatendo.simplelibrary.mixin.client;
 
 import ca.willatendo.simplelibrary.client.RecipeBookManager;
+import ca.willatendo.simplelibrary.server.stats.utils.RecipeBookUtils;
 import net.minecraft.client.ClientRecipeBook;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
 import net.minecraft.client.gui.screens.recipebook.RecipeBookTabButton;
 import net.minecraft.client.gui.screens.recipebook.SearchRecipeBookCategory;
+import net.minecraft.network.protocol.game.ServerboundRecipeBookChangeSettingsPacket;
+import net.minecraft.world.inventory.RecipeBookMenu;
+import net.minecraft.world.inventory.RecipeBookType;
 import net.minecraft.world.item.crafting.ExtendedRecipeBookCategory;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -16,7 +21,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.List;
 
 @Mixin(RecipeBookComponent.class)
-public class RecipeBookComponentMixin {
+public class RecipeBookComponentMixin<T extends RecipeBookMenu> {
+    @Shadow
+    @Final
+    protected T menu;
+    @Shadow
+    protected Minecraft minecraft;
     @Shadow
     @Final
     private List<RecipeBookTabButton> tabButtons;
@@ -47,5 +57,18 @@ public class RecipeBookComponentMixin {
             }
         }
         ci.cancel();
+    }
+
+    @Inject(at = @At(value = "HEAD"), method = "sendUpdateSettings")
+    private void sendUpdateSettings(CallbackInfo ci) {
+        if (this.minecraft.getConnection() != null) {
+            RecipeBookType recipeBookType = this.menu.getRecipeBookType();
+            if (RecipeBookUtils.isModded(recipeBookType)) {
+                boolean isOpen = this.book.getCustomRecipeBookSettings().isOpen(recipeBookType);
+                boolean isFiltering = this.book.getCustomRecipeBookSettings().isFiltering(recipeBookType);
+                this.minecraft.getConnection().send(new ServerboundRecipeBookChangeSettingsPacket(recipeBookType, isOpen, isFiltering));
+                ci.cancel();
+            }
+        }
     }
 }
