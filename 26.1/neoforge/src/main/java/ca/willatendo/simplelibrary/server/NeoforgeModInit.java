@@ -12,7 +12,6 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
@@ -52,7 +51,6 @@ import net.neoforged.neoforge.registries.NewRegistryEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
 
 import java.util.Arrays;
-import java.util.function.Supplier;
 
 public record NeoforgeModInit(String modId, String packetVersion, IEventBus iEventBus) implements ModInit {
     public NeoforgeModInit(IEventBus iEventBus) {
@@ -70,11 +68,7 @@ public record NeoforgeModInit(String modId, String packetVersion, IEventBus iEve
 
     @Override
     public void register(EntityDataSerializerSubRegistry entityDataSerializerSubRegistry) {
-        this.iEventBus.addListener(RegisterEvent.class, registerEvent -> {
-            if (registerEvent.getRegistryKey() == NeoForgeRegistries.Keys.ENTITY_DATA_SERIALIZERS) {
-                registerEvent.register(NeoForgeRegistries.Keys.ENTITY_DATA_SERIALIZERS, registerHelper -> entityDataSerializerSubRegistry.getEntityDataSerializers().forEach((name, entityDataSerializerSupplier) -> registerHelper.register(Identifier.fromNamespaceAndPath(entityDataSerializerSubRegistry.getModId(), name), entityDataSerializerSupplier.get())));
-            }
-        });
+        this.iEventBus.addListener(RegisterEvent.class, registerEvent -> registerEvent.register(NeoForgeRegistries.Keys.ENTITY_DATA_SERIALIZERS, registerHelper -> entityDataSerializerSubRegistry.getEntityDataSerializers().forEach((name, entityDataSerializerSupplier) -> registerHelper.register(CoreUtils.resource(entityDataSerializerSubRegistry.getModId(), name), entityDataSerializerSupplier.get()))));
     }
 
     @Override
@@ -92,14 +86,6 @@ public record NeoforgeModInit(String modId, String packetVersion, IEventBus iEve
         iEventBus.addListener(RegisterCommandsEvent.class, registerCommandsEvent -> eventListener.registerCommands(commandRegisterInformation -> commandRegisterInformation.register(registerCommandsEvent.getDispatcher(), registerCommandsEvent.getBuildContext(), registerCommandsEvent.getCommandSelection())));
 
         this.iEventBus.addListener(RegisterEvent.class, registerEvent -> {
-            registerEvent.register(NeoForgeRegistries.Keys.ENTITY_DATA_SERIALIZERS, registerHelper -> eventListener.registerDataSerializers(new EventListener.DataSerializerRegister() {
-                @Override
-                public <T> Supplier<EntityDataSerializer<T>> apply(String id, Supplier<EntityDataSerializer<T>> entityDataSerializer) {
-                    registerHelper.register(CoreUtils.resource(NeoforgeModInit.this.modId(), id), entityDataSerializer.get());
-                    return entityDataSerializer;
-                }
-            }));
-
             registerEvent.register(Registries.POINT_OF_INTEREST_TYPE, poiTypeRegisterHelper -> eventListener.registerPOI((id, poiType) -> {
                 poiTypeRegisterHelper.register(CoreUtils.resource(NeoforgeModInit.this.modId(), id), poiType.get());
                 return poiType;

@@ -18,6 +18,7 @@ import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricTrackedDataRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 import net.fabricmc.fabric.api.object.builder.v1.world.poi.PointOfInterestHelper;
 import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
@@ -30,8 +31,6 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.network.syncher.EntityDataSerializer;
-import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.ReloadableServerResources;
@@ -60,7 +59,7 @@ public record FabricModInit(String modId) implements ModInit {
 
     @Override
     public void register(EntityDataSerializerSubRegistry entityDataSerializerSubRegistry) {
-        entityDataSerializerSubRegistry.getEntityDataSerializers().forEach((name, entityDataSerializerSupplier) -> EntityDataSerializers.registerSerializer(entityDataSerializerSupplier.get()));
+        entityDataSerializerSubRegistry.getEntityDataSerializers().forEach((name, entityDataSerializerSupplier) -> FabricTrackedDataRegistry.register(CoreUtils.resource(entityDataSerializerSubRegistry.getModId(), name), entityDataSerializerSupplier.get()));
     }
 
     @Override
@@ -73,14 +72,6 @@ public record FabricModInit(String modId) implements ModInit {
 
         Event<CommandRegistrationCallback> event = CommandRegistrationCallback.EVENT;
         event.register((commandDispatcher, commandBuildContext, commandSelection) -> eventListener.registerCommands(commandRegisterInformation -> commandRegisterInformation.register(commandDispatcher, commandBuildContext, commandSelection)));
-
-        eventListener.registerDataSerializers(new EventListener.DataSerializerRegister() {
-            @Override
-            public <T> Supplier<EntityDataSerializer<T>> apply(String id, Supplier<EntityDataSerializer<T>> entityDataSerializer) {
-                EntityDataSerializers.registerSerializer(entityDataSerializer.get());
-                return entityDataSerializer;
-            }
-        });
 
         eventListener.registerDynamicRegistries(new EventListener.DynamicRegistryRegister() {
             @Override

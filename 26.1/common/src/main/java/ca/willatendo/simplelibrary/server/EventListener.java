@@ -8,7 +8,6 @@ import com.mojang.serialization.Codec;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
@@ -46,9 +45,6 @@ public interface EventListener {
     }
 
     default void registerCommands(EventListener.CommandRegister commandRegister) {
-    }
-
-    default void registerDataSerializers(EventListener.DataSerializerRegister dataSerializerRegister) {
     }
 
     default void registerDynamicRegistries(EventListener.DynamicRegistryRegister dynamicRegistryRegister) {
@@ -109,11 +105,6 @@ public interface EventListener {
     @FunctionalInterface
     interface CommandRegister {
         void apply(CommandRegisterInformation commandRegisterInformation);
-    }
-
-    @FunctionalInterface
-    interface DataSerializerRegister {
-        <T> Supplier<EntityDataSerializer<T>> apply(String id, Supplier<EntityDataSerializer<T>> entityDataSerializer);
     }
 
     interface DynamicRegistryRegister {
