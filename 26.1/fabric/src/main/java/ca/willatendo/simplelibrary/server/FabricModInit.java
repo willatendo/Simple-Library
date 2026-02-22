@@ -81,7 +81,7 @@ public record FabricModInit(String modId) implements ModInit {
 
             @Override
             public <T> void apply(ResourceKey<Registry<T>> resourceKey, Codec<T> codec, Codec<T> networkCodec) {
-                DynamicRegistries.register(resourceKey, codec);
+                DynamicRegistries.registerSynced(resourceKey, codec, networkCodec);
             }
         });
 

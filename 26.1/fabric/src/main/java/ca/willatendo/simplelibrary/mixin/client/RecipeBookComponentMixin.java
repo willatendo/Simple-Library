@@ -59,7 +59,7 @@ public class RecipeBookComponentMixin<T extends RecipeBookMenu> {
         ci.cancel();
     }
 
-    @Inject(at = @At(value = "HEAD"), method = "sendUpdateSettings")
+    @Inject(at = @At(value = "HEAD"), method = "sendUpdateSettings", cancellable = true)
     private void sendUpdateSettings(CallbackInfo ci) {
         if (this.minecraft.getConnection() != null) {
             RecipeBookType recipeBookType = this.menu.getRecipeBookType();
