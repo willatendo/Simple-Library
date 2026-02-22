@@ -1,13 +1,14 @@
 package ca.willatendo.simplelibrary.server;
 
-import ca.willatendo.simplelibrary.server.event.RegisterRecipeBookSearchCategoriesEvent;
 import ca.willatendo.simplelibrary.core.registry.RegisterFunction;
 import ca.willatendo.simplelibrary.core.registry.SimpleRegistry;
+import ca.willatendo.simplelibrary.core.registry.sub.EntityDataSerializerSubRegistry;
 import ca.willatendo.simplelibrary.core.utils.CoreUtils;
 import ca.willatendo.simplelibrary.network.PacketRegistryListener;
 import ca.willatendo.simplelibrary.network.PacketSupplier;
 import ca.willatendo.simplelibrary.server.event.AddReloadListenersEvent;
 import ca.willatendo.simplelibrary.server.event.LightingBoltEvent;
+import ca.willatendo.simplelibrary.server.event.RegisterRecipeBookSearchCategoriesEvent;
 import ca.willatendo.simplelibrary.server.utils.WrappedStateAwareListener;
 import com.mojang.serialization.Codec;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
@@ -55,6 +56,11 @@ public record FabricModInit(String modId) implements ModInit {
                 Registry.register((Registry<T>) BuiltInRegistries.REGISTRY.getValue(registryKey.identifier()), identifier, value.get());
             }
         }));
+    }
+
+    @Override
+    public void register(EntityDataSerializerSubRegistry entityDataSerializerSubRegistry) {
+        entityDataSerializerSubRegistry.getEntityDataSerializers().forEach((name, entityDataSerializerSupplier) -> EntityDataSerializers.registerSerializer(entityDataSerializerSupplier.get()));
     }
 
     @Override

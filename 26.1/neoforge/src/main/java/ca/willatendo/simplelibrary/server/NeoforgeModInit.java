@@ -1,6 +1,7 @@
 package ca.willatendo.simplelibrary.server;
 
 import ca.willatendo.simplelibrary.core.registry.SimpleRegistry;
+import ca.willatendo.simplelibrary.core.registry.sub.EntityDataSerializerSubRegistry;
 import ca.willatendo.simplelibrary.core.utils.CoreUtils;
 import ca.willatendo.simplelibrary.core.utils.SimpleCoreUtils;
 import ca.willatendo.simplelibrary.network.PacketRegistryListener;
@@ -65,6 +66,15 @@ public record NeoforgeModInit(String modId, String packetVersion, IEventBus iEve
                 simpleRegistry.addEntries(registryEvent::register);
             }
         }));
+    }
+
+    @Override
+    public void register(EntityDataSerializerSubRegistry entityDataSerializerSubRegistry) {
+        this.iEventBus.addListener(RegisterEvent.class, registerEvent -> {
+            if (registerEvent.getRegistryKey() == NeoForgeRegistries.Keys.ENTITY_DATA_SERIALIZERS) {
+                registerEvent.register(NeoForgeRegistries.Keys.ENTITY_DATA_SERIALIZERS, registerHelper -> entityDataSerializerSubRegistry.getEntityDataSerializers().forEach((name, entityDataSerializerSupplier) -> registerHelper.register(Identifier.fromNamespaceAndPath(entityDataSerializerSubRegistry.getModId(), name), entityDataSerializerSupplier.get())));
+            }
+        });
     }
 
     @Override
