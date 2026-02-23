@@ -1,5 +1,6 @@
 package ca.willatendo.simplelibrary;
 
+import ca.willatendo.simplelibrary.client.RecipeBookManager;
 import ca.willatendo.simplelibrary.core.registry.SimpleLibraryBuiltInRegistries;
 import ca.willatendo.simplelibrary.core.utils.SimpleCoreUtils;
 import ca.willatendo.simplelibrary.server.FabricModInit;
@@ -19,6 +20,7 @@ public final class FabricSimpleLibraryMod implements ModInitializer {
         MonsterRoomHooks.init();
         DataMapHooks.init();
         DataMapRegister.initDataMaps();
+        RecipeBookManager.init();
         SimpleLibraryBuiltInRegistries.init();
         FabricModInit fabricModInit = new FabricModInit(SimpleCoreUtils.ID);
         fabricModInit.register(SimpleLibraryBiomeModifierSerializers.BIOME_MODIFIER_SERIALIZERS, SimpleLibraryConditions.CONDITION_CODECS);

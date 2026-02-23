@@ -62,7 +62,7 @@ public record FabricClientModInit() implements ClientModInit {
             }
         });
 
-        RegisterRecipeBookOverlayEvent.EVENT.register(map -> clientEventListener.registerRecipeBookOverlay(map::put));
+        RegisterRecipeBookOverlayEvent.EVENT.register(biConsumer -> clientEventListener.registerRecipeBookOverlay(biConsumer::accept));
 
         clientEventListener.registerParticleColorExemptions(blocks -> Arrays.stream(blocks).forEach(block -> ParticleRenderEvents.ALLOW_BLOCK_DUST_TINT.register((blockState, clientLevel, blockPos) -> !blockState.is(block))));
 

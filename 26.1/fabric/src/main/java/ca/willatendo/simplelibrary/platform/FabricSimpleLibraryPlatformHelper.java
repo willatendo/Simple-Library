@@ -126,6 +126,6 @@ public final class FabricSimpleLibraryPlatformHelper implements SimpleLibraryPla
 
     @Override
     public void registerRecipeBookOverlayEvent(Map<Identifier, Pair<BiFunction<RecipeDisplay, ContextMap, List<OverlayRecipeComponent.OverlayRecipeButton.Pos>>, BiFunction<Boolean, Boolean, Identifier>>> map) {
-        RegisterRecipeBookOverlayEvent.EVENT.invoker().register(map);
+        RegisterRecipeBookOverlayEvent.EVENT.invoker().register(map::put);
     }
 }

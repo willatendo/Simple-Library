@@ -4,7 +4,6 @@ import ca.willatendo.simplelibrary.core.registry.RegisterFunction;
 import ca.willatendo.simplelibrary.core.registry.SimpleRegistry;
 import ca.willatendo.simplelibrary.core.registry.sub.EntityDataSerializerSubRegistry;
 import ca.willatendo.simplelibrary.core.utils.CoreUtils;
-import ca.willatendo.simplelibrary.core.utils.SimpleCoreUtils;
 import ca.willatendo.simplelibrary.network.PacketRegistryListener;
 import ca.willatendo.simplelibrary.network.PacketSupplier;
 import ca.willatendo.simplelibrary.server.event.AddReloadListenersEvent;
@@ -19,7 +18,6 @@ import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
-import net.fabricmc.fabric.api.object.builder.v1.entity.FabricTrackedDataRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 import net.fabricmc.fabric.api.object.builder.v1.world.poi.PointOfInterestHelper;
 import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
@@ -96,7 +94,7 @@ public record FabricModInit(String modId) implements ModInit {
             return poiType;
         });
 
-        RegisterRecipeBookSearchCategoriesEvent.EVENT.register(map -> eventListener.registerRecipeBookSearchCategory((extendedRecipeBookCategory, recipeBookCategories) -> map.put(extendedRecipeBookCategory, Arrays.asList(recipeBookCategories))));
+        RegisterRecipeBookSearchCategoriesEvent.EVENT.register(map -> eventListener.registerRecipeBookSearchCategory((extendedRecipeBookCategory, recipeBookCategories) -> map.accept(extendedRecipeBookCategory, Arrays.asList(recipeBookCategories))));
 
         eventListener.registerBuiltInResourcePacks((modId, resourcePackName) -> {
             Optional<ModContainer> modContainer = FabricLoader.getInstance().getModContainer(modId);

@@ -16,6 +16,6 @@ public final class RecipeBookManager {
     }
 
     public static void init() {
-        RegisterRecipeBookSearchCategoriesEvent.EVENT.invoker().register(SEARCH_CATEGORIES);
+        RegisterRecipeBookSearchCategoriesEvent.EVENT.invoker().register(SEARCH_CATEGORIES::put);
     }
 }
