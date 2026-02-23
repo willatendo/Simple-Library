@@ -16,9 +16,6 @@ public final class RecipeBookManager {
     }
 
     public static void init() {
-        SEARCH_CATEGORIES.clear();
-        Map<ExtendedRecipeBookCategory, List<RecipeBookCategory>> searchCategories = Maps.newHashMap();
-        RegisterRecipeBookSearchCategoriesEvent.EVENT.invoker().register(searchCategories);
-        RecipeBookManager.SEARCH_CATEGORIES.putAll(searchCategories);
+        RegisterRecipeBookSearchCategoriesEvent.EVENT.invoker().register(SEARCH_CATEGORIES);
     }
 }

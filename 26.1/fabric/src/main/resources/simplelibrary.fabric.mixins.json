@@ -30,6 +30,7 @@
     "ParrotMixin",
     "RecipeBookMixin",
     "ReloadableServerResourcesMixin",
+    "ServerPlayerMixin",
     "ServerRecipeBookMixin",
     "VibrationSystemMixin",
     "VillagerHostilesSensorMixin",
