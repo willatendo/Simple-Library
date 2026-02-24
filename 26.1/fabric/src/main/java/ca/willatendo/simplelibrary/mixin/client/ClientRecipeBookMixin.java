@@ -1,45 +1,45 @@
 package ca.willatendo.simplelibrary.mixin.client;
 
 import ca.willatendo.simplelibrary.client.RecipeBookManager;
+import ca.willatendo.simplelibrary.core.utils.CoreUtils;
 import ca.willatendo.simplelibrary.injects.ClientRecipeBookExtension;
 import ca.willatendo.simplelibrary.server.stats.CustomRecipeBookSettings;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Maps;
 import net.minecraft.client.ClientRecipeBook;
 import net.minecraft.client.gui.screens.recipebook.RecipeCollection;
 import net.minecraft.stats.RecipeBook;
 import net.minecraft.world.item.crafting.ExtendedRecipeBookCategory;
 import net.minecraft.world.item.crafting.RecipeBookCategory;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Mixin(ClientRecipeBook.class)
 public class ClientRecipeBookMixin extends RecipeBook implements ClientRecipeBookExtension {
-    private final Map<ExtendedRecipeBookCategory, List<RecipeCollection>> customCollectionsByTab = Maps.newHashMap();
+    @Shadow
+    private Map<ExtendedRecipeBookCategory, List<RecipeCollection>> collectionsByTab;
 
     @Override
     public void setCustomBookSettings(CustomRecipeBookSettings customRecipeBookSettings) {
         this.getCustomRecipeBookSettings().replaceFrom(customRecipeBookSettings);
     }
 
-    @Inject(at = @At(value = "INVOKE", target = "Ljava/util/Map;copyOf(Ljava/util/Map;)Ljava/util/Map;"), method = "rebuildCollections", locals = LocalCapture.CAPTURE_FAILHARD)
+    @Inject(at = @At("TAIL"), method = "rebuildCollections", locals = LocalCapture.CAPTURE_FAILHARD)
     private void rebuildCollections(CallbackInfo ci, Map<ExtendedRecipeBookCategory, List<RecipeCollection>> map) {
+        Map<ExtendedRecipeBookCategory, List<RecipeCollection>> newMap = new HashMap<>();
         for (Map.Entry<ExtendedRecipeBookCategory, List<RecipeBookCategory>> entry : RecipeBookManager.getSearchCategories().entrySet()) {
-            this.customCollectionsByTab.put(entry.getKey(), entry.getValue().stream().flatMap(category -> map.getOrDefault(category, List.of()).stream()).collect(ImmutableList.toImmutableList()));
+            newMap.put(entry.getKey(), entry.getValue().stream().flatMap(category -> map.getOrDefault(category, List.of()).stream()).collect(ImmutableList.toImmutableList()));
         }
-    }
 
-    @Inject(at = @At("HEAD"), method = "getCollection", cancellable = true)
-    private void getCollection(ExtendedRecipeBookCategory extendedRecipeBookCategory, CallbackInfoReturnable<List<RecipeCollection>> cir) {
-        if (RecipeBookManager.hasSearchCategories(extendedRecipeBookCategory)) {
-            cir.setReturnValue(this.customCollectionsByTab.get(extendedRecipeBookCategory));
-        }
+        this.collectionsByTab = new HashMap<>(this.collectionsByTab);
+        this.collectionsByTab.putAll(newMap);
+        CoreUtils.LOGGER.info("{}", this.collectionsByTab);
     }
 }

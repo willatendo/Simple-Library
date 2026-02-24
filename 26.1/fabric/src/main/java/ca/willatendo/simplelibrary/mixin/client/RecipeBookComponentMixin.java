@@ -41,18 +41,17 @@ public class RecipeBookComponentMixin<T extends RecipeBookMenu> {
 
     @Inject(at = @At("HEAD"), method = "updateTabs", cancellable = true)
     private void updateTabs(boolean isFiltering, CallbackInfo ci) {
-        int i = (this.width - 147) / 2 - this.xOffset - 30;
-        int j = (this.height - 166) / 2 + 3;
-        int k = 27;
-        int l = 0;
+        int x = (this.width - 147) / 2 - this.xOffset - 30;
+        int y = (this.height - 166) / 2 + 3;
+        int i = 0;
 
         for (RecipeBookTabButton recipeBookTabButton : this.tabButtons) {
             ExtendedRecipeBookCategory extendedRecipeBookCategory = recipeBookTabButton.getCategory();
             if (extendedRecipeBookCategory instanceof SearchRecipeBookCategory || RecipeBookManager.getSearchCategories().containsKey(extendedRecipeBookCategory)) {
                 recipeBookTabButton.visible = true;
-                recipeBookTabButton.setPosition(i, j + 27 * l++);
+                recipeBookTabButton.setPosition(x, y + 27 * i++);
             } else if (recipeBookTabButton.updateVisibility(this.book)) {
-                recipeBookTabButton.setPosition(i, j + 27 * l++);
+                recipeBookTabButton.setPosition(x, y + 27 * i++);
                 recipeBookTabButton.startAnimation(this.book, isFiltering);
             }
         }
