@@ -2,7 +2,6 @@ package ca.willatendo.simplelibrary.client.screen.recipe_book;
 
 import ca.willatendo.simplelibrary.client.CustomRecipeBooks;
 import net.minecraft.client.gui.screens.recipebook.OverlayRecipeComponent;
-import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
 import net.minecraft.client.gui.screens.recipebook.RecipeCollection;
 import net.minecraft.client.gui.screens.recipebook.SlotSelectTime;
 import net.minecraft.resources.Identifier;

@@ -1,21 +1,28 @@
 package ca.willatendo.simplelibrary.client;
 
 import ca.willatendo.simplelibrary.server.event.RegisterRecipeBookSearchCategoriesEvent;
-import com.google.common.collect.Maps;
 import net.minecraft.world.item.crafting.ExtendedRecipeBookCategory;
 import net.minecraft.world.item.crafting.RecipeBookCategory;
 
+import java.util.Collections;
+import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
 
 public final class RecipeBookManager {
-    private static final Map<ExtendedRecipeBookCategory, List<RecipeBookCategory>> SEARCH_CATEGORIES = Maps.newHashMap();
+    private static Map<ExtendedRecipeBookCategory, List<RecipeBookCategory>> searchCategories = Map.of();
+
+    public static boolean hasSearchCategories(ExtendedRecipeBookCategory extendedRecipeBookCategory) {
+        return RecipeBookManager.searchCategories.containsKey(extendedRecipeBookCategory);
+    }
 
     public static Map<ExtendedRecipeBookCategory, List<RecipeBookCategory>> getSearchCategories() {
-        return RecipeBookManager.SEARCH_CATEGORIES;
+        return RecipeBookManager.searchCategories;
     }
 
     public static void init() {
-        RegisterRecipeBookSearchCategoriesEvent.EVENT.invoker().register(SEARCH_CATEGORIES::put);
+        IdentityHashMap<ExtendedRecipeBookCategory, List<RecipeBookCategory>> searchCategories = new IdentityHashMap<>();
+        RegisterRecipeBookSearchCategoriesEvent.EVENT.invoker().register(searchCategories::put);
+        RecipeBookManager.searchCategories = Collections.unmodifiableMap(searchCategories);
     }
 }

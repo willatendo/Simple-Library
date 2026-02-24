@@ -2,7 +2,10 @@ package ca.willatendo.simplelibrary.mixin.client;
 
 import ca.willatendo.simplelibrary.client.screen.recipe_book.CustomOverlayRecipeComponent;
 import ca.willatendo.simplelibrary.client.screen.recipe_book.IdentifiableRecipeBookComponent;
-import net.minecraft.client.gui.screens.recipebook.*;
+import net.minecraft.client.gui.screens.recipebook.OverlayRecipeComponent;
+import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
+import net.minecraft.client.gui.screens.recipebook.RecipeBookPage;
+import net.minecraft.client.gui.screens.recipebook.SlotSelectTime;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

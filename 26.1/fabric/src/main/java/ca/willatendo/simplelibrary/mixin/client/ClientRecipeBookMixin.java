@@ -14,6 +14,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.util.List;
@@ -31,7 +32,14 @@ public class ClientRecipeBookMixin extends RecipeBook implements ClientRecipeBoo
     @Inject(at = @At(value = "INVOKE", target = "Ljava/util/Map;copyOf(Ljava/util/Map;)Ljava/util/Map;"), method = "rebuildCollections", locals = LocalCapture.CAPTURE_FAILHARD)
     private void rebuildCollections(CallbackInfo ci, Map<ExtendedRecipeBookCategory, List<RecipeCollection>> map) {
         for (Map.Entry<ExtendedRecipeBookCategory, List<RecipeBookCategory>> entry : RecipeBookManager.getSearchCategories().entrySet()) {
-            map.put(entry.getKey(), entry.getValue().stream().flatMap(category -> map.getOrDefault(category, List.of()).stream()).collect(ImmutableList.toImmutableList()));
+            this.customCollectionsByTab.put(entry.getKey(), entry.getValue().stream().flatMap(category -> map.getOrDefault(category, List.of()).stream()).collect(ImmutableList.toImmutableList()));
+        }
+    }
+
+    @Inject(at = @At("HEAD"), method = "getCollection")
+    private void getCollection(ExtendedRecipeBookCategory extendedRecipeBookCategory, CallbackInfoReturnable<List<RecipeCollection>> cir) {
+        if (RecipeBookManager.hasSearchCategories(extendedRecipeBookCategory)) {
+            cir.setReturnValue(this.customCollectionsByTab.get(extendedRecipeBookCategory));
         }
     }
 }

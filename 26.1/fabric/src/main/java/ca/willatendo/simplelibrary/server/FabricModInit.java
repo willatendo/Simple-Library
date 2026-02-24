@@ -94,7 +94,7 @@ public record FabricModInit(String modId) implements ModInit {
             return poiType;
         });
 
-        RegisterRecipeBookSearchCategoriesEvent.EVENT.register(map -> eventListener.registerRecipeBookSearchCategory((extendedRecipeBookCategory, recipeBookCategories) -> map.accept(extendedRecipeBookCategory, Arrays.asList(recipeBookCategories))));
+        RegisterRecipeBookSearchCategoriesEvent.EVENT.register(biConsumer -> eventListener.registerRecipeBookSearchCategory((extendedRecipeBookCategory, recipeBookCategories) -> biConsumer.accept(extendedRecipeBookCategory, Arrays.asList(recipeBookCategories))));
 
         eventListener.registerBuiltInResourcePacks((modId, resourcePackName) -> {
             Optional<ModContainer> modContainer = FabricLoader.getInstance().getModContainer(modId);
