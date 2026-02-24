@@ -36,7 +36,7 @@ public class ClientRecipeBookMixin extends RecipeBook implements ClientRecipeBoo
         }
     }
 
-    @Inject(at = @At("HEAD"), method = "getCollection")
+    @Inject(at = @At("HEAD"), method = "getCollection", cancellable = true)
     private void getCollection(ExtendedRecipeBookCategory extendedRecipeBookCategory, CallbackInfoReturnable<List<RecipeCollection>> cir) {
         if (RecipeBookManager.hasSearchCategories(extendedRecipeBookCategory)) {
             cir.setReturnValue(this.customCollectionsByTab.get(extendedRecipeBookCategory));
