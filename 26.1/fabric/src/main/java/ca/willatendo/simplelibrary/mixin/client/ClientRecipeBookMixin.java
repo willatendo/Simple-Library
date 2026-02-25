@@ -1,7 +1,6 @@
 package ca.willatendo.simplelibrary.mixin.client;
 
 import ca.willatendo.simplelibrary.client.RecipeBookManager;
-import ca.willatendo.simplelibrary.core.utils.CoreUtils;
 import ca.willatendo.simplelibrary.injects.ClientRecipeBookExtension;
 import ca.willatendo.simplelibrary.server.stats.CustomRecipeBookSettings;
 import com.google.common.collect.ImmutableList;
@@ -38,8 +37,8 @@ public class ClientRecipeBookMixin extends RecipeBook implements ClientRecipeBoo
             newMap.put(entry.getKey(), entry.getValue().stream().flatMap(category -> map.getOrDefault(category, List.of()).stream()).collect(ImmutableList.toImmutableList()));
         }
 
-        this.collectionsByTab = new HashMap<>(this.collectionsByTab);
-        this.collectionsByTab.putAll(newMap);
-        CoreUtils.LOGGER.info("{}", this.collectionsByTab);
+        Map<ExtendedRecipeBookCategory, List<RecipeCollection>> collections = new HashMap<>(this.collectionsByTab);
+        collections.putAll(newMap);
+        this.collectionsByTab = Map.copyOf(collections);
     }
 }
