@@ -23,7 +23,7 @@ import java.util.Map;
 @Mixin(ClientRecipeBook.class)
 public class ClientRecipeBookMixin extends RecipeBook implements ClientRecipeBookExtension {
     @Shadow
-    private Map<ExtendedRecipeBookCategory, List<RecipeCollection>> collectionsByTab;
+    private Map<ExtendedRecipeBookCategory, ImmutableList<RecipeCollection>> collectionsByTab;
 
     @Override
     public void setCustomBookSettings(CustomRecipeBookSettings customRecipeBookSettings) {
@@ -32,12 +32,13 @@ public class ClientRecipeBookMixin extends RecipeBook implements ClientRecipeBoo
 
     @Inject(at = @At("TAIL"), method = "rebuildCollections", locals = LocalCapture.CAPTURE_FAILHARD)
     private void rebuildCollections(CallbackInfo ci, Map<ExtendedRecipeBookCategory, List<RecipeCollection>> map) {
-        Map<ExtendedRecipeBookCategory, List<RecipeCollection>> newMap = new HashMap<>();
+        Map<ExtendedRecipeBookCategory, ImmutableList<RecipeCollection>> newMap = new HashMap<>();
         for (Map.Entry<ExtendedRecipeBookCategory, List<RecipeBookCategory>> entry : RecipeBookManager.getSearchCategories().entrySet()) {
-            newMap.put(entry.getKey(), entry.getValue().stream().flatMap(category -> map.getOrDefault(category, List.of()).stream()).collect(ImmutableList.toImmutableList()));
+            ImmutableList<RecipeCollection> a = entry.getValue().stream().flatMap(category -> map.getOrDefault(category, List.of()).stream()).collect(ImmutableList.toImmutableList());
+            newMap.put(entry.getKey(), a);
         }
 
-        Map<ExtendedRecipeBookCategory, List<RecipeCollection>> collections = new HashMap<>(this.collectionsByTab);
+        Map<ExtendedRecipeBookCategory, ImmutableList<RecipeCollection>> collections = new HashMap<>(this.collectionsByTab);
         collections.putAll(newMap);
         this.collectionsByTab = Map.copyOf(collections);
     }

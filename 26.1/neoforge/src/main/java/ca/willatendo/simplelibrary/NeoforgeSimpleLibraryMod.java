@@ -9,8 +9,5 @@ import net.neoforged.fml.common.Mod;
 @Mod(SimpleCoreUtils.ID)
 public final class NeoforgeSimpleLibraryMod {
     public NeoforgeSimpleLibraryMod(IEventBus iEventBus) {
-        NeoforgeModInit neoforgeModInit = new NeoforgeModInit(iEventBus);
-        neoforgeModInit.eventListener(new EventListener() {
-        });
     }
 }
