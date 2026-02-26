@@ -1,5 +1,6 @@
 package ca.willatendo.simplelibrary.mixin.client;
 
+import ca.willatendo.simplelibrary.client.CustomRecipeBooks;
 import ca.willatendo.simplelibrary.client.RecipeBookManager;
 import ca.willatendo.simplelibrary.client.event.SimpleScreenEvents;
 import net.minecraft.client.Minecraft;
@@ -15,6 +16,7 @@ public class MinecraftMixin {
     @Inject(at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/platform/Window;updateVsync(Z)V"), method = "<init>")
     private void init(GameConfig gameConfig, CallbackInfo ci) {
         RecipeBookManager.init();
+        CustomRecipeBooks.init();
     }
 
     @Inject(method = "setScreen", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/Screen;removed()V"))

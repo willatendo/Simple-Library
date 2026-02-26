@@ -56,3 +56,4 @@ transitive-accessible class net/minecraft/client/particle/ParticleResources$Spri
 transitive-accessible class net/minecraft/world/level/biome/Biome$ClimateSettings
 transitive-accessible class net/minecraft/client/gui/screens/recipebook/OverlayRecipeComponent$OverlayRecipeButton
 transitive-accessible class net/minecraft/client/gui/screens/recipebook/OverlayRecipeComponent$OverlayRecipeButton$Pos
+transitive-accessible class net/minecraft/client/resources/model/AtlasManager$AtlasEntry

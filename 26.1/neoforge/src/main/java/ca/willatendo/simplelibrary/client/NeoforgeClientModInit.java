@@ -32,6 +32,8 @@ public record NeoforgeClientModInit(IEventBus iEventBus) implements ClientModIni
 
         this.iEventBus.addListener(RegisterColorHandlersEvent.Block.class, block -> clientEventListener.registerBlockColors(block::register));
 
+        this.iEventBus.addListener(AddClientReloadListenersEvent.class, addClientReloadListenersEvent -> clientEventListener.registerClientReloadListener(addClientReloadListenersEvent::addListener));
+
         this.iEventBus.addListener(RegisterKeyMappingsEvent.class, registerKeyMappingsEvent -> clientEventListener.registerKeyMappings(registerKeyMappingsEvent::register));
 
         this.iEventBus.addListener(RegisterMenuScreensEvent.class, registerMenuScreensEvent -> clientEventListener.registerMenuScreens(registerMenuScreensEvent::register));
@@ -79,6 +81,8 @@ public record NeoforgeClientModInit(IEventBus iEventBus) implements ClientModIni
         }));
 
         this.iEventBus.addListener(RegisterSpecialModelRendererEvent.class, registerSpecialModelRendererEvent -> clientEventListener.registerSpecialModelRenderers(registerSpecialModelRendererEvent::register));
+
+        this.iEventBus.addListener(RegisterTextureAtlasesEvent.class, registerTextureAtlasesEvent -> clientEventListener.registerTextureAtlases(registerTextureAtlasesEvent::register));
 
         neoforgeEventBus.addListener(ScreenEvent.Init.Pre.class, pre -> clientEventListener.screenInitPreEvent(pre.getScreen(), pre::addListener));
 

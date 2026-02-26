@@ -17,11 +17,11 @@ import java.util.concurrent.CompletableFuture;
 
 public abstract class SimpleParticleProvider implements DataProvider {
     private final Map<Identifier, ParticleInfo> particles = new HashMap<>();
-    private final PackOutput packOutput;
+    private final PackOutput.PathProvider pathProvider;
     private final String modId;
 
     public SimpleParticleProvider(PackOutput packOutput, String modId) {
-        this.packOutput = packOutput;
+        this.pathProvider = packOutput.createPathProvider(PackOutput.Target.RESOURCE_PACK, "particles");
         this.modId = modId;
     }
 
@@ -35,7 +35,7 @@ public abstract class SimpleParticleProvider implements DataProvider {
     public CompletableFuture<?> run(CachedOutput cachedOutput) {
         this.getAll();
         List<CompletableFuture<?>> completableFutures = new ArrayList<>();
-        this.particles.forEach((particle, particleInfo) -> completableFutures.add(DataProvider.saveStable(cachedOutput, ParticleInfo.CODEC, particleInfo, this.packOutput.createPathProvider(PackOutput.Target.RESOURCE_PACK, "particles").json(particle))));
+        this.particles.forEach((particle, particleInfo) -> completableFutures.add(DataProvider.saveStable(cachedOutput, ParticleInfo.CODEC, particleInfo, this.pathProvider.json(particle))));
         return CompletableFuture.allOf(completableFutures.toArray(CompletableFuture[]::new));
     }
 

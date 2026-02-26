@@ -18,9 +18,11 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.special.SpecialModelRenderer;
+import net.minecraft.client.resources.model.AtlasManager;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.resources.Identifier;
+import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.util.context.ContextMap;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -43,6 +45,9 @@ public interface ClientEventListener {
     // Registry
 
     default void registerBlockColors(ClientEventListener.BlockColorRegister blockColorRegister) {
+    }
+
+    default void registerClientReloadListener(ClientReloadListenerRegister clientReloadListenerRegister) {
     }
 
     default void registerKeyMappings(ClientEventListener.KeyMappingRegister keyMappingRegister) {
@@ -69,6 +74,9 @@ public interface ClientEventListener {
     default void registerSpecialModelRenderers(ClientEventListener.SpecialModelRendererRegister specialModelRendererRegister) {
     }
 
+    default void registerTextureAtlases(ClientEventListener.TextureAtlasRegister textureAtlasRegister) {
+    }
+
     // Events
 
     default void screenInitPreEvent(Screen screen, Consumer<AbstractWidget> widgets) {
@@ -92,6 +100,11 @@ public interface ClientEventListener {
     @FunctionalInterface
     interface BlockColorRegister {
         void apply(BlockColor blockColor, Block... blocks);
+    }
+
+    @FunctionalInterface
+    interface ClientReloadListenerRegister {
+        void apply(Identifier identifier, PreparableReloadListener preparableReloadListener);
     }
 
     @FunctionalInterface
@@ -136,5 +149,10 @@ public interface ClientEventListener {
     @FunctionalInterface
     interface SpecialModelRendererRegister {
         void apply(Identifier id, MapCodec<? extends SpecialModelRenderer.Unbaked> codec);
+    }
+
+    @FunctionalInterface
+    interface TextureAtlasRegister {
+        void apply(AtlasManager.AtlasConfig atlasConfig);
     }
 }

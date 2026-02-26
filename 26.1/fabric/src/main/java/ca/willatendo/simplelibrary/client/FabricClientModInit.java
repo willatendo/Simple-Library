@@ -4,6 +4,7 @@ import ca.willatendo.simplelibrary.client.event.RegisterRecipeBookOverlayEvent;
 import ca.willatendo.simplelibrary.client.event.SimpleScreenEvents;
 import ca.willatendo.simplelibrary.network.PacketRegistryListener;
 import ca.willatendo.simplelibrary.network.PacketSupplier;
+import ca.willatendo.simplelibrary.server.event.RegisterTextureAtlasesEvent;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -14,6 +15,8 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.fabricmc.fabric.api.client.screen.v1.Screens;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.particle.ParticleProvider;
@@ -24,11 +27,13 @@ import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.special.SpecialModelRenderers;
+import net.minecraft.client.resources.model.AtlasManager;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.server.packs.PackType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -43,6 +48,9 @@ public record FabricClientModInit() implements ClientModInit {
         clientEventListener.clientSetup();
 
         clientEventListener.registerBlockColors(ColorProviderRegistry.BLOCK::register);
+
+        ResourceLoader resourceLoader = ResourceLoader.get(PackType.CLIENT_RESOURCES);
+        clientEventListener.registerClientReloadListener(resourceLoader::registerReloader);
 
         clientEventListener.registerKeyMappings(KeyBindingHelper::registerKeyBinding);
 
@@ -84,6 +92,8 @@ public record FabricClientModInit() implements ClientModInit {
         });
 
         clientEventListener.registerSpecialModelRenderers(SpecialModelRenderers.ID_MAPPER::put);
+
+        clientEventListener.registerTextureAtlases(atlasConfig -> RegisterTextureAtlasesEvent.EVENT.register(consumer -> consumer.accept(atlasConfig)));
 
         ScreenEvents.BEFORE_INIT.register((minecraft, screen, scaledWidth, scaledHeight) -> {
             ScreenEvents.beforeRender(screen).register((screenIn, guiGraphics, mouseX, mouseY, partialTick) -> clientEventListener.screenRenderPreEvent(screenIn, guiGraphics, mouseX, mouseY));
