@@ -10,10 +10,10 @@ import net.minecraft.stats.RecipeBook;
 import net.minecraft.world.item.crafting.ExtendedRecipeBookCategory;
 import net.minecraft.world.item.crafting.RecipeBookCategory;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.util.HashMap;
@@ -22,8 +22,7 @@ import java.util.Map;
 
 @Mixin(ClientRecipeBook.class)
 public class ClientRecipeBookMixin extends RecipeBook implements ClientRecipeBookExtension {
-    @Shadow
-    private Map<ExtendedRecipeBookCategory, ImmutableList<RecipeCollection>> collectionsByTab;
+    private Map<ExtendedRecipeBookCategory, List<RecipeCollection>> customCollectionsByTab;
 
     @Override
     public void setCustomBookSettings(CustomRecipeBookSettings customRecipeBookSettings) {
@@ -37,9 +36,13 @@ public class ClientRecipeBookMixin extends RecipeBook implements ClientRecipeBoo
             ImmutableList<RecipeCollection> a = entry.getValue().stream().flatMap(category -> map.getOrDefault(category, List.of()).stream()).collect(ImmutableList.toImmutableList());
             newMap.put(entry.getKey(), a);
         }
+        this.customCollectionsByTab = Map.copyOf(newMap);
+    }
 
-        Map<ExtendedRecipeBookCategory, ImmutableList<RecipeCollection>> collections = new HashMap<>(this.collectionsByTab);
-        collections.putAll(newMap);
-        this.collectionsByTab = Map.copyOf(collections);
+    @Inject(at = @At("HEAD"), method = "getCollection")
+    public void getCollection(ExtendedRecipeBookCategory extendedRecipeBookCategory, CallbackInfoReturnable<List<RecipeCollection>> cir) {
+        if (this.customCollectionsByTab.containsKey(extendedRecipeBookCategory)) {
+            cir.setReturnValue(this.customCollectionsByTab.get(extendedRecipeBookCategory));
+        }
     }
 }
