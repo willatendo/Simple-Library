@@ -1,6 +1,7 @@
 package ca.willatendo.simplelibrary.platform;
 
 import ca.willatendo.simplelibrary.core.registry.SimpleRegistryBuilder;
+import ca.willatendo.simplelibrary.core.registry.sub.AttachmentTypesSubRegistry;
 import ca.willatendo.simplelibrary.core.registry.sub.EntityDataSerializerSubRegistry;
 import ca.willatendo.simplelibrary.platform.utils.PlatformUtils;
 import ca.willatendo.simplelibrary.server.menu.ExtendedMenuSupplier;
@@ -29,17 +30,22 @@ import java.util.function.BiFunction;
 public interface SimpleLibraryPlatformHelper {
     SimpleLibraryPlatformHelper INSTANCE = PlatformUtils.ofPlatformHelper(SimpleLibraryPlatformHelper.class);
 
+    // Platform
     Platform getPlatform();
 
+    // Packets
     void sendToServer(CustomPacketPayload customPacketPayload, CustomPacketPayload... customPacketPayloads);
 
     void sendToClient(ServerPlayer serverPlayer, CustomPacketPayload customPacketPayload);
 
+    // Creation
     FeatureFlag getFeatureFlag(Identifier identifier);
 
     RecipeBookType getRecipeBookType(String modId, String name);
 
     <T> Registry<T> createRegistry(ResourceKey<Registry<T>> resourceKey, SimpleRegistryBuilder simpleRegistryBuilder);
+
+    AttachmentTypesSubRegistry createAttachmentTypesSubRegistry(String modId);
 
     EntityDataSerializerSubRegistry createEntityDataSerializerSubRegistry(String modId);
 
@@ -49,6 +55,16 @@ public interface SimpleLibraryPlatformHelper {
 
     CreativeModeTab.Builder createCreativeModeTab();
 
+    // Attachment Types
+    <T> boolean hasData(T value, Identifier attachmentType);
+
+    <T, V> V getData(T value, Identifier attachmentType);
+
+    <T, V> void setData(T value, Identifier attachmentType, V data);
+
+    <T> void removeData(T value, Identifier attachmentType);
+
+    // Interactions
     void openContainer(MenuProvider menuProvider, BlockPos blockPos, ServerPlayer serverPlayer);
 
     void registerRecipeBookOverlayEvent(Map<Identifier, Pair<BiFunction<RecipeDisplay, ContextMap, List<OverlayRecipeComponent.OverlayRecipeButton.Pos>>, BiFunction<Boolean, Boolean, Identifier>>> map);

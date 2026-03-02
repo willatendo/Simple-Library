@@ -2,11 +2,13 @@ package ca.willatendo.simplelibrary.server;
 
 import ca.willatendo.simplelibrary.core.registry.RegisterFunction;
 import ca.willatendo.simplelibrary.core.registry.SimpleRegistry;
+import ca.willatendo.simplelibrary.core.registry.sub.AttachmentTypesSubRegistry;
 import ca.willatendo.simplelibrary.core.registry.sub.EntityDataSerializerSubRegistry;
 import ca.willatendo.simplelibrary.core.utils.CoreUtils;
 import ca.willatendo.simplelibrary.network.PacketRegistryListener;
 import ca.willatendo.simplelibrary.network.PacketSupplier;
 import ca.willatendo.simplelibrary.server.event.AddReloadListenersEvent;
+import ca.willatendo.simplelibrary.server.event.EntityTickEvent;
 import ca.willatendo.simplelibrary.server.event.LightingBoltEvent;
 import ca.willatendo.simplelibrary.server.event.RegisterRecipeBookSearchCategoriesEvent;
 import ca.willatendo.simplelibrary.server.utils.WrappedStateAwareListener;
@@ -58,6 +60,10 @@ public record FabricModInit(String modId) implements ModInit {
 
     @Override
     public void register(EntityDataSerializerSubRegistry entityDataSerializerSubRegistry) {
+    }
+
+    @Override
+    public void register(AttachmentTypesSubRegistry attachmentTypesSubRegistry) {
     }
 
     @Override
@@ -129,6 +135,9 @@ public record FabricModInit(String modId) implements ModInit {
         });
 
         // Events
+        EntityTickEvent.PRE.register(eventListener::preEntityTickEvent);
+
+        EntityTickEvent.POST.register(eventListener::postEntityTickEvent);
 
         LightingBoltEvent.ENTITY_STRUCK_BY_LIGHTING.register((entity, lightningBolt) -> {
             AtomicBoolean cancel = new AtomicBoolean(false);

@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_21",
   "client": [
     "client.AtlasManagerMixin",
+    "client.ClientLevelMixin",
     "client.ClientRecipeBookMixin",
     "client.MinecraftMixin",
     "client.RecipeBookComponentMixin"
@@ -31,6 +32,7 @@
     "ParrotMixin",
     "RecipeBookMixin",
     "ReloadableServerResourcesMixin",
+    "ServerLevelMixin",
     "ServerPlayerMixin",
     "ServerRecipeBookMixin",
     "VibrationSystemMixin",

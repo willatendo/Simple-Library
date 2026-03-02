@@ -1,7 +1,9 @@
 package ca.willatendo.simplelibrary.server;
 
 import ca.willatendo.simplelibrary.core.registry.SimpleRegistry;
+import ca.willatendo.simplelibrary.core.registry.sub.AttachmentTypesSubRegistry;
 import ca.willatendo.simplelibrary.core.registry.sub.EntityDataSerializerSubRegistry;
+import ca.willatendo.simplelibrary.core.registry.sub.NeoforgeAttachmentTypesSubRegistry;
 import ca.willatendo.simplelibrary.core.registry.sub.NeoforgeEntityDataSerializerSubRegistry;
 import ca.willatendo.simplelibrary.core.utils.CoreUtils;
 import ca.willatendo.simplelibrary.core.utils.SimpleCoreUtils;
@@ -43,6 +45,7 @@ import net.neoforged.neoforge.event.entity.EntityStruckByLightningEvent;
 import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
 import net.neoforged.neoforge.event.server.ServerStoppedEvent;
+import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.village.VillagerTradesEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
@@ -70,6 +73,13 @@ public record NeoforgeModInit(String modId, String packetVersion, IEventBus iEve
     public void register(EntityDataSerializerSubRegistry entityDataSerializerSubRegistry) {
         if (entityDataSerializerSubRegistry instanceof NeoforgeEntityDataSerializerSubRegistry neoforgeEntityDataSerializerSubRegistry) {
             this.register(neoforgeEntityDataSerializerSubRegistry.getSimpleRegistry());
+        }
+    }
+
+    @Override
+    public void register(AttachmentTypesSubRegistry attachmentTypesSubRegistry) {
+        if (attachmentTypesSubRegistry instanceof NeoforgeAttachmentTypesSubRegistry neoforgeAttachmentTypesSubRegistry) {
+            this.register(neoforgeAttachmentTypesSubRegistry.getSimpleRegistry());
         }
     }
 
@@ -147,10 +157,11 @@ public record NeoforgeModInit(String modId, String packetVersion, IEventBus iEve
         }));
 
         // Events
+        iEventBus.addListener(EntityTickEvent.Pre.class, pre -> eventListener.preEntityTickEvent(pre.getEntity()));
 
-        iEventBus.addListener(EntityStruckByLightningEvent.class, entityStruckByLightningEvent -> {
-            eventListener.entityStruckByLightningBoltEvent(entityStruckByLightningEvent.getEntity(), entityStruckByLightningEvent.getLightning(), entityStruckByLightningEvent::setCanceled);
-        });
+        iEventBus.addListener(EntityTickEvent.Post.class, post -> eventListener.postEntityTickEvent(post.getEntity()));
+
+        iEventBus.addListener(EntityStruckByLightningEvent.class, entityStruckByLightningEvent -> eventListener.entityStruckByLightningBoltEvent(entityStruckByLightningEvent.getEntity(), entityStruckByLightningEvent.getLightning(), entityStruckByLightningEvent::setCanceled));
 
         iEventBus.addListener(OnDatapackSyncEvent.class, onDatapackSyncEvent -> eventListener.syncDataPackContentsEvent(onDatapackSyncEvent.getPlayer()));
 

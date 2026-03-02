@@ -3,11 +3,15 @@ package ca.willatendo.simplelibrary.platform;
 import ca.willatendo.simplelibrary.client.event.RegisterRecipeBookOverlayEvent;
 import ca.willatendo.simplelibrary.core.FabricPlatform;
 import ca.willatendo.simplelibrary.core.registry.SimpleRegistryBuilder;
+import ca.willatendo.simplelibrary.core.registry.sub.AttachmentTypesSubRegistry;
 import ca.willatendo.simplelibrary.core.registry.sub.EntityDataSerializerSubRegistry;
+import ca.willatendo.simplelibrary.core.registry.sub.FabricAttachmentTypesSubRegistry;
 import ca.willatendo.simplelibrary.core.registry.sub.FabricEntityDataSerializerSubRegistry;
 import ca.willatendo.simplelibrary.server.menu.ExtendedMenuSupplier;
 import com.chocohead.mm.api.ClassTinkerers;
 import com.mojang.datafixers.util.Pair;
+import net.fabricmc.fabric.api.attachment.v1.AttachmentTarget;
+import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.fabricmc.fabric.api.event.registry.RegistryAttribute;
@@ -16,6 +20,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
+import net.fabricmc.fabric.impl.attachment.AttachmentRegistryImpl;
 import net.minecraft.client.gui.screens.recipebook.OverlayRecipeComponent;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.MappedRegistry;
@@ -42,6 +47,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiFunction;
 
 public final class FabricSimpleLibraryPlatformHelper implements SimpleLibraryPlatformHelper {
@@ -81,6 +87,11 @@ public final class FabricSimpleLibraryPlatformHelper implements SimpleLibraryPla
     }
 
     @Override
+    public AttachmentTypesSubRegistry createAttachmentTypesSubRegistry(String modId) {
+        return new FabricAttachmentTypesSubRegistry(modId);
+    }
+
+    @Override
     public EntityDataSerializerSubRegistry createEntityDataSerializerSubRegistry(String modId) {
         return new FabricEntityDataSerializerSubRegistry(modId);
     }
@@ -98,6 +109,36 @@ public final class FabricSimpleLibraryPlatformHelper implements SimpleLibraryPla
     @Override
     public CreativeModeTab.Builder createCreativeModeTab() {
         return FabricItemGroup.builder();
+    }
+
+    @Override
+    public <T> boolean hasData(T value, Identifier attachmentType) {
+        if (value instanceof AttachmentTarget attachmentTarget) {
+            return attachmentTarget.hasAttached(Objects.requireNonNull(AttachmentRegistryImpl.get(attachmentType)));
+        }
+        return false;
+    }
+
+    @Override
+    public <T, V> V getData(T value, Identifier attachmentType) {
+        if (value instanceof AttachmentTarget attachmentTarget) {
+            return (V) attachmentTarget.getAttachedOrCreate(Objects.requireNonNull(AttachmentRegistryImpl.get(attachmentType)));
+        }
+        return null;
+    }
+
+    @Override
+    public <T, V> void setData(T value, Identifier attachmentType, V data) {
+        if (value instanceof AttachmentTarget attachmentTarget) {
+            attachmentTarget.setAttached((AttachmentType<V>) Objects.requireNonNull(AttachmentRegistryImpl.get(attachmentType)), data);
+        }
+    }
+
+    @Override
+    public <T> void removeData(T value, Identifier attachmentType) {
+        if (value instanceof AttachmentTarget attachmentTarget) {
+            attachmentTarget.removeAttached(Objects.requireNonNull(AttachmentRegistryImpl.get(attachmentType)));
+        }
     }
 
     @Override

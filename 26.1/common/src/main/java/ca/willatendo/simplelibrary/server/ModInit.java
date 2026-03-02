@@ -1,6 +1,7 @@
 package ca.willatendo.simplelibrary.server;
 
 import ca.willatendo.simplelibrary.core.registry.SimpleRegistry;
+import ca.willatendo.simplelibrary.core.registry.sub.AttachmentTypesSubRegistry;
 import ca.willatendo.simplelibrary.core.registry.sub.EntityDataSerializerSubRegistry;
 import ca.willatendo.simplelibrary.network.PacketRegistryListener;
 
@@ -8,6 +9,8 @@ public interface ModInit {
     void register(SimpleRegistry<?>... simpleRegistry);
 
     void register(EntityDataSerializerSubRegistry entityDataSerializerSubRegistry);
+
+    void register(AttachmentTypesSubRegistry attachmentTypesSubRegistry);
 
     void eventListener(EventListener eventListener);
 

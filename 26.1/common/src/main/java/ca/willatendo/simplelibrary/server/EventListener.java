@@ -77,6 +77,11 @@ public interface EventListener {
     }
 
     // Events
+    default void preEntityTickEvent(Entity entity) {
+    }
+
+    default void postEntityTickEvent(Entity entity) {
+    }
 
     default void entityStruckByLightningBoltEvent(Entity entity, LightningBolt lightningBolt, Consumer<Boolean> cancel) {
     }
