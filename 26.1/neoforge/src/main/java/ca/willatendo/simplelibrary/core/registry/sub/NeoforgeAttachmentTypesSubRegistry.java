@@ -30,6 +30,9 @@ public final class NeoforgeAttachmentTypesSubRegistry extends AttachmentTypesSub
             if (attachmentTypeBuilder.doCopyOnDeath()) {
                 builder.copyOnDeath();
             }
+            if(attachmentTypeBuilder.doSync()) {
+                builder.sync(attachmentTypeBuilder.getStreamCodec());
+            }
             return builder.build();
         });
         return identifier;

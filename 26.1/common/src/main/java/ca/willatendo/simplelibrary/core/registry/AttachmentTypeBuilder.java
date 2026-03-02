@@ -1,12 +1,14 @@
 package ca.willatendo.simplelibrary.core.registry;
 
 import com.mojang.serialization.Codec;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 
 public final class AttachmentTypeBuilder<T> {
     private final T defaultValue;
-    private boolean serialize = false;
     private Codec<T> codec;
     private boolean copyOnDeath = false;
+    private StreamCodec<RegistryFriendlyByteBuf, T> streamCodec;
 
     public static <T> AttachmentTypeBuilder<T> builder(T defaultValue) {
         return new AttachmentTypeBuilder<>(defaultValue);
@@ -17,7 +19,6 @@ public final class AttachmentTypeBuilder<T> {
     }
 
     public AttachmentTypeBuilder<T> serialize(Codec<T> codec) {
-        this.serialize = true;
         this.codec = codec;
         return this;
     }
@@ -27,12 +28,17 @@ public final class AttachmentTypeBuilder<T> {
         return this;
     }
 
+    public AttachmentTypeBuilder<T> sync(StreamCodec<RegistryFriendlyByteBuf, T> streamCodec) {
+        this.streamCodec = streamCodec;
+        return this;
+    }
+
     public T getDefaultValue() {
         return this.defaultValue;
     }
 
     public boolean doSerialize() {
-        return this.serialize;
+        return this.codec != null;
     }
 
     public Codec<T> getCodec() {
@@ -41,5 +47,13 @@ public final class AttachmentTypeBuilder<T> {
 
     public boolean doCopyOnDeath() {
         return this.copyOnDeath;
+    }
+
+    public boolean doSync() {
+        return this.streamCodec != null;
+    }
+
+    public StreamCodec<RegistryFriendlyByteBuf, T> getStreamCodec() {
+        return this.streamCodec;
     }
 }
