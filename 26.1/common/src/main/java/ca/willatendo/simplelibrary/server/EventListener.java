@@ -14,6 +14,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.ReloadableServerResources;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.PackType;
+import net.minecraft.server.packs.repository.PackSource;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -105,7 +106,7 @@ public interface EventListener {
 
     @FunctionalInterface
     interface BuiltInResourcePackRegister {
-        void apply(String modId, String resourcePackName, PackType packType);
+        void apply(String modId, String resourcePackName, PackType packType, PackSource packSource);
     }
 
     @FunctionalInterface
