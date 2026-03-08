@@ -3,6 +3,7 @@ package ca.willatendo.simplelibrary.client;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
@@ -78,6 +79,12 @@ public interface ClientEventListener {
     }
 
     // Events
+
+    default void clientTickPreEvent(Minecraft minecraft) {
+    }
+
+    default void clientTickPostEvent(Minecraft minecraft) {
+    }
 
     default void screenInitPreEvent(Screen screen, Consumer<AbstractWidget> widgets) {
     }

@@ -2,6 +2,7 @@ package ca.willatendo.simplelibrary.client;
 
 import ca.willatendo.simplelibrary.client.event.RegisterRecipeBookOverlayEvent;
 import ca.willatendo.simplelibrary.network.PacketRegistryListener;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.ParticleResources;
@@ -83,6 +84,10 @@ public record NeoforgeClientModInit(IEventBus iEventBus) implements ClientModIni
         this.iEventBus.addListener(RegisterSpecialModelRendererEvent.class, registerSpecialModelRendererEvent -> clientEventListener.registerSpecialModelRenderers(registerSpecialModelRendererEvent::register));
 
         this.iEventBus.addListener(RegisterTextureAtlasesEvent.class, registerTextureAtlasesEvent -> clientEventListener.registerTextureAtlases(registerTextureAtlasesEvent::register));
+
+        neoforgeEventBus.addListener(ClientTickEvent.Pre.class, pre -> clientEventListener.clientTickPreEvent(Minecraft.getInstance()));
+
+        neoforgeEventBus.addListener(ClientTickEvent.Post.class, post -> clientEventListener.clientTickPostEvent(Minecraft.getInstance()));
 
         neoforgeEventBus.addListener(ScreenEvent.Init.Pre.class, pre -> clientEventListener.screenInitPreEvent(pre.getScreen(), pre::addListener));
 
