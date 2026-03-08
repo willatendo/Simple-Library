@@ -102,7 +102,7 @@ public record FabricModInit(String modId) implements ModInit {
 
         RegisterRecipeBookSearchCategoriesEvent.EVENT.register(biConsumer -> eventListener.registerRecipeBookSearchCategory((extendedRecipeBookCategory, recipeBookCategories) -> biConsumer.accept(extendedRecipeBookCategory, Arrays.asList(recipeBookCategories))));
 
-        eventListener.registerBuiltInResourcePacks((modId, resourcePackName) -> {
+        eventListener.registerBuiltInResourcePacks((modId, resourcePackName, packType) -> {
             Optional<ModContainer> modContainer = FabricLoader.getInstance().getModContainer(modId);
             ResourceLoader.registerBuiltinPack(CoreUtils.resource(modId, resourcePackName), modContainer.get(), CoreUtils.translation(modId, "resourcePack", resourcePackName + ".name"), PackActivationType.NORMAL);
         });

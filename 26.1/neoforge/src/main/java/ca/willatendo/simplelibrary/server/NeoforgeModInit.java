@@ -118,7 +118,7 @@ public record NeoforgeModInit(String modId, String packetVersion, IEventBus iEve
 
         this.iEventBus.addListener(NewRegistryEvent.class, newRegistryEvent -> eventListener.registerNewRegistries(newRegistryEvent::register));
 
-        this.iEventBus.addListener(AddPackFindersEvent.class, addPackFindersEvent -> eventListener.registerBuiltInResourcePacks((modId, resourcePackName) -> addPackFindersEvent.addPackFinders(CoreUtils.resource(modId, "resourcepacks." + resourcePackName), PackType.CLIENT_RESOURCES, CoreUtils.translation("resourcePack", modId, resourcePackName + ".name"), PackSource.BUILT_IN, false, Pack.Position.TOP)));
+        this.iEventBus.addListener(AddPackFindersEvent.class, addPackFindersEvent -> eventListener.registerBuiltInResourcePacks((modId, resourcePackName, packType) -> addPackFindersEvent.addPackFinders(CoreUtils.resource(modId, "resourcepacks." + resourcePackName), packType, CoreUtils.translation("resourcePack", modId, resourcePackName + ".name"), PackSource.BUILT_IN, false, Pack.Position.TOP)));
 
         iEventBus.addListener(AddServerReloadListenersEvent.class, addServerReloadListenersEvent -> eventListener.registerServerReloadListener(new EventListener.ServerReloadListenerRegister() {
             @Override
