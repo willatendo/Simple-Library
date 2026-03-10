@@ -24,6 +24,7 @@ import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 import net.fabricmc.fabric.api.object.builder.v1.world.poi.PointOfInterestHelper;
 import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
 import net.fabricmc.fabric.api.resource.v1.pack.PackActivationType;
+import net.fabricmc.fabric.impl.resource.ResourceLoaderImpl;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.core.Registry;
@@ -35,6 +36,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.ReloadableServerResources;
+import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.level.block.Blocks;
@@ -102,9 +104,11 @@ public record FabricModInit(String modId) implements ModInit {
 
         RegisterRecipeBookSearchCategoriesEvent.EVENT.register(biConsumer -> eventListener.registerRecipeBookSearchCategory((extendedRecipeBookCategory, recipeBookCategories) -> biConsumer.accept(extendedRecipeBookCategory, Arrays.asList(recipeBookCategories))));
 
-        eventListener.registerBuiltInResourcePacks((modId, resourcePackName, packType, packSource) -> {
+        eventListener.registerBuiltInResourcePacks((modId, resourcePackName, packType, packSource, alwaysActive, position) -> {
             Optional<ModContainer> modContainer = FabricLoader.getInstance().getModContainer(modId);
-            ResourceLoader.registerBuiltinPack(CoreUtils.resource(modId, resourcePackName), modContainer.get(), CoreUtils.translation(modId, "resourcePack", resourcePackName + ".name"), PackActivationType.NORMAL);
+            boolean datapack = packType == PackType.SERVER_DATA;
+            Identifier identifier = CoreUtils.resource(modId, resourcePackName);
+            ResourceLoaderImpl.registerBuiltinPack(identifier, (datapack ? "data/" + modId + "/datapacks/" : "resourcepacks/") + identifier.getPath(), modContainer.get(), CoreUtils.translation((datapack ? "dataPack" : "resourcePack"), modId, resourcePackName + ".name"), alwaysActive ? PackActivationType.ALWAYS_ENABLED : PackActivationType.NORMAL);
         });
 
         AddReloadListenersEvent.EVENT.register((preparableReloadListeners, context, reloadableServerResources) -> eventListener.registerServerReloadListener(new EventListener.ServerReloadListenerRegister() {

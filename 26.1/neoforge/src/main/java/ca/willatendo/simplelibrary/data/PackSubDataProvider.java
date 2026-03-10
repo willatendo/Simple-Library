@@ -28,7 +28,7 @@ public final class PackSubDataProvider {
     }
 
     public static PackSubDataProvider createDataPack(String modId, String packName, DataGenerator dataGenerator, Component packDisplayName, Consumer<SimplePackMetadataGenerator> consumer) {
-        return new PackSubDataProvider(modId, packName, dataGenerator, "datapacks", simplePackMetadataGenerator -> {
+        return new PackSubDataProvider(modId, packName, dataGenerator, "data/" + modId + "/datapacks", simplePackMetadataGenerator -> {
             simplePackMetadataGenerator.add(PackMetadataSection.SERVER_TYPE, new PackMetadataSection(packDisplayName, new InclusiveRange<>(DetectedVersion.BUILT_IN.packVersion(PackType.SERVER_DATA))));
             consumer.accept(simplePackMetadataGenerator);
         });

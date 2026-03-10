@@ -21,7 +21,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.ReloadableServerResources;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.Pack;
-import net.minecraft.server.packs.repository.PackSource;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
@@ -118,7 +117,10 @@ public record NeoforgeModInit(String modId, String packetVersion, IEventBus iEve
 
         this.iEventBus.addListener(NewRegistryEvent.class, newRegistryEvent -> eventListener.registerNewRegistries(newRegistryEvent::register));
 
-        this.iEventBus.addListener(AddPackFindersEvent.class, addPackFindersEvent -> eventListener.registerBuiltInResourcePacks((modId, resourcePackName, packType, packSource) -> addPackFindersEvent.addPackFinders(CoreUtils.resource(modId, "resourcepacks." + resourcePackName), packType, CoreUtils.translation("resourcePack", modId, resourcePackName + ".name"), packSource, false, Pack.Position.TOP)));
+        this.iEventBus.addListener(AddPackFindersEvent.class, addPackFindersEvent -> eventListener.registerBuiltInResourcePacks((modId, resourcePackName, packType, packSource, alwaysActive, position) -> {
+            boolean datapack = packType == PackType.SERVER_DATA;
+            addPackFindersEvent.addPackFinders(CoreUtils.resource(modId, (datapack ? "data/" + modId + "/datapacks/" : "resourcepacks/") + resourcePackName), packType, CoreUtils.translation((datapack ? "dataPack" : "resourcePack"), modId, resourcePackName + ".name"), packSource, alwaysActive, position);
+        }));
 
         iEventBus.addListener(AddServerReloadListenersEvent.class, addServerReloadListenersEvent -> eventListener.registerServerReloadListener(new EventListener.ServerReloadListenerRegister() {
             @Override

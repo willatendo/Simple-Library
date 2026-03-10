@@ -14,6 +14,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.ReloadableServerResources;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.PackType;
+import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.world.entity.*;
@@ -106,7 +107,19 @@ public interface EventListener {
 
     @FunctionalInterface
     interface BuiltInResourcePackRegister {
-        void apply(String modId, String resourcePackName, PackType packType, PackSource packSource);
+        void apply(String modId, String resourcePackName, PackType packType, PackSource packSource, boolean alwaysActive, Pack.Position position);
+
+        default void resourcePack(String modId, String resourcePackName, boolean alwaysActive, Pack.Position position) {
+            this.apply(modId, resourcePackName, PackType.CLIENT_RESOURCES, PackSource.BUILT_IN, alwaysActive, position);
+        }
+
+        default void featurePack(String modId, String dataPackName, Pack.Position position) {
+            this.apply(modId, dataPackName, PackType.SERVER_DATA, PackSource.FEATURE, false, position);
+        }
+
+        default void dataPack(String modId, String dataPackName, boolean alwaysActive, Pack.Position position) {
+            this.apply(modId, dataPackName, PackType.SERVER_DATA, PackSource.BUILT_IN, alwaysActive, position);
+        }
     }
 
     @FunctionalInterface
