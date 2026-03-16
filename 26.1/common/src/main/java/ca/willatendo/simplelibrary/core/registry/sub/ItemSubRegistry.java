@@ -5,6 +5,8 @@ import ca.willatendo.simplelibrary.core.registry.SimpleRegistry;
 import ca.willatendo.simplelibrary.core.utils.CoreUtils;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.*;
 
@@ -47,6 +49,10 @@ public class ItemSubRegistry extends SimpleRegistry<Item> {
 
     public SimpleHolder<BoatItem> registerChestBoat(String name, Function<Item.Properties, BoatItem> boatItem) {
         return this.registerItem(name, boatItem, new Item.Properties().stacksTo(1));
+    }
+
+    private <T extends Entity> SimpleHolder<SpawnEggItem> registerSpawnEgg(String name, SimpleHolder<EntityType<T>> entityType) {
+        return this.registerItem(name, SpawnEggItem::new, () -> new Item.Properties().spawnEgg(entityType.get()));
     }
 
     public SimpleHolder<Item> registerItem(String name) {
