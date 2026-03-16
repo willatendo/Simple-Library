@@ -89,6 +89,10 @@ public interface EventListener {
     default void entityStruckByLightningBoltEvent(Entity entity, LightningBolt lightningBolt, Consumer<Boolean> cancel) {
     }
 
+    default void dataReloadEvent(MinecraftServer minecraftServer) {
+
+    }
+
     default void syncDataPackContentsEvent(ServerPlayer serverPlayer) {
     }
 

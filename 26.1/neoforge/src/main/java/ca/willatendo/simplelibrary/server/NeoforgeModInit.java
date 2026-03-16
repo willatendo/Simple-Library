@@ -165,6 +165,8 @@ public record NeoforgeModInit(String modId, String packetVersion, IEventBus iEve
 
         iEventBus.addListener(EntityStruckByLightningEvent.class, entityStruckByLightningEvent -> eventListener.entityStruckByLightningBoltEvent(entityStruckByLightningEvent.getEntity(), entityStruckByLightningEvent.getLightning(), entityStruckByLightningEvent::setCanceled));
 
+        iEventBus.addListener(OnDatapackSyncEvent.class, onDatapackSyncEvent -> eventListener.dataReloadEvent(onDatapackSyncEvent.getPlayerList().getServer()));
+
         iEventBus.addListener(OnDatapackSyncEvent.class, onDatapackSyncEvent -> eventListener.syncDataPackContentsEvent(onDatapackSyncEvent.getPlayer()));
 
         iEventBus.addListener(ServerAboutToStartEvent.class, serverAboutToStartEvent -> {

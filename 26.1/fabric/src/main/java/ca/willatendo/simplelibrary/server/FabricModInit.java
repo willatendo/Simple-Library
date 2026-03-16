@@ -22,7 +22,6 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 import net.fabricmc.fabric.api.object.builder.v1.world.poi.PointOfInterestHelper;
-import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
 import net.fabricmc.fabric.api.resource.v1.pack.PackActivationType;
 import net.fabricmc.fabric.impl.resource.ResourceLoaderImpl;
 import net.fabricmc.loader.api.FabricLoader;
@@ -148,6 +147,8 @@ public record FabricModInit(String modId) implements ModInit {
             eventListener.entityStruckByLightningBoltEvent(entity, lightningBolt, cancel::set);
             return cancel.get();
         });
+
+        ServerLifecycleEvents.END_DATA_PACK_RELOAD.register((minecraftServer, closeableResourceManager, success) -> eventListener.dataReloadEvent(minecraftServer));
 
         ServerLifecycleEvents.SYNC_DATA_PACK_CONTENTS.register((serverPlayer, joined) -> eventListener.syncDataPackContentsEvent(serverPlayer));
 
