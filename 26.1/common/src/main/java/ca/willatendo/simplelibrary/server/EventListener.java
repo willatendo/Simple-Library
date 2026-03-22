@@ -17,11 +17,13 @@ import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.entity.npc.villager.VillagerProfession;
 import net.minecraft.world.entity.npc.villager.VillagerTrades;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.crafting.ExtendedRecipeBookCategory;
 import net.minecraft.world.item.crafting.RecipeBookCategory;
 import net.minecraft.world.level.block.FireBlock;
@@ -80,6 +82,10 @@ public interface EventListener {
     }
 
     // Events
+    default InteractionResult playerEntityInteractEvent(Entity entity, Player player) {
+        return null;
+    }
+
     default void preEntityTickEvent(Entity entity) {
     }
 
@@ -90,7 +96,6 @@ public interface EventListener {
     }
 
     default void dataReloadEvent(MinecraftServer minecraftServer) {
-
     }
 
     default void syncDataPackContentsEvent(ServerPlayer serverPlayer) {

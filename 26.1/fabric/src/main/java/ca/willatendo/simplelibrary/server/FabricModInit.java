@@ -16,6 +16,7 @@ import com.mojang.serialization.Codec;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -23,6 +24,7 @@ import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRe
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 import net.fabricmc.fabric.api.object.builder.v1.world.poi.PointOfInterestHelper;
 import net.fabricmc.fabric.api.resource.v1.pack.PackActivationType;
+import net.fabricmc.fabric.impl.event.interaction.InteractionEventsRouter;
 import net.fabricmc.fabric.impl.resource.ResourceLoaderImpl;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
@@ -138,6 +140,8 @@ public record FabricModInit(String modId) implements ModInit {
         });
 
         // Events
+        AttackEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> eventListener.playerEntityInteractEvent(entity, player));
+
         EntityTickEvent.PRE.register(eventListener::preEntityTickEvent);
 
         EntityTickEvent.POST.register(eventListener::postEntityTickEvent);

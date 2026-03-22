@@ -1,10 +1,7 @@
 package ca.willatendo.simplelibrary.server;
 
 import ca.willatendo.simplelibrary.core.registry.SimpleRegistry;
-import ca.willatendo.simplelibrary.core.registry.sub.AttachmentTypesSubRegistry;
-import ca.willatendo.simplelibrary.core.registry.sub.EntityDataSerializerSubRegistry;
-import ca.willatendo.simplelibrary.core.registry.sub.NeoforgeAttachmentTypesSubRegistry;
-import ca.willatendo.simplelibrary.core.registry.sub.NeoforgeEntityDataSerializerSubRegistry;
+import ca.willatendo.simplelibrary.core.registry.sub.*;
 import ca.willatendo.simplelibrary.core.utils.CoreUtils;
 import ca.willatendo.simplelibrary.core.utils.SimpleCoreUtils;
 import ca.willatendo.simplelibrary.network.PacketRegistryListener;
@@ -22,6 +19,7 @@ import net.minecraft.server.ReloadableServerResources;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.SpawnPlacementType;
@@ -42,6 +40,7 @@ import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.EntityStruckByLightningEvent;
 import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
 import net.neoforged.neoforge.event.server.ServerStoppedEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
@@ -159,6 +158,13 @@ public record NeoforgeModInit(String modId, String packetVersion, IEventBus iEve
         }));
 
         // Events
+        iEventBus.addListener(PlayerInteractEvent.EntityInteract.class, entityInteract -> {
+            InteractionResult interactionResult = eventListener.playerEntityInteractEvent(entityInteract.getTarget(), entityInteract.getEntity());
+            if (interactionResult != null) {
+                entityInteract.setCancellationResult(interactionResult);
+            }
+        });
+
         iEventBus.addListener(EntityTickEvent.Pre.class, pre -> eventListener.preEntityTickEvent(pre.getEntity()));
 
         iEventBus.addListener(EntityTickEvent.Post.class, post -> eventListener.postEntityTickEvent(post.getEntity()));

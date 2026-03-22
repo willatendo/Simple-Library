@@ -51,7 +51,7 @@ public class ItemSubRegistry extends SimpleRegistry<Item> {
         return this.registerItem(name, boatItem, new Item.Properties().stacksTo(1));
     }
 
-    private <T extends Entity> SimpleHolder<SpawnEggItem> registerSpawnEgg(String name, SimpleHolder<EntityType<T>> entityType) {
+    public <T extends Entity> SimpleHolder<SpawnEggItem> registerSpawnEgg(String name, SimpleHolder<EntityType<T>> entityType) {
         return this.registerItem(name, SpawnEggItem::new, () -> new Item.Properties().spawnEgg(entityType.get()));
     }
 
