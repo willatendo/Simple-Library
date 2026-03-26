@@ -6,7 +6,7 @@ import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelOutput;
 import net.minecraft.client.data.models.blockstates.BlockModelDefinitionGenerator;
 import net.minecraft.client.data.models.model.*;
-import net.minecraft.client.renderer.block.model.Variant;
+import net.minecraft.client.renderer.block.dispatch.Variant;
 import net.minecraft.data.BlockFamily;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
@@ -91,32 +91,32 @@ public abstract class SimpleBlockModelGenerator {
 
     public void createDoor(Block doorBlock) {
         TextureMapping textureMapping = TextureMapping.door(doorBlock);
-        Identifier bottomLeftModel = SimpleModelTemplates.cutout(ModelTemplates.DOOR_BOTTOM_LEFT).create(doorBlock, textureMapping, this.modelOutput);
-        Identifier bottomLeftOpenModel = SimpleModelTemplates.cutout(ModelTemplates.DOOR_BOTTOM_LEFT_OPEN).create(doorBlock, textureMapping, this.modelOutput);
-        Identifier bottomRightModel = SimpleModelTemplates.cutout(ModelTemplates.DOOR_BOTTOM_RIGHT).create(doorBlock, textureMapping, this.modelOutput);
-        Identifier bottomRightOpenModel = SimpleModelTemplates.cutout(ModelTemplates.DOOR_BOTTOM_RIGHT_OPEN).create(doorBlock, textureMapping, this.modelOutput);
-        Identifier topLeftModel = SimpleModelTemplates.cutout(ModelTemplates.DOOR_TOP_LEFT).create(doorBlock, textureMapping, this.modelOutput);
-        Identifier topLeftOpenModel = SimpleModelTemplates.cutout(ModelTemplates.DOOR_TOP_LEFT_OPEN).create(doorBlock, textureMapping, this.modelOutput);
-        Identifier topRightModel = SimpleModelTemplates.cutout(ModelTemplates.DOOR_TOP_RIGHT).create(doorBlock, textureMapping, this.modelOutput);
-        Identifier topRightOpenModel = SimpleModelTemplates.cutout(ModelTemplates.DOOR_TOP_RIGHT_OPEN).create(doorBlock, textureMapping, this.modelOutput);
+        Identifier bottomLeftModel = ModelTemplates.DOOR_BOTTOM_LEFT.create(doorBlock, textureMapping, this.modelOutput);
+        Identifier bottomLeftOpenModel = ModelTemplates.DOOR_BOTTOM_LEFT_OPEN.create(doorBlock, textureMapping, this.modelOutput);
+        Identifier bottomRightModel = ModelTemplates.DOOR_BOTTOM_RIGHT.create(doorBlock, textureMapping, this.modelOutput);
+        Identifier bottomRightOpenModel = ModelTemplates.DOOR_BOTTOM_RIGHT_OPEN.create(doorBlock, textureMapping, this.modelOutput);
+        Identifier topLeftModel = ModelTemplates.DOOR_TOP_LEFT.create(doorBlock, textureMapping, this.modelOutput);
+        Identifier topLeftOpenModel = ModelTemplates.DOOR_TOP_LEFT_OPEN.create(doorBlock, textureMapping, this.modelOutput);
+        Identifier topRightModel = ModelTemplates.DOOR_TOP_RIGHT.create(doorBlock, textureMapping, this.modelOutput);
+        Identifier topRightOpenModel = ModelTemplates.DOOR_TOP_RIGHT_OPEN.create(doorBlock, textureMapping, this.modelOutput);
         this.registerSimpleFlatItemModel(doorBlock.asItem());
         this.block(BlockModelGenerators.createDoor(doorBlock, BlockModelGenerators.plainVariant(bottomLeftModel), BlockModelGenerators.plainVariant(bottomLeftOpenModel), BlockModelGenerators.plainVariant(bottomRightModel), BlockModelGenerators.plainVariant(bottomRightOpenModel), BlockModelGenerators.plainVariant(topLeftModel), BlockModelGenerators.plainVariant(topLeftOpenModel), BlockModelGenerators.plainVariant(topRightModel), BlockModelGenerators.plainVariant(topRightOpenModel)));
     }
 
     public void createOrientableTrapdoor(Block orientableTrapdoorBlock) {
         TextureMapping textureMapping = TextureMapping.defaultTexture(orientableTrapdoorBlock);
-        Identifier topModel = SimpleModelTemplates.cutout(ModelTemplates.ORIENTABLE_TRAPDOOR_TOP).create(orientableTrapdoorBlock, textureMapping, this.modelOutput);
-        Identifier bottomModel = SimpleModelTemplates.cutout(ModelTemplates.ORIENTABLE_TRAPDOOR_BOTTOM).create(orientableTrapdoorBlock, textureMapping, this.modelOutput);
-        Identifier openModel = SimpleModelTemplates.cutout(ModelTemplates.ORIENTABLE_TRAPDOOR_OPEN).create(orientableTrapdoorBlock, textureMapping, this.modelOutput);
+        Identifier topModel = ModelTemplates.ORIENTABLE_TRAPDOOR_TOP.create(orientableTrapdoorBlock, textureMapping, this.modelOutput);
+        Identifier bottomModel = ModelTemplates.ORIENTABLE_TRAPDOOR_BOTTOM.create(orientableTrapdoorBlock, textureMapping, this.modelOutput);
+        Identifier openModel = ModelTemplates.ORIENTABLE_TRAPDOOR_OPEN.create(orientableTrapdoorBlock, textureMapping, this.modelOutput);
         this.block(BlockModelGenerators.createOrientableTrapdoor(orientableTrapdoorBlock, BlockModelGenerators.plainVariant(topModel), BlockModelGenerators.plainVariant(bottomModel), BlockModelGenerators.plainVariant(openModel)));
         this.registerSimpleItemModel(orientableTrapdoorBlock, bottomModel);
     }
 
     public void createTrapdoor(Block trapdoorBlock) {
         TextureMapping textureMapping = TextureMapping.defaultTexture(trapdoorBlock);
-        Identifier topModel = SimpleModelTemplates.cutout(ModelTemplates.TRAPDOOR_TOP).create(trapdoorBlock, textureMapping, this.modelOutput);
-        Identifier bottomModel = SimpleModelTemplates.cutout(ModelTemplates.TRAPDOOR_BOTTOM).create(trapdoorBlock, textureMapping, this.modelOutput);
-        Identifier openModel = SimpleModelTemplates.cutout(ModelTemplates.TRAPDOOR_OPEN).create(trapdoorBlock, textureMapping, this.modelOutput);
+        Identifier topModel = ModelTemplates.TRAPDOOR_TOP.create(trapdoorBlock, textureMapping, this.modelOutput);
+        Identifier bottomModel = ModelTemplates.TRAPDOOR_BOTTOM.create(trapdoorBlock, textureMapping, this.modelOutput);
+        Identifier openModel = ModelTemplates.TRAPDOOR_OPEN.create(trapdoorBlock, textureMapping, this.modelOutput);
         this.block(BlockModelGenerators.createTrapdoor(trapdoorBlock, BlockModelGenerators.plainVariant(topModel), BlockModelGenerators.plainVariant(bottomModel), BlockModelGenerators.plainVariant(openModel)));
         this.registerSimpleItemModel(trapdoorBlock, bottomModel);
     }
@@ -307,9 +307,9 @@ public abstract class SimpleBlockModelGenerator {
     }
 
     public enum PlantType {
-        TINTED(SimpleModelTemplates.cutout(ModelTemplates.TINTED_CROSS), SimpleModelTemplates.cutout(ModelTemplates.TINTED_FLOWER_POT_CROSS), false),
-        NOT_TINTED(SimpleModelTemplates.cutout(ModelTemplates.CROSS), SimpleModelTemplates.cutout(ModelTemplates.FLOWER_POT_CROSS), false),
-        EMISSIVE_NOT_TINTED(SimpleModelTemplates.cutout(ModelTemplates.CROSS_EMISSIVE), SimpleModelTemplates.cutout(ModelTemplates.FLOWER_POT_CROSS_EMISSIVE), true);
+        TINTED(ModelTemplates.TINTED_CROSS, ModelTemplates.TINTED_FLOWER_POT_CROSS, false),
+        NOT_TINTED(ModelTemplates.CROSS, ModelTemplates.FLOWER_POT_CROSS, false),
+        EMISSIVE_NOT_TINTED(ModelTemplates.CROSS_EMISSIVE, ModelTemplates.FLOWER_POT_CROSS_EMISSIVE, true);
 
         private final ModelTemplate blockTemplate;
         private final ModelTemplate flowerPotTemplate;

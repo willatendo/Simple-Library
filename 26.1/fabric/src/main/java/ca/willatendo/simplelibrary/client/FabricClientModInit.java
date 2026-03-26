@@ -6,13 +6,12 @@ import ca.willatendo.simplelibrary.network.PacketRegistryListener;
 import ca.willatendo.simplelibrary.network.PacketSupplier;
 import ca.willatendo.simplelibrary.server.event.RegisterTextureAtlasesEvent;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
-import net.fabricmc.fabric.api.client.particle.v1.ParticleRenderEvents;
-import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
-import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
+import net.fabricmc.fabric.api.client.particle.v1.ParticleProviderRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.BlockColorRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.ModelLayerRegistry;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.fabricmc.fabric.api.client.screen.v1.Screens;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
@@ -38,7 +37,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
-import java.util.Arrays;
 import java.util.List;
 
 public record FabricClientModInit() implements ClientModInit {
@@ -46,16 +44,16 @@ public record FabricClientModInit() implements ClientModInit {
     public void clientEventListener(ClientEventListener clientEventListener) {
         clientEventListener.clientSetup();
 
-        clientEventListener.registerBlockColors(ColorProviderRegistry.BLOCK::register);
+        clientEventListener.registerBlockTints(BlockColorRegistry::register);
 
         ResourceLoader resourceLoader = ResourceLoader.get(PackType.CLIENT_RESOURCES);
-        clientEventListener.registerClientReloadListener(resourceLoader::registerReloader);
+        clientEventListener.registerClientReloadListener(resourceLoader::registerReloadListener);
 
-        clientEventListener.registerKeyMappings(KeyBindingHelper::registerKeyBinding);
+        clientEventListener.registerKeyMappings(KeyMappingHelper::registerKeyMapping);
 
         clientEventListener.registerMenuScreens(MenuScreens::register);
 
-        clientEventListener.registerLayerDefinitions((modelLayerLocation, layerDefinition) -> EntityModelLayerRegistry.registerModelLayer(modelLayerLocation, layerDefinition::get));
+        clientEventListener.registerLayerDefinitions((modelLayerLocation, layerDefinition) -> ModelLayerRegistry.registerModelLayer(modelLayerLocation, layerDefinition::get));
 
         clientEventListener.registerRenderers(new ClientEventListener.RendererRegister() {
             @Override
@@ -71,22 +69,20 @@ public record FabricClientModInit() implements ClientModInit {
 
         RegisterRecipeBookOverlayEvent.EVENT.register(biConsumer -> clientEventListener.registerRecipeBookOverlay(biConsumer::accept));
 
-        clientEventListener.registerParticleColorExemptions(blocks -> Arrays.stream(blocks).forEach(block -> ParticleRenderEvents.ALLOW_BLOCK_DUST_TINT.register((blockState, clientLevel, blockPos) -> !blockState.is(block))));
-
         clientEventListener.registerParticleProviders(new ClientEventListener.ParticleProviderRegister() {
             @Override
             public <T extends ParticleOptions> void apply(ParticleType<T> particleType, ParticleProvider<T> particleFactory) {
-                ParticleFactoryRegistry.getInstance().register(particleType, particleFactory);
+                ParticleProviderRegistry.getInstance().register(particleType, particleFactory);
             }
 
             @Override
             public <T extends ParticleOptions> void apply(ParticleType<T> particleType, ParticleProvider.Sprite<T> sprite) {
-                ParticleFactoryRegistry.getInstance().register(particleType, sprite::createParticle);
+                ParticleProviderRegistry.getInstance().register(particleType, sprite::createParticle);
             }
 
             @Override
             public <T extends ParticleOptions> void apply(ParticleType<T> particleType, ParticleResources.SpriteParticleRegistration<T> particleMetaFactory) {
-                ParticleFactoryRegistry.getInstance().register(particleType, particleMetaFactory::create);
+                ParticleProviderRegistry.getInstance().register(particleType, particleMetaFactory::create);
             }
         });
 
@@ -99,14 +95,14 @@ public record FabricClientModInit() implements ClientModInit {
         ClientTickEvents.END_CLIENT_TICK.register(clientEventListener::clientTickPostEvent);
 
         ScreenEvents.BEFORE_INIT.register((minecraft, screen, scaledWidth, scaledHeight) -> {
-            ScreenEvents.beforeRender(screen).register((screenIn, guiGraphics, mouseX, mouseY, partialTick) -> clientEventListener.screenRenderPreEvent(screenIn, guiGraphics, mouseX, mouseY));
-            List<AbstractWidget> widgets = Screens.getButtons(screen);
+            ScreenEvents.beforeExtract(screen).register((screenIn, guiGraphics, mouseX, mouseY, partialTick) -> clientEventListener.screenRenderPreEvent(screenIn, guiGraphics, mouseX, mouseY));
+            List<AbstractWidget> widgets = Screens.getWidgets(screen);
             clientEventListener.screenInitPreEvent(screen, widgets::add);
-            ScreenEvents.afterRender(screen).register((screenIn, guiGraphics, mouseX, mouseY, partialTick) -> clientEventListener.screenRenderPostEvent(screenIn, guiGraphics, mouseX, mouseY));
+            ScreenEvents.afterExtract(screen).register((screenIn, guiGraphics, mouseX, mouseY, partialTick) -> clientEventListener.screenRenderPostEvent(screenIn, guiGraphics, mouseX, mouseY));
         });
 
         ScreenEvents.AFTER_INIT.register((minecraft, screen, scaledWidth, scaledHeight) -> {
-            List<AbstractWidget> widgets = Screens.getButtons(screen);
+            List<AbstractWidget> widgets = Screens.getWidgets(screen);
             clientEventListener.screenInitPostEvent(screen, widgets::add);
         });
 
@@ -120,7 +116,7 @@ public record FabricClientModInit() implements ClientModInit {
         packetRegistryListener.registerClientboundPackets(new PacketRegistryListener.ClientboundPacketRegister() {
             @Override
             public <T extends CustomPacketPayload> void apply(CustomPacketPayload.Type<T> type, StreamCodec<? super RegistryFriendlyByteBuf, T> codec, PacketSupplier<T> packetSupplier) {
-                PayloadTypeRegistry.playS2C().register(type, codec);
+                PayloadTypeRegistry.clientboundPlay().register(type, codec);
 
                 ClientPlayNetworking.registerGlobalReceiver(type, (customPacketPayload, context) -> packetSupplier.handle(customPacketPayload, context.player()));
             }

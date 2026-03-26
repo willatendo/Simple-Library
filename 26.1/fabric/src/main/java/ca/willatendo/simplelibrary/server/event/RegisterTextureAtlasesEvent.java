@@ -2,7 +2,7 @@ package ca.willatendo.simplelibrary.server.event;
 
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
-import net.minecraft.client.resources.model.AtlasManager;
+import net.minecraft.client.resources.model.sprite.AtlasManager;
 
 import java.util.function.Consumer;
 

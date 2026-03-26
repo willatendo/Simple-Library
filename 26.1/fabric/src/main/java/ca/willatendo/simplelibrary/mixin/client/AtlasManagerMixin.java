@@ -3,7 +3,7 @@ package ca.willatendo.simplelibrary.mixin.client;
 import ca.willatendo.simplelibrary.server.event.RegisterTextureAtlasesEvent;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.client.resources.model.AtlasManager;
+import net.minecraft.client.resources.model.sprite.AtlasManager;
 import net.minecraft.resources.Identifier;
 import org.apache.commons.compress.utils.Lists;
 import org.spongepowered.asm.mixin.Final;

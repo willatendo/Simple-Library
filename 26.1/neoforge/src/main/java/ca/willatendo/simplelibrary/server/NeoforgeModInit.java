@@ -1,7 +1,10 @@
 package ca.willatendo.simplelibrary.server;
 
 import ca.willatendo.simplelibrary.core.registry.SimpleRegistry;
-import ca.willatendo.simplelibrary.core.registry.sub.*;
+import ca.willatendo.simplelibrary.core.registry.sub.AttachmentTypesSubRegistry;
+import ca.willatendo.simplelibrary.core.registry.sub.EntityDataSerializerSubRegistry;
+import ca.willatendo.simplelibrary.core.registry.sub.NeoforgeAttachmentTypesSubRegistry;
+import ca.willatendo.simplelibrary.core.registry.sub.NeoforgeEntityDataSerializerSubRegistry;
 import ca.willatendo.simplelibrary.core.utils.CoreUtils;
 import ca.willatendo.simplelibrary.core.utils.SimpleCoreUtils;
 import ca.willatendo.simplelibrary.network.PacketRegistryListener;
@@ -17,7 +20,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.ReloadableServerResources;
 import net.minecraft.server.packs.PackType;
-import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
@@ -44,7 +46,6 @@ import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
 import net.neoforged.neoforge.event.server.ServerStoppedEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
-import net.neoforged.neoforge.event.village.VillagerTradesEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import net.neoforged.neoforge.registries.DataPackRegistryEvent;
@@ -146,16 +147,6 @@ public record NeoforgeModInit(String modId, String packetVersion, IEventBus iEve
         }));
 
         // Modification
-
-        iEventBus.addListener(VillagerTradesEvent.class, villagerTradesEvent -> eventListener.modifyVillagerTrades((villagerProfession, level1Trades, level2Trades, level3Trades, level4Trades, level5Trades) -> {
-            if (villagerTradesEvent.getType() == villagerProfession) {
-                villagerTradesEvent.getTrades().get(1).addAll(level1Trades);
-                villagerTradesEvent.getTrades().get(2).addAll(level2Trades);
-                villagerTradesEvent.getTrades().get(3).addAll(level3Trades);
-                villagerTradesEvent.getTrades().get(4).addAll(level4Trades);
-                villagerTradesEvent.getTrades().get(5).addAll(level5Trades);
-            }
-        }));
 
         // Events
         iEventBus.addListener(PlayerInteractEvent.EntityInteract.class, entityInteract -> {

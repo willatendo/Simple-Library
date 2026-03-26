@@ -78,7 +78,7 @@ public class ComposterBlockMixin {
     }
 
     private static float getValue(ItemStack itemStack) {
-        Compostable compostable = (Compostable) itemStack.getItemHolder().getData(SimpleLibraryDataMaps.COMPOSTABLES);
+        Compostable compostable = (Compostable) itemStack.typeHolder().getData(SimpleLibraryDataMaps.COMPOSTABLES);
         if (compostable != null) {
             return compostable.chance();
         }

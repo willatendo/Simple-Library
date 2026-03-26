@@ -4,6 +4,7 @@ import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ItemModelOutput;
 import net.minecraft.client.data.models.model.*;
 import net.minecraft.client.renderer.item.ItemModel;
+import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
@@ -39,7 +40,7 @@ public abstract class SimpleItemModelGenerator {
         this.itemModelGenerators.generateFlatItem(item, ModelTemplates.FLAT_ITEM);
     }
 
-    protected void generatedItem(Item item, Identifier texture) {
+    protected void generatedItem(Item item, Material texture) {
         this.item(item, ItemModelUtils.plainModel(ModelTemplates.FLAT_ITEM.create(item, new TextureMapping().put(TextureSlot.LAYER0, texture), this.modelOutput)));
     }
 
@@ -47,7 +48,7 @@ public abstract class SimpleItemModelGenerator {
         this.itemModelGenerators.generateFlatItem(item, ModelTemplates.FLAT_HANDHELD_ITEM);
     }
 
-    protected void handheldItem(Item item, Identifier texture) {
+    protected void handheldItem(Item item, Material texture) {
         this.item(item, ItemModelUtils.plainModel(ModelTemplates.FLAT_HANDHELD_ITEM.create(item, new TextureMapping().put(TextureSlot.LAYER0, texture), this.modelOutput)));
     }
 

@@ -10,10 +10,7 @@ neoForge {
     if (at.exists()) {
         accessTransformers.from(at.absolutePath)
     }
-    parchment {
-        minecraftVersion = parchment_minecraft
-        mappingsVersion = parchment_version
-    }
+
     runs {
         configureEach {
             systemProperty('neoforge.enabledGameTestNamespaces', mod_id)
@@ -25,7 +22,9 @@ neoForge {
         data {
             clientData()
 
-            programArguments.addAll '--mod', project.mod_id, '--all', '--output', file("${project(':common').getDependencyProject().projectDir.path}/src/generated/resources/").getAbsolutePath(), '--existing', file("${project(':common').getDependencyProject().projectDir.path}/src/main/resources/").getAbsolutePath()
+            programArguments = [
+                '--mod', project.mod_id, '--all', '--output', file("${project(':common').getPath()}/src/generated/resources/").getAbsolutePath(), '--existing', file("${project(':common').getPath()}/src/main/resources/").getAbsolutePath()
+            ]
         }
         server {
             server()

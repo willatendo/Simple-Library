@@ -1,4 +1,4 @@
-classTweaker v1 named
+classTweaker v1 official
 
 transitive-inject-interface net/minecraft/client/ClientRecipeBook ca/willatendo/simplelibrary/injects/ClientRecipeBookExtension
 transitive-inject-interface net/minecraft/core/Holder ca/willatendo/simplelibrary/injects/HolderExtension
@@ -56,4 +56,4 @@ transitive-accessible class net/minecraft/client/particle/ParticleResources$Spri
 transitive-accessible class net/minecraft/world/level/biome/Biome$ClimateSettings
 transitive-accessible class net/minecraft/client/gui/screens/recipebook/OverlayRecipeComponent$OverlayRecipeButton
 transitive-accessible class net/minecraft/client/gui/screens/recipebook/OverlayRecipeComponent$OverlayRecipeButton$Pos
-transitive-accessible class net/minecraft/client/resources/model/AtlasManager$AtlasEntry
+transitive-accessible class net/minecraft/client/resources/model/sprite/AtlasManager$AtlasEntry

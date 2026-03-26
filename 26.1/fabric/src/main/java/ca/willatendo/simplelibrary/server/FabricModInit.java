@@ -21,10 +21,8 @@ import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
-import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
-import net.fabricmc.fabric.api.object.builder.v1.world.poi.PointOfInterestHelper;
+import net.fabricmc.fabric.api.object.builder.v1.world.poi.PoiHelper;
 import net.fabricmc.fabric.api.resource.v1.pack.PackActivationType;
-import net.fabricmc.fabric.impl.event.interaction.InteractionEventsRouter;
 import net.fabricmc.fabric.impl.resource.ResourceLoaderImpl;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
@@ -99,7 +97,7 @@ public record FabricModInit(String modId) implements ModInit {
         });
 
         eventListener.registerPOI((id, poiType) -> {
-            PointOfInterestHelper.register(CoreUtils.resource(this.modId, id), poiType.get().maxTickets(), poiType.get().validRange(), poiType.get().matchingStates());
+            PoiHelper.register(CoreUtils.resource(this.modId, id), poiType.get().maxTickets(), poiType.get().validRange(), poiType.get().matchingStates());
             return poiType;
         });
 
@@ -130,14 +128,6 @@ public record FabricModInit(String modId) implements ModInit {
         // Modification
 
         eventListener.modifyFlammables((FireBlock) Blocks.FIRE);
-
-        eventListener.modifyVillagerTrades((villagerProfession, level1Trades, level2Trades, level3Trades, level4Trades, level5Trades) -> {
-            TradeOfferHelper.registerVillagerOffers(villagerProfession, 1, itemListings -> itemListings.addAll(level1Trades));
-            TradeOfferHelper.registerVillagerOffers(villagerProfession, 2, itemListings -> itemListings.addAll(level2Trades));
-            TradeOfferHelper.registerVillagerOffers(villagerProfession, 3, itemListings -> itemListings.addAll(level3Trades));
-            TradeOfferHelper.registerVillagerOffers(villagerProfession, 4, itemListings -> itemListings.addAll(level4Trades));
-            TradeOfferHelper.registerVillagerOffers(villagerProfession, 5, itemListings -> itemListings.addAll(level5Trades));
-        });
 
         // Events
         AttackEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> eventListener.playerEntityInteractEvent(entity, player));
@@ -180,7 +170,7 @@ public record FabricModInit(String modId) implements ModInit {
         packetRegistryListener.registerServerboundPackets(new PacketRegistryListener.ServerboundPacketRegister() {
             @Override
             public <T extends CustomPacketPayload> void apply(CustomPacketPayload.Type<T> type, StreamCodec<? super RegistryFriendlyByteBuf, T> codec, PacketSupplier<T> packetSupplier) {
-                PayloadTypeRegistry.playC2S().register(type, codec);
+                PayloadTypeRegistry.serverboundPlay().register(type, codec);
 
                 ServerPlayNetworking.registerGlobalReceiver(type, (customPacketPayload, context) -> packetSupplier.handle(customPacketPayload, context.player()));
             }

@@ -4,8 +4,9 @@ import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.color.block.BlockColor;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.color.block.BlockTintSource;
+import net.minecraft.client.color.item.ItemTintSource;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.gui.screens.Screen;
@@ -19,7 +20,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.special.SpecialModelRenderer;
-import net.minecraft.client.resources.model.AtlasManager;
+import net.minecraft.client.resources.model.sprite.AtlasManager;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.resources.Identifier;
@@ -30,6 +31,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.crafting.display.RecipeDisplay;
+import net.minecraft.world.level.ColorResolver;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -45,7 +47,13 @@ public interface ClientEventListener {
 
     // Registry
 
-    default void registerBlockColors(ClientEventListener.BlockColorRegister blockColorRegister) {
+    default void registerBlockTints(BlockTintRegister blockTintRegister) {
+    }
+
+    default void registerColorResolvers(ColorResolverRegister colorResolverRegister) {
+    }
+
+    default void registerItemTints(ItemTintRegister itemTintRegister) {
     }
 
     default void registerClientReloadListener(ClientReloadListenerRegister clientReloadListenerRegister) {
@@ -64,9 +72,6 @@ public interface ClientEventListener {
     }
 
     default void registerRecipeBookOverlay(ClientEventListener.RecipeBookOverlayRegister recipeBookOverlayRegister) {
-    }
-
-    default void registerParticleColorExemptions(ClientEventListener.ParticleColorExemptionRegister particleColorExemptionRegister) {
     }
 
     default void registerParticleProviders(ClientEventListener.ParticleProviderRegister particleProviderRegister) {
@@ -92,10 +97,10 @@ public interface ClientEventListener {
     default void screenInitPostEvent(Screen screen, Consumer<AbstractWidget> widgets) {
     }
 
-    default void screenRenderPreEvent(Screen screen, GuiGraphics guiGraphics, int mouseX, int mouseY) {
+    default void screenRenderPreEvent(Screen screen, GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY) {
     }
 
-    default void screenRenderPostEvent(Screen screen, GuiGraphics guiGraphics, int mouseX, int mouseY) {
+    default void screenRenderPostEvent(Screen screen, GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY) {
     }
 
     default void screenCloseEvent(Screen screen) {
@@ -105,8 +110,18 @@ public interface ClientEventListener {
     }
 
     @FunctionalInterface
-    interface BlockColorRegister {
-        void apply(BlockColor blockColor, Block... blocks);
+    interface BlockTintRegister {
+        void apply(List<BlockTintSource> blockTintSources, Block... blocks);
+    }
+
+    @FunctionalInterface
+    interface ColorResolverRegister {
+        void apply(ColorResolver colorResolver);
+    }
+
+    @FunctionalInterface
+    interface ItemTintRegister {
+        void apply(Identifier location, MapCodec<? extends ItemTintSource> source);
     }
 
     @FunctionalInterface
@@ -155,7 +170,7 @@ public interface ClientEventListener {
 
     @FunctionalInterface
     interface SpecialModelRendererRegister {
-        void apply(Identifier id, MapCodec<? extends SpecialModelRenderer.Unbaked> codec);
+        void apply(Identifier location, MapCodec<? extends SpecialModelRenderer.Unbaked<?>> source);
     }
 
     @FunctionalInterface

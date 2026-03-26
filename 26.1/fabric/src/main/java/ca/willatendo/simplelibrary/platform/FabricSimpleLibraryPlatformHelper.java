@@ -13,13 +13,13 @@ import com.mojang.datafixers.util.Pair;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentTarget;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.fabricmc.fabric.api.event.registry.RegistryAttribute;
-import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.fabricmc.fabric.api.menu.v1.ExtendedMenuProvider;
+import net.fabricmc.fabric.api.menu.v1.ExtendedMenuType;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
-import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
-import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.fabricmc.fabric.impl.attachment.AttachmentRegistryImpl;
 import net.minecraft.client.gui.screens.recipebook.OverlayRecipeComponent;
 import net.minecraft.core.BlockPos;
@@ -79,7 +79,7 @@ public final class FabricSimpleLibraryPlatformHelper implements SimpleLibraryPla
 
     @Override
     public <T> Registry<T> createRegistry(ResourceKey<Registry<T>> resourceKey, SimpleRegistryBuilder simpleRegistryBuilder) {
-        FabricRegistryBuilder<T, MappedRegistry<T>> fabricRegistryBuilder = FabricRegistryBuilder.createSimple(resourceKey);
+        FabricRegistryBuilder<T, MappedRegistry<T>> fabricRegistryBuilder = FabricRegistryBuilder.create(resourceKey);
         if (simpleRegistryBuilder.isSynced()) {
             fabricRegistryBuilder.attribute(RegistryAttribute.SYNCED);
         }
@@ -103,12 +103,12 @@ public final class FabricSimpleLibraryPlatformHelper implements SimpleLibraryPla
 
     @Override
     public <T extends AbstractContainerMenu> MenuType<T> createMenuType(ExtendedMenuSupplier<T> extendedMenuSupplier) {
-        return new ExtendedScreenHandlerType<>(extendedMenuSupplier::create, BlockPos.STREAM_CODEC.cast());
+        return new ExtendedMenuType<>(extendedMenuSupplier::create, BlockPos.STREAM_CODEC.cast());
     }
 
     @Override
     public CreativeModeTab.Builder createCreativeModeTab() {
-        return FabricItemGroup.builder();
+        return FabricCreativeModeTab.builder();
     }
 
     @Override
@@ -143,7 +143,7 @@ public final class FabricSimpleLibraryPlatformHelper implements SimpleLibraryPla
 
     @Override
     public void openContainer(MenuProvider menuProvider, BlockPos blockPos, ServerPlayer serverPlayer) {
-        serverPlayer.openMenu(new ExtendedScreenHandlerFactory<BlockPos>() {
+        serverPlayer.openMenu(new ExtendedMenuProvider<>() {
             @Override
             public BlockPos getScreenOpeningData(ServerPlayer serverPlayer1) {
                 if (menuProvider instanceof BlockEntity blockEntity) {

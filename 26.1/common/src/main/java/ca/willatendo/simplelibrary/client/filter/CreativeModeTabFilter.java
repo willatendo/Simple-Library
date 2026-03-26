@@ -2,7 +2,7 @@ package ca.willatendo.simplelibrary.client.filter;
 
 import com.google.common.collect.ImmutableList;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
@@ -62,14 +62,14 @@ public final class CreativeModeTabFilter {
         }
     }
 
-    public void beforeDrawEvent(Screen screen, GuiGraphics guiGraphics, int mouseX, int mouseY) {
+    public void beforeDrawEvent(Screen screen, GuiGraphicsExtractor guiGraphicsExtractor, int mouseX, int mouseY) {
         if (screen instanceof CreativeModeInventoryScreen creativeModeInventoryScreen) {
             CreativeModeTab selectedTab = CreativeModeInventoryScreen.selectedTab;
             if (this.lastTab != selectedTab) {
                 this.onSwitchCreativeTab(selectedTab, creativeModeInventoryScreen);
                 this.lastTab = selectedTab;
             }
-            this.drawFilterTabTooltips(guiGraphics, mouseX, mouseY);
+            this.drawFilterTabTooltips(guiGraphicsExtractor, mouseX, mouseY);
         }
     }
 
@@ -174,11 +174,11 @@ public final class CreativeModeTabFilter {
         return false;
     }
 
-    private void drawFilterTabTooltips(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+    private void drawFilterTabTooltips(GuiGraphicsExtractor guiGraphicsExtractor, int mouseX, int mouseY) {
         for (Filter category : this.categories) {
             FilterButton filterButton = category.getFilterButton();
             if (filterButton != null && filterButton.visible && filterButton.isHovered()) {
-                guiGraphics.setTooltipForNextFrame(filterButton.getFilterTooltip(), mouseX, mouseY);
+                guiGraphicsExtractor.setTooltipForNextFrame(filterButton.getFilterTooltip(), mouseX, mouseY);
                 return;
             }
         }

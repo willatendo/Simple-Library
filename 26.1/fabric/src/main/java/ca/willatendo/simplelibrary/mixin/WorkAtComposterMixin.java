@@ -45,7 +45,7 @@ public abstract class WorkAtComposterMixin {
         BlockState postBlockState = preBlockState;
 
         for (ItemStack itemStack : simpleContainer) {
-            Compostable compostable = (Compostable) itemStack.getItemHolder().getData(SimpleLibraryDataMaps.COMPOSTABLES);
+            Compostable compostable = (Compostable) itemStack.typeHolder().getData(SimpleLibraryDataMaps.COMPOSTABLES);
             if (compostable != null && compostable.canVillagerCompost()) {
                 int itemStackCount = itemStack.getCount();
                 int k1 = amounts.getInt(itemStack.getItem()) + itemStackCount;

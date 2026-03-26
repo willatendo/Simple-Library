@@ -4,6 +4,7 @@ import com.mojang.datafixers.util.Either;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderOwner;
 import net.minecraft.core.Registry;
+import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
@@ -100,6 +101,12 @@ public final class SimpleHolder<T> implements Holder<T>, Supplier<T> {
     }
 
     @Override
+    public boolean areComponentsBound() {
+        this.bind(false);
+        return this.holder != null && this.holder.areComponentsBound();
+    }
+
+    @Override
     public boolean is(Identifier identifier) {
         return identifier.equals(this.holderKey.identifier());
     }
@@ -130,6 +137,12 @@ public final class SimpleHolder<T> implements Holder<T>, Supplier<T> {
     public Stream<TagKey<T>> tags() {
         this.bind(false);
         return this.holder != null ? this.holder.tags() : Stream.empty();
+    }
+
+    @Override
+    public DataComponentMap components() {
+        this.bind(true);
+        return this.holder != null ? this.holder.components() : DataComponentMap.EMPTY;
     }
 
     @Override

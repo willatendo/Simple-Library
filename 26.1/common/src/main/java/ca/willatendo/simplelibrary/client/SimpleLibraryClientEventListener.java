@@ -1,7 +1,7 @@
 package ca.willatendo.simplelibrary.client;
 
 import ca.willatendo.simplelibrary.client.filter.CreativeModeTabFilter;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.screens.Screen;
 
@@ -14,8 +14,8 @@ public record SimpleLibraryClientEventListener() implements ClientEventListener 
     }
 
     @Override
-    public void screenRenderPreEvent(Screen screen, GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        CreativeModeTabFilter.CREATIVE_MODE_TAB_FILTERS.forEach(creativeModeTabFilter -> creativeModeTabFilter.beforeDrawEvent(screen, guiGraphics, mouseX, mouseY));
+    public void screenRenderPreEvent(Screen screen, GuiGraphicsExtractor guiGraphicsExtractor, int mouseX, int mouseY) {
+        CreativeModeTabFilter.CREATIVE_MODE_TAB_FILTERS.forEach(creativeModeTabFilter -> creativeModeTabFilter.beforeDrawEvent(screen, guiGraphicsExtractor, mouseX, mouseY));
     }
 
     @Override

@@ -10,6 +10,7 @@ import net.minecraft.commands.Commands;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.LayeredRegistryAccess;
 import net.minecraft.core.Registry;
+import net.minecraft.core.component.DataComponentInitializers;
 import net.minecraft.server.RegistryLayer;
 import net.minecraft.server.ReloadableServerRegistries;
 import net.minecraft.server.ReloadableServerResources;
@@ -33,19 +34,13 @@ import java.util.concurrent.CompletableFuture;
 
 @Mixin(ReloadableServerResources.class)
 public class ReloadableServerResourcesMixin implements ReloadableServerResourcesExtension {
-    @Shadow
-    @Final
-    private static Logger LOGGER;
-    @Shadow
-    @Final
-    private static CompletableFuture<Unit> DATA_RELOAD_INITIAL_TASK;
     @Final
     private HolderLookup.Provider registryLookup;
     @Final
     private ICondition.IContext context;
 
     @Inject(at = @At("TAIL"), method = "<init>")
-    private void init(LayeredRegistryAccess<RegistryLayer> layeredRegistryAccess, HolderLookup.Provider provider, FeatureFlagSet enabledFeatures, Commands.CommandSelection commandSelection, List<Registry.PendingTags<?>> pendingTags, PermissionSet permissionSet, CallbackInfo ci) {
+    private void init(LayeredRegistryAccess<RegistryLayer> layeredRegistryAccess, HolderLookup.Provider provider, FeatureFlagSet enabledFeatures, Commands.CommandSelection commandSelection, List<Registry.PendingTags<?>> pendingTags, PermissionSet permissionSet, List<DataComponentInitializers.PendingComponents<?>> newComponents, CallbackInfo ci) {
         this.registryLookup = provider;
         this.context = new ConditionContext(pendingTags, layeredRegistryAccess.compositeAccess(), enabledFeatures);
     }
@@ -56,16 +51,15 @@ public class ReloadableServerResourcesMixin implements ReloadableServerResources
     }
 
 
-    @ModifyArg(method = {"method_58296(Lnet/minecraft/world/flag/FeatureFlagSet;Lnet/minecraft/commands/Commands$CommandSelection;Ljava/util/List;Lnet/minecraft/server/permissions/PermissionSet;Lnet/minecraft/server/packs/resources/ResourceManager;Ljava/util/concurrent/Executor;Ljava/util/concurrent/Executor;Lnet/minecraft/server/ReloadableServerRegistries$LoadResult;)Ljava/util/concurrent/CompletionStage;"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/server/packs/resources/SimpleReloadInstance;create(Lnet/minecraft/server/packs/resources/ResourceManager;Ljava/util/List;Ljava/util/concurrent/Executor;Ljava/util/concurrent/Executor;Ljava/util/concurrent/CompletableFuture;Z)Lnet/minecraft/server/packs/resources/ReloadInstance;"))
+    @ModifyArg(method = "lambda$loadResources$2", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/packs/resources/SimpleReloadInstance;create(Lnet/minecraft/server/packs/resources/ResourceManager;Ljava/util/List;Ljava/util/concurrent/Executor;Ljava/util/concurrent/Executor;Ljava/util/concurrent/CompletableFuture;Z)Lnet/minecraft/server/packs/resources/ReloadInstance;"))
     private static List<PreparableReloadListener> onSetupDataReloaders(List<PreparableReloadListener> reloaders, @Local(argsOnly = true) ReloadableServerRegistries.LoadResult loadResult, @Local(argsOnly = true) FeatureFlagSet featureSet, @Local ReloadableServerResources dataPackContents) {
-        ArrayList<PreparableReloadListener> list = new ArrayList(reloaders);
+        ArrayList<PreparableReloadListener> list = new ArrayList<>(reloaders);
         AddReloadListenersEvent.EVENT.invoker().onAddReloadListeners(list, dataPackContents.getConditionContext(), dataPackContents);
         return Collections.unmodifiableList(list);
     }
 
-
-    @Inject(at = @At("TAIL"), method = "updateStaticRegistryTags")
-    private void updateStaticRegistryTags(CallbackInfo ci) {
+    @Inject(at = @At("TAIL"), method = "updateComponentsAndStaticRegistryTags")
+    private void updateComponentsAndStaticRegistryTags(CallbackInfo ci) {
         TagEvents.UPDATE_TAGS.invoker().update(this.registryLookup, false, false);
     }
 }

@@ -1,7 +1,7 @@
 package ca.willatendo.simplelibrary.client.filter;
 
 import ca.willatendo.simplelibrary.core.utils.SimpleCoreUtils;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
 import net.minecraft.client.renderer.RenderPipelines;
@@ -9,7 +9,7 @@ import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.ARGB;
 
-public class FilterSelectButton extends Button {
+public class FilterSelectButton extends Button.Plain {
     public static final Identifier SELECT_ALL = SimpleCoreUtils.resource("textures/gui/select_all.png");
     public static final Identifier DESELECT_ALL = SimpleCoreUtils.resource("textures/gui/deselect_all.png");
     private final boolean selectAll;
@@ -27,11 +27,11 @@ public class FilterSelectButton extends Button {
     }
 
     @Override
-    public void renderContents(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
-        this.renderDefaultSprite(guiGraphics);
+    public void extractContents(GuiGraphicsExtractor guiGraphicsExtractor, int mouseX, int mouseY, float partialTicks) {
+        super.extractContents(guiGraphicsExtractor, mouseX, mouseY, partialTicks);
         int iconX = this.getX() + (this.width - 10) / 2;
         int iconY = this.getY() + (this.height - 10) / 2;
         int brightness = ARGB.scaleRGB(0xFFFFFFFF, this.active ? 1.0F : 0.5F);
-        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, this.selectAll ? SELECT_ALL : DESELECT_ALL, iconX, iconY, 0, 0, 10, 10, 10, 10, brightness);
+        guiGraphicsExtractor.blit(RenderPipelines.GUI_TEXTURED, this.selectAll ? SELECT_ALL : DESELECT_ALL, iconX, iconY, 0, 0, 10, 10, 10, 10, brightness);
     }
 }

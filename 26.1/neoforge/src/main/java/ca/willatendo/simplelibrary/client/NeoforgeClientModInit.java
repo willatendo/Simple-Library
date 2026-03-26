@@ -3,25 +3,20 @@ package ca.willatendo.simplelibrary.client;
 import ca.willatendo.simplelibrary.client.event.RegisterRecipeBookOverlayEvent;
 import ca.willatendo.simplelibrary.network.PacketRegistryListener;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.ParticleResources;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.*;
-import net.neoforged.neoforge.client.extensions.common.IClientBlockExtensions;
-import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.common.NeoForge;
 
 public record NeoforgeClientModInit(IEventBus iEventBus) implements ClientModInit {
@@ -31,7 +26,9 @@ public record NeoforgeClientModInit(IEventBus iEventBus) implements ClientModIni
 
         this.iEventBus.addListener(FMLClientSetupEvent.class, fmlClientSetupEvent -> clientEventListener.clientSetup());
 
-        this.iEventBus.addListener(RegisterColorHandlersEvent.Block.class, block -> clientEventListener.registerBlockColors(block::register));
+        this.iEventBus.addListener(RegisterColorHandlersEvent.BlockTintSources.class, blockTintSources -> clientEventListener.registerBlockTints(blockTintSources::register));
+        this.iEventBus.addListener(RegisterColorHandlersEvent.ColorResolvers.class, colorResolvers -> clientEventListener.registerColorResolvers(colorResolvers::register));
+        this.iEventBus.addListener(RegisterColorHandlersEvent.ItemTintSources.class, itemTintSources -> clientEventListener.registerItemTints(itemTintSources::register));
 
         this.iEventBus.addListener(AddClientReloadListenersEvent.class, addClientReloadListenersEvent -> clientEventListener.registerClientReloadListener(addClientReloadListenersEvent::addListener));
 
@@ -56,13 +53,6 @@ public record NeoforgeClientModInit(IEventBus iEventBus) implements ClientModIni
         });
 
         neoforgeEventBus.addListener(RegisterRecipeBookOverlayEvent.class, registerRecipeBookOverlayEvent -> clientEventListener.registerRecipeBookOverlay(registerRecipeBookOverlayEvent::register));
-
-        this.iEventBus.addListener(RegisterClientExtensionsEvent.class, registerClientExtensionsEvent -> clientEventListener.registerParticleColorExemptions(blocks -> registerClientExtensionsEvent.registerBlock(new IClientBlockExtensions() {
-            @Override
-            public boolean areBreakingParticlesTinted(BlockState blockState, ClientLevel clientLevel, BlockPos blockPos) {
-                return false;
-            }
-        }, blocks)));
 
         this.iEventBus.addListener(RegisterParticleProvidersEvent.class, registerParticleProvidersEvent -> clientEventListener.registerParticleProviders(new ClientEventListener.ParticleProviderRegister() {
             @Override

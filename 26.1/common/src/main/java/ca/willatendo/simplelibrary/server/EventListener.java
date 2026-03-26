@@ -21,8 +21,6 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
-import net.minecraft.world.entity.npc.villager.VillagerProfession;
-import net.minecraft.world.entity.npc.villager.VillagerTrades;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.crafting.ExtendedRecipeBookCategory;
 import net.minecraft.world.item.crafting.RecipeBookCategory;
@@ -76,9 +74,6 @@ public interface EventListener {
     }
 
     default void modifyStructurePools(EventListener.StructurePoolModification structurePoolModification) {
-    }
-
-    default void modifyVillagerTrades(EventListener.VillagerTradeModification villagerTradeModification) {
     }
 
     // Events
@@ -215,10 +210,5 @@ public interface EventListener {
             listOfPieceEntries.add(new Pair<>(singlePoolElement, weight));
             structureTemplatePool.rawTemplates = listOfPieceEntries;
         }
-    }
-
-    @FunctionalInterface
-    interface VillagerTradeModification {
-        void apply(ResourceKey<VillagerProfession> villagerProfession, List<VillagerTrades.ItemListing> level1Trades, List<VillagerTrades.ItemListing> level2Trades, List<VillagerTrades.ItemListing> level3Trades, List<VillagerTrades.ItemListing> level4Trades, List<VillagerTrades.ItemListing> level5Trades);
     }
 }

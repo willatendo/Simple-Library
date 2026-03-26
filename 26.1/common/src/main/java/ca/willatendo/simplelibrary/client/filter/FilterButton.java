@@ -2,7 +2,7 @@ package ca.willatendo.simplelibrary.client.filter;
 
 import ca.willatendo.simplelibrary.core.utils.CoreUtils;
 import ca.willatendo.simplelibrary.core.utils.SimpleCoreUtils;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.CommonComponents;
@@ -29,8 +29,8 @@ public class FilterButton extends Button {
     }
 
     @Override
-    protected void renderContents(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
-        guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, this.filter.isEnabled() ? SELECTED_FILTER_TAB : UNSELECTED_FILTER_TAB, this.getX(), this.getY(), 32, 26);
-        guiGraphics.renderItem(this.filter.getFilterIcon(), this.getX() + 8, this.getY() + 5);
+    protected void extractContents(GuiGraphicsExtractor guiGraphicsExtractor, int mouseX, int mouseY, float partialTicks) {
+        guiGraphicsExtractor.blitSprite(RenderPipelines.GUI_TEXTURED, this.filter.isEnabled() ? SELECTED_FILTER_TAB : UNSELECTED_FILTER_TAB, this.getX(), this.getY(), 32, 26);
+        guiGraphicsExtractor.fakeItem(this.filter.getFilterIcon(), this.getX() + 8, this.getY() + 5);
     }
 }

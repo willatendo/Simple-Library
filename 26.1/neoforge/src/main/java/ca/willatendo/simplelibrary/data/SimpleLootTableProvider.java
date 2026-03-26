@@ -16,9 +16,4 @@ public final class SimpleLootTableProvider extends LootTableProvider {
     public SimpleLootTableProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries, SubProviderEntry... subProviderEntries) {
         super(packOutput, Set.of(), List.of(subProviderEntries), registries);
     }
-
-    @Override
-    protected void validate(WritableRegistry<LootTable> writableRegistry, ValidationContext validationContext, ProblemReporter.Collector collector) {
-        super.validate(writableRegistry, validationContext, collector);
-    }
 }
