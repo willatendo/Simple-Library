@@ -1,4 +1,4 @@
-package ca.willatendo.simplelibrary.data;
+package ca.willatendo.simplelibrary.data.providers;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -41,7 +41,7 @@ public abstract class SimpleParticleProvider implements DataProvider {
 
     @Override
     public String getName() {
-        return "Particles: " + this.modId;
+        return "SimpleLibrary: Particle Provider for " + this.modId;
     }
 
     record ParticleInfo(List<Identifier> textures) {

@@ -43,6 +43,13 @@ transitive-mutable field net/minecraft/world/level/levelgen/structure/pools/Stru
 transitive-accessible field net/minecraft/world/level/levelgen/structure/pools/StructureTemplatePool templates Lit/unimi/dsi/fastutil/objects/ObjectArrayList;
 transitive-mutable field net/minecraft/world/level/chunk/ChunkGenerator featuresPerStep Ljava/util/function/Supplier;
 transitive-accessible field net/minecraft/world/level/chunk/ChunkGenerator featuresPerStep Ljava/util/function/Supplier;
+transitive-accessible field net/minecraft/client/data/models/BlockModelGenerators FULL_BLOCK_MODEL_CUSTOM_GENERATORS Ljava/util/Map;
+transitive-mutable field net/minecraft/client/data/models/BlockModelGenerators FULL_BLOCK_MODEL_CUSTOM_GENERATORS Ljava/util/Map;
+transitive-accessible field net/minecraft/client/data/models/BlockModelGenerators TEXTURED_MODELS Ljava/util/Map;
+transitive-accessible field net/minecraft/client/data/models/BlockModelGenerators NON_ORIENTABLE_TRAPDOOR Ljava/util/List;
+transitive-accessible field net/minecraft/data/DataGenerator allProviderIds Ljava/util/Set;
+transitive-accessible field net/minecraft/data/DataGenerator providersToRun Ljava/util/Map;
+transitive-accessible field net/minecraft/data/DataGenerator$PackGenerator output Lnet/minecraft/data/PackOutput;
 
 transitive-accessible method net/minecraft/world/inventory/AbstractContainerMenu moveItemStackTo (Lnet/minecraft/world/item/ItemStack;IIZ)Z
 transitive-accessible method net/minecraft/world/level/biome/BiomeGenerationSettings$PlainBuilder addFeatureStepsUpTo (I)V
@@ -52,8 +59,9 @@ transitive-accessible method net/minecraft/server/ReloadableServerResources <ini
 transitive-accessible method net/minecraft/world/level/block/ComposterBlock addItem (Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/LevelAccessor;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/item/ItemStack;)Lnet/minecraft/world/level/block/state/BlockState;
 transitive-accessible method net/minecraft/stats/RecipeBookSettings$TypeSettings codec (Ljava/lang/String;Ljava/lang/String;)Lcom/mojang/serialization/MapCodec;
 
+transitive-accessible class net/minecraft/client/data/models/BlockModelGenerators$BlockStateGeneratorSupplier
 transitive-accessible class net/minecraft/client/particle/ParticleResources$SpriteParticleRegistration
-transitive-accessible class net/minecraft/world/level/biome/Biome$ClimateSettings
 transitive-accessible class net/minecraft/client/gui/screens/recipebook/OverlayRecipeComponent$OverlayRecipeButton
 transitive-accessible class net/minecraft/client/gui/screens/recipebook/OverlayRecipeComponent$OverlayRecipeButton$Pos
 transitive-accessible class net/minecraft/client/resources/model/sprite/AtlasManager$AtlasEntry
+transitive-accessible class net/minecraft/world/level/biome/Biome$ClimateSettings

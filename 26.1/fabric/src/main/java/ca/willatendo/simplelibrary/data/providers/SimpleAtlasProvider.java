@@ -1,4 +1,4 @@
-package ca.willatendo.simplelibrary.data;
+package ca.willatendo.simplelibrary.data.providers;
 
 import net.minecraft.client.renderer.texture.atlas.SpriteSource;
 import net.minecraft.client.renderer.texture.atlas.SpriteSources;
@@ -39,6 +39,6 @@ public abstract class SimpleAtlasProvider implements DataProvider {
 
     @Override
     public String getName() {
-        return "Atlas Provider: " + this.modId;
+        return "SimpleLibrary: Atlas Provider for " + this.modId;
     }
 }

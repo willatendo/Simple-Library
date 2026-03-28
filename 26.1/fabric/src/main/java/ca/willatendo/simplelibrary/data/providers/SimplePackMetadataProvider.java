@@ -1,4 +1,4 @@
-package ca.willatendo.simplelibrary.data;
+package ca.willatendo.simplelibrary.data.providers;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -14,19 +14,23 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
-public final class SimplePackMetadataGenerator implements DataProvider {
+public final class SimplePackMetadataProvider implements DataProvider {
     private final Map<String, Supplier<JsonElement>> elements = new HashMap<>();
     private final PackOutput packOutput;
     private final String modId;
     private final Optional<String> packName;
 
-    public SimplePackMetadataGenerator(PackOutput packOutput, String modId, Optional<String> packName) {
+    public SimplePackMetadataProvider(PackOutput packOutput, String modId) {
+        this(packOutput, modId, Optional.empty());
+    }
+
+    public SimplePackMetadataProvider(PackOutput packOutput, String modId, Optional<String> packName) {
         this.packOutput = packOutput;
         this.modId = modId;
         this.packName = packName;
     }
 
-    public <T> SimplePackMetadataGenerator add(MetadataSectionType<T> type, T value) {
+    public <T> SimplePackMetadataProvider add(MetadataSectionType<T> type, T value) {
         this.elements.put(type.name(), () -> type.codec().encodeStart(JsonOps.INSTANCE, value).getOrThrow(IllegalArgumentException::new).getAsJsonObject());
         return this;
     }
@@ -40,11 +44,7 @@ public final class SimplePackMetadataGenerator implements DataProvider {
 
     @Override
     public String getName() {
-        String type = "";
-        type += this.modId;
-        if (this.packName.isPresent()) {
-            type += "/" + this.packName.get();
-        }
-        return "Pack Metadata: " + type;
+        String type = this.packName.orElse("default");
+        return "SimpleLibrary: Pack Metadata Provider for " + this.modId + "/" + type;
     }
 }

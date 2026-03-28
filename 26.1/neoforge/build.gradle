@@ -19,13 +19,6 @@ neoForge {
         client {
             client()
         }
-        data {
-            clientData()
-
-            programArguments = [
-                '--mod', project.mod_id, '--all', '--output', file("${project(':common').getPath()}/src/generated/resources/").getAbsolutePath(), '--existing', file("${project(':common').getPath()}/src/main/resources/").getAbsolutePath()
-            ]
-        }
         server {
             server()
         }

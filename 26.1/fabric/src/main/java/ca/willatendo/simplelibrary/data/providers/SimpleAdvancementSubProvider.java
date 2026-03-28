@@ -1,4 +1,4 @@
-package ca.willatendo.simplelibrary.data;
+package ca.willatendo.simplelibrary.data.providers;
 
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.core.HolderLookup;

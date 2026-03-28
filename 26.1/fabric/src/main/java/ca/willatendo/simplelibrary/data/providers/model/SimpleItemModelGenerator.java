@@ -1,4 +1,4 @@
-package ca.willatendo.simplelibrary.data.model;
+package ca.willatendo.simplelibrary.data.providers.model;
 
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ItemModelOutput;

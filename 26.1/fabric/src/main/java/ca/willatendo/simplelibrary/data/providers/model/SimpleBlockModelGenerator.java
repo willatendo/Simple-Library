@@ -1,4 +1,4 @@
-package ca.willatendo.simplelibrary.data.model;
+package ca.willatendo.simplelibrary.data.providers.model;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;

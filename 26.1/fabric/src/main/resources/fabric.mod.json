@@ -19,6 +19,9 @@
     "client": [
       "ca.willatendo.simplelibrary.client.FabricSimpleLibraryClient"
     ],
+    "fabric-datagen": [
+      "ca.willatendo.simplelibrary.data.FabricSimpleLibraryData"
+    ],
     "mm:early_risers": [
       "ca.willatendo.simplelibrary.EnumExtender"
     ]
