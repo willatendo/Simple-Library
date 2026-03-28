@@ -36,6 +36,13 @@ public abstract class SimpleRecipeProvider extends RecipeProvider {
             this.modId = modId;
         }
 
+        protected abstract RecipeProvider createRecipeProvider(HolderLookup.Provider registries, String modId, RecipeOutput recipeOutput);
+
+        @Override
+        protected RecipeProvider createRecipeProvider(HolderLookup.Provider registries, RecipeOutput recipeOutput) {
+            return this.createRecipeProvider(registries, this.modId, recipeOutput);
+        }
+
         @Override
         public String getName() {
             return "SimpleLibrary: Recipe Provider for " + this.modId;
