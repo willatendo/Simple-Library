@@ -4,9 +4,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Registry;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.TagAppender;
-import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.tags.TagBuilder;
 import net.minecraft.tags.TagKey;
 
 import java.util.concurrent.CompletableFuture;
@@ -20,13 +18,13 @@ public abstract class SimpleIntrinsicHolderTagsProvider<T> extends SimpleTagsPro
         this.keyExtractor = keyExtractor;
     }
 
-    public SimpleIntrinsicHolderTagsProvider(PackOutput packOutput, String modId, ResourceKey<? extends Registry<T>> registryKey, CompletableFuture<HolderLookup.Provider> lookupProvider, CompletableFuture<TagsProvider.TagLookup<T>> parentProvider, Function<T, ResourceKey<T>> keyExtractor) {
+    public SimpleIntrinsicHolderTagsProvider(PackOutput packOutput, String modId, ResourceKey<? extends Registry<T>> registryKey, CompletableFuture<HolderLookup.Provider> lookupProvider, CompletableFuture<SimpleTagsProvider.TagLookup<T>> parentProvider, Function<T, ResourceKey<T>> keyExtractor) {
         super(packOutput, modId, registryKey, lookupProvider, parentProvider);
         this.keyExtractor = keyExtractor;
     }
 
-    protected TagAppender<T, T> tag(TagKey<T> tag) {
-        TagBuilder tagBuilder = this.getOrCreateRawBuilder(tag);
-        return TagAppender.<T>forBuilder(tagBuilder).map(this.keyExtractor);
+    protected SimpleTagAppender<T, T> tag(TagKey<T> tag) {
+        SimpleTagBuilder tagBuilder = this.getOrCreateRawBuilder(tag);
+        return SimpleTagAppender.<T>forBuilder(tagBuilder).map(this.keyExtractor);
     }
 }

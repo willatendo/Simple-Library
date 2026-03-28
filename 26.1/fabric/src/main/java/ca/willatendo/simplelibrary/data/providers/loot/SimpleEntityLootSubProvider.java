@@ -55,7 +55,7 @@ public abstract class SimpleEntityLootSubProvider implements LootTableSubProvide
         AlternativesEntry.Builder variants = AlternativesEntry.alternatives();
 
         for (Map.Entry<DyeColor, ResourceKey<LootTable>> entry : tableNames.entrySet()) {
-            variants = variants.otherwise(NestedLootTable.lootTableReference(entry.getValue()).when(LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS, EntityPredicate.Builder.entity().components(DataComponentMatchers.Builder.components().exact(DataComponentExactPredicate.expect(DataComponents.SHEEP_COLOR, (DyeColor) entry.getKey())).build()).subPredicate(SheepPredicate.hasWool()))));
+            variants = variants.otherwise(NestedLootTable.lootTableReference(entry.getValue()).when(LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS, EntityPredicate.Builder.entity().components(DataComponentMatchers.Builder.components().exact(DataComponentExactPredicate.expect(DataComponents.SHEEP_COLOR, entry.getKey())).build()).subPredicate(SheepPredicate.hasWool()))));
         }
 
         return LootPool.lootPool().add(variants);
