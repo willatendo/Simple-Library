@@ -14,6 +14,7 @@ import ca.willatendo.simplelibrary.server.event.RegisterRecipeBookSearchCategori
 import ca.willatendo.simplelibrary.server.utils.WrappedStateAwareListener;
 import com.mojang.serialization.Codec;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
@@ -38,6 +39,9 @@ import net.minecraft.server.ReloadableServerResources;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.flag.FeatureFlagSet;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
@@ -145,6 +149,57 @@ public record FabricModInit(String modId) implements ModInit {
         ServerLifecycleEvents.END_DATA_PACK_RELOAD.register((minecraftServer, closeableResourceManager, success) -> eventListener.dataReloadEvent(minecraftServer));
 
         ServerLifecycleEvents.SYNC_DATA_PACK_CONTENTS.register((serverPlayer, joined) -> eventListener.syncDataPackContentsEvent(serverPlayer));
+
+        for (ResourceKey<CreativeModeTab> resourceKey : BuiltInRegistries.CREATIVE_MODE_TAB.registryKeySet()) {
+            CreativeModeTabEvents.modifyOutputEvent(resourceKey).register(fabricCreativeModeTabOutput -> {
+                eventListener.modifyCreativeModeTabs(new EventListener.CreativeModeTabModification() {
+                    @Override
+                    public ResourceKey<CreativeModeTab> getCreativeModeTabKey() {
+                        return resourceKey;
+                    }
+
+                    @Override
+                    public CreativeModeTab.ItemDisplayParameters getItemDisplayParameters() {
+                        return fabricCreativeModeTabOutput.getContext();
+                    }
+
+                    @Override
+                    public FeatureFlagSet getEnabledFeatureFlags() {
+                        return fabricCreativeModeTabOutput.getEnabledFeatures();
+                    }
+
+                    @Override
+                    public boolean hasOperatorPermissions() {
+                        return fabricCreativeModeTabOutput.shouldShowOpRestrictedItems();
+                    }
+
+                    @Override
+                    public void remove(ItemStack itemStack, CreativeModeTab.TabVisibility tabVisibility) {
+                    }
+
+                    @Override
+                    public void insert(ItemStack itemStack, CreativeModeTab.TabVisibility tabVisibility) {
+                        fabricCreativeModeTabOutput.accept(itemStack, tabVisibility);
+                    }
+
+                    @Override
+                    public void insertBeginning(ItemStack itemStack, CreativeModeTab.TabVisibility tabVisibility) {
+                        fabricCreativeModeTabOutput.prepend(itemStack, tabVisibility);
+                    }
+
+                    @Override
+                    public void insertAfter(ItemStack referenceItemStack, CreativeModeTab.TabVisibility tabVisibility, ItemStack... itemStacks) {
+                        fabricCreativeModeTabOutput.insertAfter(referenceItemStack, Arrays.asList(itemStacks), tabVisibility);
+                    }
+
+                    @Override
+                    public void insertBefore(ItemStack referenceItemStack, CreativeModeTab.TabVisibility tabVisibility, ItemStack... itemStacks) {
+                        fabricCreativeModeTabOutput.insertBefore(referenceItemStack, Arrays.asList(itemStacks), tabVisibility);
+                    }
+                });
+            });
+        }
+
 
         ServerLifecycleEvents.SERVER_STARTING.register(minecraftServer -> {
             eventListener.serverAboutToStartEvent(minecraftServer);

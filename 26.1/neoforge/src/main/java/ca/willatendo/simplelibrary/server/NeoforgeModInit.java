@@ -26,6 +26,9 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.SpawnPlacementType;
 import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.flag.FeatureFlagSet;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -35,10 +38,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.client.event.RegisterRecipeBookSearchCategoriesEvent;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.event.AddPackFindersEvent;
-import net.neoforged.neoforge.event.AddServerReloadListenersEvent;
-import net.neoforged.neoforge.event.OnDatapackSyncEvent;
-import net.neoforged.neoforge.event.RegisterCommandsEvent;
+import net.neoforged.neoforge.event.*;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.EntityStruckByLightningEvent;
 import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
@@ -165,6 +165,59 @@ public record NeoforgeModInit(String modId, String packetVersion, IEventBus iEve
         iEventBus.addListener(OnDatapackSyncEvent.class, onDatapackSyncEvent -> eventListener.dataReloadEvent(onDatapackSyncEvent.getPlayerList().getServer()));
 
         iEventBus.addListener(OnDatapackSyncEvent.class, onDatapackSyncEvent -> eventListener.syncDataPackContentsEvent(onDatapackSyncEvent.getPlayer()));
+
+        iEventBus.addListener(BuildCreativeModeTabContentsEvent.class, buildCreativeModeTabContentsEvent -> {
+            eventListener.modifyCreativeModeTabs(new EventListener.CreativeModeTabModification() {
+                @Override
+                public ResourceKey<CreativeModeTab> getCreativeModeTabKey() {
+                    return buildCreativeModeTabContentsEvent.getTabKey();
+                }
+
+                @Override
+                public CreativeModeTab.ItemDisplayParameters getItemDisplayParameters() {
+                    return buildCreativeModeTabContentsEvent.getParameters();
+                }
+
+                @Override
+                public FeatureFlagSet getEnabledFeatureFlags() {
+                    return buildCreativeModeTabContentsEvent.getFlags();
+                }
+
+                @Override
+                public boolean hasOperatorPermissions() {
+                    return buildCreativeModeTabContentsEvent.hasPermissions();
+                }
+
+                @Override
+                public void remove(ItemStack itemStack, CreativeModeTab.TabVisibility tabVisibility) {
+                    buildCreativeModeTabContentsEvent.remove(itemStack, tabVisibility);
+                }
+
+                @Override
+                public void insert(ItemStack itemStack, CreativeModeTab.TabVisibility tabVisibility) {
+                    buildCreativeModeTabContentsEvent.accept(itemStack, tabVisibility);
+                }
+
+                @Override
+                public void insertBeginning(ItemStack itemStack, CreativeModeTab.TabVisibility tabVisibility) {
+                    buildCreativeModeTabContentsEvent.insertFirst(itemStack, tabVisibility);
+                }
+
+                @Override
+                public void insertAfter(ItemStack referenceItemStack, CreativeModeTab.TabVisibility tabVisibility, ItemStack... itemStacks) {
+                    for (ItemStack itemStack : itemStacks) {
+                        buildCreativeModeTabContentsEvent.insertAfter(referenceItemStack, itemStack, tabVisibility);
+                    }
+                }
+
+                @Override
+                public void insertBefore(ItemStack referenceItemStack, CreativeModeTab.TabVisibility tabVisibility, ItemStack... itemStacks) {
+                    for (ItemStack itemStack : itemStacks) {
+                        buildCreativeModeTabContentsEvent.insertBefore(referenceItemStack, itemStack, tabVisibility);
+                    }
+                }
+            });
+        });
 
         iEventBus.addListener(ServerAboutToStartEvent.class, serverAboutToStartEvent -> {
             MinecraftServer minecraftServer = serverAboutToStartEvent.getServer();

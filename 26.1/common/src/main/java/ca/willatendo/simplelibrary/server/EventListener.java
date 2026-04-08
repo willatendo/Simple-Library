@@ -22,8 +22,12 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.flag.FeatureFlagSet;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.ExtendedRecipeBookCategory;
 import net.minecraft.world.item.crafting.RecipeBookCategory;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement;
@@ -31,6 +35,7 @@ import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -69,6 +74,9 @@ public interface EventListener {
     }
 
     // Modification
+
+    default void modifyCreativeModeTabs(EventListener.CreativeModeTabModification creativeModeTabModification) {
+    }
 
     default void modifyFlammables(FireBlock fireBlock) {
     }
@@ -164,6 +172,74 @@ public interface EventListener {
     }
 
     // Modification
+
+    interface CreativeModeTabModification {
+        ResourceKey<CreativeModeTab> getCreativeModeTabKey();
+
+        CreativeModeTab.ItemDisplayParameters getItemDisplayParameters();
+
+        FeatureFlagSet getEnabledFeatureFlags();
+
+        boolean hasOperatorPermissions();
+
+        void remove(ItemStack itemStack, CreativeModeTab.TabVisibility tabVisibility);
+
+        void insert(ItemStack itemStack, CreativeModeTab.TabVisibility tabVisibility);
+
+        default void insert(ItemStack itemStack) {
+            this.insert(itemStack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+        }
+
+        default void insert(ItemLike itemLike, CreativeModeTab.TabVisibility tabVisibility) {
+            this.insert(new ItemStack(itemLike), tabVisibility);
+        }
+
+        default void insert(ItemLike itemLike) {
+            this.insert(new ItemStack(itemLike), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+        }
+
+        void insertBeginning(ItemStack itemStack, CreativeModeTab.TabVisibility tabVisibility);
+
+        default void insertBeginning(ItemStack itemStack) {
+            this.insertBeginning(itemStack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+        }
+
+        default void insertBeginning(ItemLike itemLike, CreativeModeTab.TabVisibility tabVisibility) {
+            this.insertBeginning(new ItemStack(itemLike), tabVisibility);
+        }
+
+        default void insertBeginning(ItemLike itemStack) {
+            this.insertBeginning(itemStack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+        }
+
+        void insertAfter(ItemStack referenceItemStack, CreativeModeTab.TabVisibility tabVisibility, ItemStack... itemStacks);
+
+        default void insertAfter(ItemStack referenceItemStack, ItemStack... itemStacks) {
+            this.insertAfter(referenceItemStack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS, itemStacks);
+        }
+
+        default void insertAfter(ItemStack referenceItemStack, CreativeModeTab.TabVisibility tabVisibility, ItemLike... itemLikes) {
+            this.insertAfter(referenceItemStack, tabVisibility, Arrays.asList(itemLikes).stream().map(ItemStack::new).toArray(ItemStack[]::new));
+        }
+
+        default void insertAfter(ItemStack referenceItemStack, ItemLike... itemLikes) {
+            this.insertAfter(referenceItemStack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS, itemLikes);
+        }
+
+        void insertBefore(ItemStack referenceItemStack, CreativeModeTab.TabVisibility tabVisibility, ItemStack... itemStacks);
+
+        default void insertBefore(ItemStack referenceItemStack, ItemStack... itemStacks) {
+            this.insertBefore(referenceItemStack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS, itemStacks);
+        }
+
+        default void insertBefore(ItemStack referenceItemStack, CreativeModeTab.TabVisibility tabVisibility, ItemLike... itemLikes) {
+            this.insertBefore(referenceItemStack, tabVisibility, Arrays.asList(itemLikes).stream().map(ItemStack::new).toArray(ItemStack[]::new));
+        }
+
+        default void insertBefore(ItemStack referenceItemStack, ItemLike... itemLikes) {
+            this.insertBefore(referenceItemStack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS, itemLikes);
+        }
+    }
 
     interface StructurePoolModification {
         ResourceKey<StructureProcessorList> EMPTY_PROCESSOR_LIST_KEY = ResourceKey.create(Registries.PROCESSOR_LIST, CoreUtils.minecraft("empty"));
