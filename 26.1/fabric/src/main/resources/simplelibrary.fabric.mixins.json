@@ -17,6 +17,7 @@
     "ClientConfigurationPacketListenerImplMixin",
     "ClientPacketListenerMixin",
     "ComposterBlockMixin",
+    "EntityMixin",
     "FeatureFlagRegistryMixin",
     "FeatureFlagsMixin",
     "GiveGiftToHeroMixin",

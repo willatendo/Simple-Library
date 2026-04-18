@@ -7,6 +7,7 @@ import ca.willatendo.simplelibrary.core.registry.sub.AttachmentTypesSubRegistry;
 import ca.willatendo.simplelibrary.core.registry.sub.EntityDataSerializerSubRegistry;
 import ca.willatendo.simplelibrary.core.registry.sub.FabricAttachmentTypesSubRegistry;
 import ca.willatendo.simplelibrary.core.registry.sub.FabricEntityDataSerializerSubRegistry;
+import ca.willatendo.simplelibrary.server.item.SimpleCreativeModeTabBuilder;
 import ca.willatendo.simplelibrary.server.menu.ExtendedMenuSupplier;
 import com.chocohead.mm.api.ClassTinkerers;
 import com.mojang.datafixers.util.Pair;
@@ -107,7 +108,7 @@ public final class FabricSimpleLibraryPlatformHelper implements SimpleLibraryPla
     }
 
     @Override
-    public CreativeModeTab.Builder createCreativeModeTab() {
+    public CreativeModeTab.Builder createCreativeModeTab(SimpleCreativeModeTabBuilder simpleCreativeModeTabBuilder) {
         return FabricCreativeModeTab.builder();
     }
 

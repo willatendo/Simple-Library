@@ -7,6 +7,7 @@ import ca.willatendo.simplelibrary.core.registry.sub.AttachmentTypesSubRegistry;
 import ca.willatendo.simplelibrary.core.registry.sub.EntityDataSerializerSubRegistry;
 import ca.willatendo.simplelibrary.core.registry.sub.NeoforgeAttachmentTypesSubRegistry;
 import ca.willatendo.simplelibrary.core.registry.sub.NeoforgeEntityDataSerializerSubRegistry;
+import ca.willatendo.simplelibrary.server.item.SimpleCreativeModeTabBuilder;
 import ca.willatendo.simplelibrary.server.menu.ExtendedMenuSupplier;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.client.gui.screens.recipebook.OverlayRecipeComponent;
@@ -96,8 +97,15 @@ public final class NeoforgeSimpleLibraryPlatformHelper implements SimpleLibraryP
     }
 
     @Override
-    public CreativeModeTab.Builder createCreativeModeTab() {
-        return CreativeModeTab.builder();
+    public CreativeModeTab.Builder createCreativeModeTab(SimpleCreativeModeTabBuilder simpleCreativeModeTabBuilder) {
+        CreativeModeTab.Builder builder = CreativeModeTab.builder();
+        if (simpleCreativeModeTabBuilder.hasAfter()) {
+            builder.withTabsBefore(simpleCreativeModeTabBuilder.getBefore());
+        }
+        if (simpleCreativeModeTabBuilder.hasBefore()) {
+            builder.withTabsAfter(simpleCreativeModeTabBuilder.getAfter());
+        }
+        return builder;
     }
 
     @Override

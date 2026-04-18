@@ -148,25 +148,7 @@ public record NeoforgeModInit(String modId, String packetVersion, IEventBus iEve
 
         // Modification
 
-        // Events
-        iEventBus.addListener(PlayerInteractEvent.EntityInteract.class, entityInteract -> {
-            InteractionResult interactionResult = eventListener.playerEntityInteractEvent(entityInteract.getTarget(), entityInteract.getEntity());
-            if (interactionResult != null) {
-                entityInteract.setCancellationResult(interactionResult);
-            }
-        });
-
-        iEventBus.addListener(EntityTickEvent.Pre.class, pre -> eventListener.preEntityTickEvent(pre.getEntity()));
-
-        iEventBus.addListener(EntityTickEvent.Post.class, post -> eventListener.postEntityTickEvent(post.getEntity()));
-
-        iEventBus.addListener(EntityStruckByLightningEvent.class, entityStruckByLightningEvent -> eventListener.entityStruckByLightningBoltEvent(entityStruckByLightningEvent.getEntity(), entityStruckByLightningEvent.getLightning(), entityStruckByLightningEvent::setCanceled));
-
-        iEventBus.addListener(OnDatapackSyncEvent.class, onDatapackSyncEvent -> eventListener.dataReloadEvent(onDatapackSyncEvent.getPlayerList().getServer()));
-
-        iEventBus.addListener(OnDatapackSyncEvent.class, onDatapackSyncEvent -> eventListener.syncDataPackContentsEvent(onDatapackSyncEvent.getPlayer()));
-
-        iEventBus.addListener(BuildCreativeModeTabContentsEvent.class, buildCreativeModeTabContentsEvent -> {
+        this.iEventBus.addListener(BuildCreativeModeTabContentsEvent.class, buildCreativeModeTabContentsEvent -> {
             eventListener.modifyCreativeModeTabs(new EventListener.CreativeModeTabModification() {
                 @Override
                 public ResourceKey<CreativeModeTab> getCreativeModeTabKey() {
@@ -218,6 +200,24 @@ public record NeoforgeModInit(String modId, String packetVersion, IEventBus iEve
                 }
             });
         });
+
+        // Events
+        iEventBus.addListener(PlayerInteractEvent.EntityInteract.class, entityInteract -> {
+            InteractionResult interactionResult = eventListener.playerEntityInteractEvent(entityInteract.getTarget(), entityInteract.getEntity());
+            if (interactionResult != null) {
+                entityInteract.setCancellationResult(interactionResult);
+            }
+        });
+
+        iEventBus.addListener(EntityTickEvent.Pre.class, pre -> eventListener.preEntityTickEvent(pre.getEntity()));
+
+        iEventBus.addListener(EntityTickEvent.Post.class, post -> eventListener.postEntityTickEvent(post.getEntity()));
+
+        iEventBus.addListener(EntityStruckByLightningEvent.class, entityStruckByLightningEvent -> eventListener.entityStruckByLightningBoltEvent(entityStruckByLightningEvent.getEntity(), entityStruckByLightningEvent.getLightning(), entityStruckByLightningEvent::setCanceled));
+
+        iEventBus.addListener(OnDatapackSyncEvent.class, onDatapackSyncEvent -> eventListener.dataReloadEvent(onDatapackSyncEvent.getPlayerList().getServer()));
+
+        iEventBus.addListener(OnDatapackSyncEvent.class, onDatapackSyncEvent -> eventListener.syncDataPackContentsEvent(onDatapackSyncEvent.getPlayer()));
 
         iEventBus.addListener(ServerAboutToStartEvent.class, serverAboutToStartEvent -> {
             MinecraftServer minecraftServer = serverAboutToStartEvent.getServer();

@@ -4,6 +4,7 @@ import ca.willatendo.simplelibrary.core.registry.SimpleRegistryBuilder;
 import ca.willatendo.simplelibrary.core.registry.sub.AttachmentTypesSubRegistry;
 import ca.willatendo.simplelibrary.core.registry.sub.EntityDataSerializerSubRegistry;
 import ca.willatendo.simplelibrary.platform.utils.PlatformUtils;
+import ca.willatendo.simplelibrary.server.item.SimpleCreativeModeTabBuilder;
 import ca.willatendo.simplelibrary.server.menu.ExtendedMenuSupplier;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.client.gui.screens.recipebook.OverlayRecipeComponent;
@@ -53,7 +54,7 @@ public interface SimpleLibraryPlatformHelper {
 
     <T extends AbstractContainerMenu> MenuType<T> createMenuType(ExtendedMenuSupplier<T> extendedMenuSupplier);
 
-    CreativeModeTab.Builder createCreativeModeTab();
+    CreativeModeTab.Builder createCreativeModeTab(SimpleCreativeModeTabBuilder simpleCreativeModeTabBuilder);
 
     // Attachment Types
     <T> boolean hasData(T value, Identifier attachmentType);
